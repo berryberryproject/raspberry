@@ -32,7 +32,7 @@ void destroy_win(WINDOW *local_win);
 int System_Command(char* Command_in , char Data_out[]);
 void Color_Setting(void);
 void Init_Program(void);
-void create_newslectwin(WINDOW* SLECT_W,char* choices[],int SLECT_WIDTH, int SLECT_HEIGHT, int x, int y, char SLECT_DATA[]);
+MENU* create_newslectwin(WINDOW* SLECT_W,char* choices[],int SLECT_WIDTH, int SLECT_HEIGHT, int x, int y, char SLECT_DATA[]);
 //------------------------------------------------------------------------------
 
 int Key_IN;
@@ -152,8 +152,7 @@ System_Command("du -h",Data_4);
 mvwprintw(AREA_4,0,0,Data_4);
 
 //----------------------------------선택 메뉴 -영역4---------------------------------------------------------
-
-create_newslectwin(SLECT_W,choices,SLECT_WIDTH,SLECT_HEIGHT, 0, 0,SLECT_DATA);	
+MENU* Menu=create_newslectwin(SLECT_W,choices,SLECT_WIDTH,SLECT_HEIGHT, 0, 0,SLECT_DATA);	
 	
 	/*
 ITEM **TABLE;
@@ -387,7 +386,7 @@ start_color();// 색갈을 사용함
 Color_Setting();	
 }
 
-void create_newslectwin(WINDOW* SLECT_W,char* choices[],int SLECT_WIDTH, int SLECT_HEIGHT, int x, int y, char SLECT_DATA[])
+MENU* create_newslectwin(WINDOW* SLECT_W,char* choices[],int SLECT_WIDTH, int SLECT_HEIGHT, int x, int y, char SLECT_DATA[])
 {
 	
 ITEM **TABLE;
@@ -418,5 +417,7 @@ wattroff(SLECT_W,COLOR_PAIR(PAIR_RED_BLUE));
 post_menu(Menu);
 refresh();
 wrefresh(SLECT_W);
+	
+return Menu;
 	
 }
