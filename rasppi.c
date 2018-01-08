@@ -157,17 +157,17 @@ int main(int argc, char* argv[])
 	mvwprintw(AREA_4, 0, 0, AREA_4_DATA);	
 	
 //-----------------------------------------------process starts here--------------------------------------------------	
-	
-	while (Key_IN != 'q')
-		// while((Key_IN = getch()) != KEY_F(1))
-	{
+// while((Key_IN = getch()) != KEY_F(1)) 
+while (Key_IN != 'q')
+{
 		
 	if(   _kbhit() ) 
 	{	
-		int Key_IN = getch();
+		Key_IN = getch();
 		fputc(KEY_DOWN, DEBUG);
 		fputc(',',DEBUG);
 		fputc(Key_IN, DEBUG);
+		
 		switch (Key_IN)
 		{
 		case KEY_DOWN:
@@ -176,6 +176,7 @@ int main(int argc, char* argv[])
 		case KEY_UP:
 			menu_driver(Menu, REQ_UP_ITEM);
 			break;
+				
 		}
 
 	}	
@@ -193,7 +194,7 @@ int main(int argc, char* argv[])
 	wrefresh(AREA_4);
 	wrefresh(SLECT_W);	
 //	sleep(100);	
-	}
+}
 
 
 	//----------------종료시-------------------------------------------------------
