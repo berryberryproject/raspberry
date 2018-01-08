@@ -383,7 +383,9 @@ int i=0;
  {
 	c=fgetc(fp);
 	if(c == EOF)
+	{
 		c=0;
+	}
 	path[i++]=c;
  }
 
