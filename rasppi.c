@@ -199,7 +199,7 @@ while (Key_IN != 'q')
 	mvwprintw(AREA_2, 0, 0, AREA_2_DATA);
 	mvwprintw(AREA_3, 0, 0, AREA_3_DATA);
 	mvwprintw(AREA_4, 0, 0, AREA_4_DATA);
-	sleep(100);
+	sleep(0.01);
 }
 
 
