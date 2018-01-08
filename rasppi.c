@@ -309,7 +309,7 @@ return 0;
 
 
 
-Color_Setting(void)
+void Color_Setting(void)
 {
 
 	
