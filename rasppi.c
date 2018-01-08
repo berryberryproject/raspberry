@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <termios.h>
 #include <sys/select.h>
+#include <fcntl.h>
 
 // -----------------NETWORK HEADDER-------------------------------
 #include <arpa/inet.h>
@@ -38,11 +39,8 @@ void Color_Setting(void);
 void Init_Program(void);
 int linux_kbhit(void);
 MENU* create_newslectwin(WINDOW* SLECT_W, char** choices, int SLECT_WIDTH, int SLECT_HEIGHT, int x, int y, char SLECT_DATA[]);
-void init_keyboard();
-void close_keyboard();
-int _kbhit();
-int _getch();
-int _putch(int c);
+int kbhit(void);
+
 
 //------------------------------------------------------------------------------
 
@@ -185,9 +183,9 @@ sleep(1);
 	
 //--------------------input ---------------------------------------------------------------------------	
 
-	if(   _kbhit() ) 
+	if( kbhit() ) 
 	{	
-		Key_IN = _getch();
+		Key_IN = getch();
 		fputc(KEY_DOWN, DEBUG);
 		fputc(',',DEBUG);
 		fputc(Key_IN, DEBUG);
@@ -203,7 +201,6 @@ sleep(1);
 		case 'q':
 			endwin();
 			fclose(DEBUG);
-			close_keyboard();
 			return 0;
 			break;	
 		}
@@ -221,7 +218,6 @@ sleep(1);
  
 	endwin();
  	fclose(DEBUG);
- 	close_keyboard();
 	return 0;
 }
 
@@ -393,7 +389,7 @@ void Init_Program(void)
 	refresh(); //반드시 해야함 LINES, COLS을 업데이트 함
 	start_color();// 색갈을 사용함
 	Color_Setting();
-	init_keyboard();
+	
 }
 
 MENU* create_newslectwin(WINDOW* SLECT_W, char** choices, int SLECT_WIDTH, int SLECT_HEIGHT, int y, int x, char SLECT_DATA[])
@@ -428,59 +424,29 @@ MENU* create_newslectwin(WINDOW* SLECT_W, char** choices, int SLECT_WIDTH, int S
 
 }
 
- 
+int kbhit(void)
+{
+        struct termios oldt, newt;
+        int ch;
+        int oldf;
 
-void init_keyboard()
-{
-    tcgetattr(0,&initial_settings);
-    new_settings = initial_settings;
-    new_settings.c_lflag &= ~ICANON;
-    new_settings.c_lflag &= ~ECHO;
-    new_settings.c_cc[VMIN] = 1;
-    new_settings.c_cc[VTIME] = 0;
-    tcsetattr(0, TCSANOW, &new_settings);
-}
- 
-void close_keyboard()
-{
-    tcsetattr(0, TCSANOW, &initial_settings);
-}
- 
-int _kbhit()
-{
-    unsigned char ch;
-    int nread;
- 
-    if (peek_character != -1) return 1;
-    new_settings.c_cc[VMIN]=0;
-    tcsetattr(0, TCSANOW, &new_settings);
-    nread = read(0,&ch,1);
-    new_settings.c_cc[VMIN]=1;
-    tcsetattr(0, TCSANOW, &new_settings);
-    if(nread == 1)
-    {
-        peek_character = ch;
-        return 1;
-    }
-    return 0;
-}
- 
-int _getch()
-{
-    char ch;
- 
-    if(peek_character != -1)
-    {
-        ch = peek_character;
-        peek_character = -1;
-        return ch;
-    }
-    read(0,&ch,1);
-    return ch;
-}
- 
-int _putch(int c) {
-    putchar(c);
-    fflush(stdout);
-    return c;
+        tcgetattr(STDIN_FILENO, &oldt);
+        newt = oldt;
+        newt.c_lflag &= ~(ICANON | ECHO);
+        tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+        oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
+        fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK);
+
+        ch = getchar();
+
+        tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+        fcntl(STDIN_FILENO, F_SETFL, oldf);
+
+        if(ch != EOF)
+        {
+                ungetc(ch, stdin);
+                return 1;
+        }
+
+        return 0;
 }
