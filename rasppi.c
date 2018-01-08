@@ -151,7 +151,8 @@ int main(int argc, char* argv[])
 	
 //-----------------------------------------------process starts here--------------------------------------------------	
 // while((Key_IN = getch()) != KEY_F(1)) 
-while (Key_IN != 'q')
+//while (Key_IN != 'q')
+ while(1)
 {
 //---------------------------------------------------------------------------------------------------------------
 	System_Command("date", AREA_3_DATA);
@@ -180,10 +181,11 @@ while (Key_IN != 'q')
 	
 	
 //--------------------input ---------------------------------------------------------------------------	
-	if(   _kbhit() ) 
+	if(1)
+	//if(   _kbhit() ) 
 	{	
 		Key_IN = getch();
-		clean_stdin();
+		//clean_stdin();
 		fputc(KEY_DOWN, DEBUG);
 		fputc(',',DEBUG);
 		fputc(Key_IN, DEBUG);
@@ -196,7 +198,9 @@ while (Key_IN != 'q')
 		case KEY_UP:
 			menu_driver(Menu, REQ_UP_ITEM);
 			break;
-				
+		case 'q':
+			return 0;
+			break;	
 		}
 
 	}	
