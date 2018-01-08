@@ -382,7 +382,7 @@ int i=0;
   while(c != 0)
  {
 	c=fgetc(fp);
-	if(c == EOF)
+	if(c == EOF || i >= (MAX_ARR_SIZE-1))
 	{
 		c=0;
 	}
