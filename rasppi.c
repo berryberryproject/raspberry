@@ -189,6 +189,7 @@ while (Key_IN != 'q')
 	System_Command("ls /etc", AREA_2_DATA);
 	System_Command("ls",AREA_1_DATA);
 	System_Command("ls",AREA_4_DATA);
+
 	}
 		
 //--------------------print data-----------------------------------------------------------------------------------------		
@@ -197,7 +198,8 @@ while (Key_IN != 'q')
 	mvwprintw(AREA_1, 0, 0, AREA_1_DATA);
 	mvwprintw(AREA_2, 0, 0, AREA_2_DATA);
 	mvwprintw(AREA_3, 0, 0, AREA_3_DATA);
-	mvwprintw(AREA_4, 0, 0, AREA_4_DATA);	
+	mvwprintw(AREA_4, 0, 0, AREA_4_DATA);
+	sleep(100);
 }
 
 
