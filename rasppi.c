@@ -204,6 +204,13 @@ while((Key_IN = getch()) != 'q')
                             menu_driver(Menu, REQ_UP_ITEM);
                             break;
             }
+     	refresh();	
+	wrefresh(BG);	
+	wrefresh(Title_Win);
+	wrefresh(AREA_1);
+	wrefresh(AREA_2);
+	wrefresh(AREA_3);
+	wrefresh(AREA_4);	
 	wrefresh(SLECT_W);
     }
 
