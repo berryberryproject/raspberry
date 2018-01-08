@@ -152,8 +152,15 @@ int main(int argc, char* argv[])
 //-----------------------------------------------process starts here--------------------------------------------------	
 // while((Key_IN = getch()) != KEY_F(1)) 
 //while (Key_IN != 'q')
+ 
+ 
+ mvwprintw(AREA_1, 0, 0, "skfdjfkljfkdjf");
+ sleep(1);
+ 
+ 
  while(1)
 {
+	sleep(0.01);
 //---------------------------------------------------------------------------------------------------------------
 	System_Command("date", AREA_3_DATA);
 	System_Command("ls /etc", AREA_2_DATA);
@@ -166,7 +173,7 @@ int main(int argc, char* argv[])
 	mvwprintw(AREA_2, 0, 0, AREA_2_DATA);
 	mvwprintw(AREA_3, 0, 0, AREA_3_DATA);
 	mvwprintw(AREA_4, 0, 0, AREA_4_DATA);
-	sleep(0.01);		
+			
 	
 //---------------screen update----------------------------------------------------------------------------------		
 	refresh();
@@ -176,8 +183,7 @@ int main(int argc, char* argv[])
 	wrefresh(AREA_2);
 	wrefresh(AREA_3);
 	wrefresh(AREA_4);
-	wrefresh(SLECT_W);	
-//	sleep(100);
+	wrefresh(SLECT_W);
 	
 	
 //--------------------input ---------------------------------------------------------------------------	
