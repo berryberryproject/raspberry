@@ -9,6 +9,7 @@
 #include <termios.h>
 #include <sys/select.h>
 #include <fcntl.h>
+#include <time.h>
 
 // -----------------NETWORK HEADDER-------------------------------
 #include <arpa/inet.h>
@@ -156,7 +157,7 @@ sleep(1);
  getch(); 
  while(1)
 {
-	sleep(0.01);
+	usleep(100000); //100000us
 //---------------------------------------------------------------------------------------------------------------
 	System_Command("date", AREA_3_DATA);
 	System_Command("ls /etc", AREA_2_DATA);
