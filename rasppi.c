@@ -217,9 +217,9 @@ while((Key_IN = getch()) != 'q')
 
 //----------------종료시-------------------------------------------------------
 
-	free_item(TABLE[0]);
-	free_item(TABLE[1]);
-	free_menu(Menu);
+	//free_item(TABLE[0]);
+	//free_item(TABLE[1]);
+	//free_menu(Menu);
 	endwin();
 	return 0;
 }
