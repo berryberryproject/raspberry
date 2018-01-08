@@ -159,10 +159,10 @@ sleep(1);
 {
 	usleep(100000); //100000us
 //---------------------------------------------------------------------------------------------------------------
-	System_Command("date", AREA_3_DATA);
-	System_Command("ls /etc", AREA_2_DATA);
-	System_Command("ls",AREA_1_DATA);
-	System_Command("ls",AREA_4_DATA);
+	System_Command("uname", AREA_3_DATA);
+	System_Command("uname", AREA_2_DATA);
+	System_Command("uname",AREA_1_DATA);
+	System_Command("uname",AREA_4_DATA);
 //--------------------print data-----------------------------------------------------------------------------------------		
 	
 	mvwprintw(TITLE, 1, (TITLE_WIDTH - strlen(AREA_TITLE_DATA)) / 2, "%s", AREA_TITLE_DATA);
