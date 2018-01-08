@@ -405,7 +405,7 @@ TABLE = (ITEM **)calloc(n_choices + 1, sizeof(ITEM *));
 	Menu = new_menu((ITEM **)TABLE);
 
 set_menu_win(Menu,SLECT_W);
-//set_menu_sub(Menu, derwin(SLECT_W, n_choices,SLECT_WIDTH,SLECT_HEIGHT - n_choices,0)); //(상자크기(y,x 위치 y,x)
+set_menu_sub(Menu, derwin(SLECT_W, n_choices,SLECT_WIDTH,SLECT_HEIGHT - n_choices,0)); //(상자크기(y,x 위치 y,x)
 set_menu_mark(Menu, ">");
 wattron(SLECT_W,COLOR_PAIR(PAIR_RED_BLUE));
 //box(SLECT_W, 0, 0);
