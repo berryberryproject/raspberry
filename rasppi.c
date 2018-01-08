@@ -32,7 +32,7 @@ void destroy_win(WINDOW *local_win);
 int System_Command(char* Command_in , char Data_out[]);
 void Color_Setting(void);
 void Init_Program(void);
-void create_newslectwin(WINDOW* SLECT_W,char choices[],int SLECT_WIDTH, int SLECT_HEIGHT, int x, int y, char SLECT_DATA[]);
+void create_newslectwin(WINDOW* SLECT_W,char* choices[],int SLECT_WIDTH, int SLECT_HEIGHT, int x, int y, char SLECT_DATA[]);
 //------------------------------------------------------------------------------
 
 int Key_IN;
@@ -387,7 +387,7 @@ start_color();// 색갈을 사용함
 Color_Setting();	
 }
 
-void create_newslectwin(WINDOW* SLECT_W,char choices[],int SLECT_WIDTH, int SLECT_HEIGHT, int x, int y, char SLECT_DATA[])
+void create_newslectwin(WINDOW* SLECT_W,char* choices[],int SLECT_WIDTH, int SLECT_HEIGHT, int x, int y, char SLECT_DATA[])
 {
 	
 ITEM **TABLE;
