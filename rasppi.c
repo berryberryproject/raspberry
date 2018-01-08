@@ -77,6 +77,7 @@ char Data_1[MAX_ARR_SIZE];
 char Data_2[MAX_ARR_SIZE];
 char Data_3[MAX_ARR_SIZE];
 char Data_4[MAX_ARR_SIZE];
+char SLECT_DATA[MAX_ARR_SIZE]="SELECT OPTION";
 //--------------------------------Slection Menu----------선택메뉴만--------------------------------------
 char *choices[] = {
                         "Sytem Status           ",
@@ -177,20 +178,17 @@ TABLE = (ITEM **)calloc(n_choices + 1, sizeof(ITEM *));
 set_menu_win(Menu,SLECT_W);
 set_menu_sub(Menu, derwin(SLECT_W, n_choices,SLECT_WIDTH,SLECT_HEIGHT - n_choices,0)); //(상자크기(y,x 위치 y,x)
 set_menu_mark(Menu, ">");
-
-	wattron(SLECT_W,COLOR_PAIR(PAIR_RED_BLUE));
-
-//	box(SLECT_W, 0, 0);
-	mvwprintw(SLECT_W,1,(SLECT_WIDTH - strlen("Slect Menu"))/2, "Slect Menu");
-//	mvwaddch(SLECT_W, 2, 0, ACS_LTEE);
-//	mvwhline(SLECT_W, 2, 1, ACS_HLINE, 38);
-//	mvwaddch(SLECT_W, 2, 39, ACS_RTEE);
-	refresh();
-
-	wattroff(SLECT_W,COLOR_PAIR(PAIR_RED_BLUE));
-	post_menu(Menu);
-	refresh();
-	wrefresh(SLECT_W);
+wattron(SLECT_W,COLOR_PAIR(PAIR_RED_BLUE));
+//box(SLECT_W, 0, 0);
+mvwprintw(SLECT_W,1,(SLECT_WIDTH - strlen(SLECT_DATA))/2, SLECT_DATA);
+//mvwaddch(SLECT_W, 2, 0, ACS_LTEE);
+//mvwhline(SLECT_W, 2, 1, ACS_HLINE, 38);
+//mvwaddch(SLECT_W, 2, 39, ACS_RTEE);
+refresh();
+wattroff(SLECT_W,COLOR_PAIR(PAIR_RED_BLUE));
+post_menu(Menu);
+refresh();
+wrefresh(SLECT_W);
 
 
 //---------------------------------------------------------------------------------------------------
