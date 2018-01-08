@@ -204,7 +204,7 @@ sleep(1);
 			return 0;
 			break;	
 		}
-		sleep(0.7);
+		sleep(2);
 	}	
 	
 	
