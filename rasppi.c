@@ -151,7 +151,7 @@ int main(int argc, char* argv[])
 	mvwprintw(AREA_4, 0, 0, AREA_4_DATA);
 
 	//----------------------------------선택 메뉴 -영역4---------------------------------------------------------
-	MENU* Menu = create_newslectwin(SLECT_W, choices, SLECT_WIDTH, SLECT_HEIGHT, SLECT_HEIGHT - 6, 0, SLECT_DATA);
+	MENU* Menu = create_newslectwin(SLECT_W, choices, SLECT_WIDTH, SLECT_HEIGHT, 0, SLECT_HEIGHT-6, SLECT_DATA);
 
 	//---------------------------------------------------------------------------------------------------
 	while ((Key_IN = getch()) != 'q')
