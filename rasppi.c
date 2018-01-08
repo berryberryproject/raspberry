@@ -152,39 +152,7 @@ System_Command("du -h",Data_4);
 mvwprintw(AREA_4,0,0,Data_4);
 
 //----------------------------------선택 메뉴 -영역4---------------------------------------------------------
-MENU* Menu=create_newslectwin(SLECT_W,choices,SLECT_WIDTH,SLECT_HEIGHT, 0, 0,SLECT_DATA);	
-	
-	/*
-ITEM **TABLE;
-int Key_IN;
-MENU *Menu;
-int n_choices, i;
-ITEM *Current_Slected;
-//아이템 생성----------
-
-n_choices = ARRAY_SIZE(choices);
-TABLE = (ITEM **)calloc(n_choices + 1, sizeof(ITEM *));
-	for(i = 0; i < n_choices; ++i)
-	        TABLE[i] = new_item(choices[i], choices[i]);
-	TABLE[n_choices] = (ITEM *)NULL;
-//메뉴 생성-----------
-	Menu = new_menu((ITEM **)TABLE);
-
-set_menu_win(Menu,SLECT_W);
-set_menu_sub(Menu, derwin(SLECT_W, n_choices,SLECT_WIDTH,SLECT_HEIGHT - n_choices,0)); //(상자크기(y,x 위치 y,x)
-set_menu_mark(Menu, ">");
-wattron(SLECT_W,COLOR_PAIR(PAIR_RED_BLUE));
-//box(SLECT_W, 0, 0);
-mvwprintw(SLECT_W,1,(SLECT_WIDTH - strlen(SLECT_DATA))/2, SLECT_DATA);
-//mvwaddch(SLECT_W, 2, 0, ACS_LTEE);
-//mvwhline(SLECT_W, 2, 1, ACS_HLINE, 38);
-//mvwaddch(SLECT_W, 2, 39, ACS_RTEE);
-refresh();
-wattroff(SLECT_W,COLOR_PAIR(PAIR_RED_BLUE));
-post_menu(Menu);
-refresh();
-wrefresh(SLECT_W);
-*/
+MENU* Menu=create_newslectwin(SLECT_W,choices,SLECT_WIDTH,SLECT_HEIGHT, SLECT_HEIGHT-6, 0,SLECT_DATA);	
 
 //---------------------------------------------------------------------------------------------------
 while((Key_IN = getch()) != 'q')
@@ -209,10 +177,6 @@ while((Key_IN = getch()) != 'q')
 
 
 //----------------종료시-------------------------------------------------------
-
-	//free_item(TABLE[0]);
-	//free_item(TABLE[1]);
-	//free_menu(Menu);
 	endwin();
 	return 0;
 }
@@ -394,18 +358,14 @@ MENU *Menu;
 MENU *Menu_o;
 int n_choices, i;
 ITEM *Current_Slected;
-//아이템 생성----------
 n_choices = sizeof(*choices)/sizeof(*choices[0]);
-	
 TABLE = (ITEM **)calloc(n_choices + 1, sizeof(ITEM *));
 	for(i = 0; i < n_choices; ++i)
 	        TABLE[i] = new_item(choices[i], choices[i]);
 	TABLE[n_choices] = (ITEM *)NULL;
-//메뉴 생성-----------
 	Menu = new_menu((ITEM **)TABLE);
-
 set_menu_win(Menu,SLECT_W);
-set_menu_sub(Menu, derwin(SLECT_W, n_choices,SLECT_WIDTH,SLECT_HEIGHT - n_choices,0)); //(상자크기(y,x 위치 y,x)
+set_menu_sub(Menu, derwin(SLECT_W, n_choices,SLECT_WIDTH,y,x)); //(상자크기(y,x 위치 y,x)
 set_menu_mark(Menu, ">");
 wattron(SLECT_W,COLOR_PAIR(PAIR_RED_BLUE));
 //box(SLECT_W, 0, 0);
