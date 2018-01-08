@@ -43,7 +43,7 @@ void close_keyboard();
 int _kbhit();
 int _getch();
 int _putch(int c);
-void clean_stdin(void);
+
 //------------------------------------------------------------------------------
 
 int Key_IN;
@@ -154,11 +154,7 @@ int main(int argc, char* argv[])
 //while (Key_IN != 'q')
  
  
- mvwprintw(AREA_1, 0, 0, "skfdjfkljfkdjf");
- wrefresh(AREA_1);
- sleep(1);
- 
- 
+sleep(1); 
  while(1)
 {
 	sleep(0.01);
@@ -188,11 +184,10 @@ int main(int argc, char* argv[])
 	
 	
 //--------------------input ---------------------------------------------------------------------------	
-	if(1)
-	//if(   _kbhit() ) 
+
+	if(   _kbhit() ) 
 	{	
-		//Key_IN = getch();
-		//clean_stdin();
+		Key_IN = _getch();
 		fputc(KEY_DOWN, DEBUG);
 		fputc(',',DEBUG);
 		fputc(Key_IN, DEBUG);
@@ -488,12 +483,4 @@ int _putch(int c) {
     putchar(c);
     fflush(stdout);
     return c;
-}
-
-void clean_stdin(void)
-{
-    int c;
-    do {
-        c = getchar();
-    } while (c != '\n' && c != EOF);
 }
