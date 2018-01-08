@@ -208,8 +208,8 @@ set_menu_mark(Menu, ">");
 
 
 //---------------------------------------------------------------------------------------------------
-
-    while((Key_IN = getch()) != KEY_F(1))
+while((Key_IN = getch()) != 'q')
+   // while((Key_IN = getch()) != KEY_F(1))
     {   switch(Key_IN)
         {   case KEY_DOWN:
                     menu_driver(Menu, REQ_DOWN_ITEM);
