@@ -3,20 +3,16 @@
 #include <form.h>
 #include <menu.h>
 //---------------------------------------------------------------
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
 // -----------------NETWORK HEADDER-------------------------------
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <sys/socket.h>
 //-----------------------------------------------------------------
-
 #define MAX_ARR_SIZE 2000
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
-
 //----------------------색갈표------------------------------------
 //RAGNE 0~15까지만!!!!
 //9빨강 10 녹색 8 회색 7 
@@ -34,110 +30,27 @@
 WINDOW *create_newwin(int TITLE_HEIGHT, int TITLE_WIDTH, int starty, int startx);
 void destroy_win(WINDOW *local_win);
 int System_Command(char* Command_in , char Data_out[]);
+void Color_Setting(void);
+void Init_Program(void);
 //-------------------------------------------------------------------------------
 
 
 int main(int argc, char* argv[])
 {
-
-// INTITIALIZATION
-initscr(); //이걸 활성화시켜야지 그래픽 모드 작동댐
-raw();	//사용자가 엔터키를 안눌러도 글자 전달댐
-keypad(stdscr, TRUE); //특수키를 입력 받을지의 여부, ex F1,F2~F12같은 거
-//noecho(); //사용자가 입력해도 화면에, 지저분하게 뜨지 않음
-//cbreak();
-refresh(); //반드시 해야함 LINES, COLS을 업데이트 함
-start_color();// 색갈을 사용함
-
-
-//-----------------흰색 글자 검정 파탕---------------------------------------------
-
-		if(can_change_color() && COLORS >= 16)
-			{
-				init_color(BRIGHT_WHITE, 1000,1000,1000);
-			}
-		if(COLORS >=16)
-			{
-				init_pair(PAIR_BLACK_WHITE, COLOR_BLACK, BRIGHT_WHITE);
-			}
-		else
-			{
-				init_pair(PAIR_BLACK_WHITE, COLOR_BLACK, COLOR_WHITE);
-			}
-//-----------------글자흰색  배경파랑색  생성-------------------------------------------
-	    if(can_change_color() && COLORS >= 16 )
-	             {
-        	            init_color(BRIGHT_BLUE, 100,100,1000);
-        	     }
-   		 if(COLORS >=16)
-           		 {
-                  		 init_pair(PAIR_WHITE_BLUE, BRIGHT_WHITE, BRIGHT_BLUE);
-           		  }
-   		 else
-             		 {
-                	    init_pair(PAIR_WHITE_BLUE, COLOR_WHITE, COLOR_BLUE);
-            		 }
-//-------------------하늘색 생성------------------------------------------
-
-
-	 if(can_change_color() && COLORS >= 16 )
-        	  {
-        	         init_color(SKY_BLUE, 100,100,1000);
-       		   }
-     	 if(COLORS >=16)
-              {
-                      init_pair(PAIR_RED_BLUE, COLOR_RED, SKY_BLUE);
-               }
-    	  else
-              {
-                 init_pair(PAIR_RED_BLUE, COLOR_RED, COLOR_BLUE);
-		}
-
-//--------------------배경검은색글자흰색--------------------------------------------------
-
-
-  if(can_change_color() && COLORS >= 16 )
-           {
-                  init_color(SKY_BLUE, 100,100,1000);
-            }
-  if(COLORS >=16)
-       {
-               init_pair(PAIR_WHITE_BLACK, BRIGHT_WHITE, COLOR_BLACK);
-        }
-   else
-       {
-          init_pair(PAIR_WHITE_BLACK, COLOR_WHITE, COLOR_BLACK);
-         }
-
-//--------------------노랑빨강--------------------------------------------------
-
-
-  if(can_change_color() && COLORS >= 16 )
-           {
-                  init_color(BRIGHT_YELLOW, 1000,1000,1000);
-            }
-  if(COLORS >=16)
-       {
-               init_pair(PAIR_RED_YELLOW, COLOR_RED, BRIGHT_YELLOW);
-        }
-   else
-       {
-          init_pair(PAIR_RED_YELLOW, COLOR_RED, COLOR_YELLOW);
-         }
-
-
-
-
-
-
-
+	
+	
+Init_Program();
+	
 //-------------------------------PRESS F1 TO QUIT--------------------------------------------
+	
 //attron(COLOR_PAIR(PAIR_RED_BLUE));
 printw("Press F1 to Quit");
 bkgd(COLOR_PAIR(PAIR_RED_YELLOW));
 refresh();
 //attroff(COLOR_PAIR(PAIR_RED_BLUE));
-
+	
+	
+	
 //-------------------------------배경 설정----------------------------------------------------
 
 int BG_HEIGHT= LINES ;
@@ -155,15 +68,15 @@ int TITLE_HEIGHT= 2;
 int TITLE_WIDTH = COLS;
 int TITLE_POS_X = 0; 
 int TITLE_POS_Y = 1; 
-char TITLE_STRING[100]="PUT TITLE HERE";
+char TITLE_STRING[100]="PUT TITLE HERE"; //출력문자열
 WINDOW* Title_Win;
 
 Title_Win=create_newwin(TITLE_HEIGHT,TITLE_WIDTH,TITLE_POS_Y,TITLE_POS_X);
 wbkgd(Title_Win,COLOR_PAIR(PAIR_WHITE_BLACK));
 
-wattron(Title_Win,COLOR_PAIR(PAIR_WHITE_BLACK)); //PAIR_WHITE_BLACK를 원하는 색상으로 선택가능
+//wattron(Title_Win,COLOR_PAIR(PAIR_WHITE_BLACK)); //PAIR_WHITE_BLACK를 원하는 색상으로 선택가능
 mvwprintw(Title_Win,1,(TITLE_WIDTH - strlen(TITLE_STRING))/2,"%s",TITLE_STRING);
-wattroff(Title_Win,COLOR_PAIR(PAIR_WHITE_BLACK));
+//wattroff(Title_Win,COLOR_PAIR(PAIR_WHITE_BLACK));
 
 wrefresh(Title_Win);
 
@@ -177,10 +90,7 @@ int AREA_1_POS_Y = 7*(LINES/30); // 출력할 높이는 화면을 30으로 나�
 WINDOW* AREA_1;
 AREA_1=create_newwin(AREA_1_HEIGHT,AREA_1_WIDTH,AREA_1_POS_Y,AREA_1_POS_X);
 wbkgd(AREA_1,COLOR_PAIR(PAIR_WHITE_BLACK));
-
-
 mvwprintw(AREA_1,0,0,"RASPBERRY PI PROJECT AREA1 HERE");
-
 wrefresh(AREA_1);
 
 
@@ -205,17 +115,15 @@ int AREA_3_HEIGHT= 30;
 int AREA_3_WIDTH =(COLS - AREA_2_WIDTH - AREA_1_WIDTH )-4;
 int AREA_3_POS_X = (COLS - AREA_3_WIDTH)/2; //제 목은 중간 에 출력
 int AREA_3_POS_Y = 7*(LINES/30); // 출력할 높이는 화면을 30으로 나눈 첫번째 영역에 출력
+
+	
 char Data_3[MAX_ARR_SIZE];
 memset(Data_3,0,sizeof(Data_3));
 WINDOW* AREA_3;
 AREA_3=create_newwin(AREA_3_HEIGHT,AREA_3_WIDTH,AREA_3_POS_Y,AREA_3_POS_X);
 wbkgd(AREA_3,COLOR_PAIR(PAIR_WHITE_BLACK));
 System_Command("df -h",Data_3);
-
 mvwprintw(AREA_3,0,0,Data_3);
-
-
-
 wrefresh(AREA_3);
 
 
@@ -363,6 +271,8 @@ void destroy_win(WINDOW *local_win)
 	wrefresh(local_win);
 	delwin(local_win);
 }
+
+
 int System_Command(char* Command_in, char Data_out[])
 {
 FILE *fp;
@@ -395,4 +305,103 @@ strcpy(Data_out,path);
   pclose(fp);
 return 0;
 
+}
+
+
+
+Color_Setting(void)
+{
+
+	
+	
+//-----------------흰색 글자 검정 파탕---------------------------------------------
+
+		if(can_change_color() && COLORS >= 16)
+			{
+				init_color(BRIGHT_WHITE, 1000,1000,1000);
+			}
+		if(COLORS >=16)
+			{
+				init_pair(PAIR_BLACK_WHITE, COLOR_BLACK, BRIGHT_WHITE);
+			}
+		else
+			{
+				init_pair(PAIR_BLACK_WHITE, COLOR_BLACK, COLOR_WHITE);
+			}
+//-----------------글자흰색  배경파랑색  생성-------------------------------------------
+	    if(can_change_color() && COLORS >= 16 )
+	             {
+        	            init_color(BRIGHT_BLUE, 100,100,1000);
+        	     }
+   		 if(COLORS >=16)
+           		 {
+                  		 init_pair(PAIR_WHITE_BLUE, BRIGHT_WHITE, BRIGHT_BLUE);
+           		  }
+   		 else
+             		 {
+                	    init_pair(PAIR_WHITE_BLUE, COLOR_WHITE, COLOR_BLUE);
+            		 }
+//-------------------하늘색 생성------------------------------------------
+
+
+	 if(can_change_color() && COLORS >= 16 )
+        	  {
+        	         init_color(SKY_BLUE, 100,100,1000);
+       		   }
+     	 if(COLORS >=16)
+              {
+                      init_pair(PAIR_RED_BLUE, COLOR_RED, SKY_BLUE);
+               }
+    	  else
+              {
+                 init_pair(PAIR_RED_BLUE, COLOR_RED, COLOR_BLUE);
+		}
+
+//--------------------배경검은색글자흰색--------------------------------------------------
+
+
+  if(can_change_color() && COLORS >= 16 )
+           {
+                  init_color(SKY_BLUE, 100,100,1000);
+            }
+  if(COLORS >=16)
+       {
+               init_pair(PAIR_WHITE_BLACK, BRIGHT_WHITE, COLOR_BLACK);
+        }
+   else
+       {
+          init_pair(PAIR_WHITE_BLACK, COLOR_WHITE, COLOR_BLACK);
+         }
+
+//--------------------노랑빨강--------------------------------------------------
+
+
+  if(can_change_color() && COLORS >= 16 )
+           {
+                  init_color(BRIGHT_YELLOW, 1000,1000,1000);
+            }
+  if(COLORS >=16)
+       {
+               init_pair(PAIR_RED_YELLOW, COLOR_RED, BRIGHT_YELLOW);
+        }
+   else
+       {
+          init_pair(PAIR_RED_YELLOW, COLOR_RED, COLOR_YELLOW);
+         }
+
+	
+}
+
+
+void Init_Program(void)
+{
+// INTITIALIZATION
+initscr(); //이걸 활성화시켜야지 그래픽 모드 작동댐
+raw();	//사용자가 엔터키를 안눌러도 글자 전달댐
+keypad(stdscr, TRUE); //특수키를 입력 받을지의 여부, ex F1,F2~F12같은 거
+noecho(); //사용자가 입력해도 화면에, 지저분하게 뜨지 않음
+//cbreak();
+refresh(); //반드시 해야함 LINES, COLS을 업데이트 함
+start_color();// 색갈을 사용함
+Color_Setting();	
 }
