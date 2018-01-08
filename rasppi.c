@@ -152,12 +152,9 @@ int main(int argc, char* argv[])
 // while((Key_IN = getch()) != KEY_F(1)) 
 //while (Key_IN != 'q')
  
- 
-sleep(1); 
- getch(); 
  while(1)
 {
-	usleep(100000); //100000us
+	//usleep(1000); //100000us
 //---------------------------------------------------------------------------------------------------------------
 	System_Command("uname", AREA_3_DATA);
 	System_Command("uname", AREA_2_DATA);
@@ -390,6 +387,8 @@ void Init_Program(void)
 	refresh(); //반드시 해야함 LINES, COLS을 업데이트 함
 	start_color();// 색갈을 사용함
 	Color_Setting();
+	halfdelay(1);
+	cbreak();
 	
 }
 
