@@ -38,9 +38,10 @@ MENU* create_newslectwin(WINDOW* SLECT_W, char** choices, int SLECT_WIDTH, int S
 //------------------------------------------------------------------------------
 
 int Key_IN;
+FILE* DEBUG;
 
 int main(int argc, char* argv[])
-{
+{	DEBUG=fopen("Debug_Result.txt","w");
 	Init_Program();
 	//-------------------------------------------------------------------------------------------
 	int BACKGROUND_HEIGHT = LINES;
@@ -134,6 +135,9 @@ int main(int argc, char* argv[])
 
 	System_Command("df -h", AREA_3_DATA);
 	System_Command("ls /etc", AREA_2_DATA);
+	System_Command("ls",AREA_1_DATA);
+	
+	
 	printw(AREA_UPTOP_DATA);
 	mvwprintw(TITLE, 1, (TITLE_WIDTH - strlen(AREA_TITLE_DATA)) / 2, "%s", AREA_TITLE_DATA);
 	mvwprintw(AREA_1, 0, 0, AREA_1_DATA);
@@ -149,6 +153,9 @@ int main(int argc, char* argv[])
 		
 	if(Key_IN=linux_kbhit())
 	{	
+		fputc(KEY_DOWN, DEBUG);
+		fputs("now the result",DEBUG);
+		fputc(Key_IN, DEBUG);
 		switch (Key_IN)
 		{
 		case KEY_DOWN:
@@ -350,6 +357,7 @@ void Init_Program(void)
 	refresh(); //반드시 해야함 LINES, COLS을 업데이트 함
 	start_color();// 색갈을 사용함
 	Color_Setting();
+	
 }
 
 MENU* create_newslectwin(WINDOW* SLECT_W, char** choices, int SLECT_WIDTH, int SLECT_HEIGHT, int y, int x, char SLECT_DATA[])
