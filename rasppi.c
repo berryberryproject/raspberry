@@ -368,7 +368,7 @@ int System_Command(char* Command_in, char Data_out[])
 FILE *fp;
 char path[MAX_ARR_SIZE];
 memset(path,0,sizeof(path));
-int c;
+int c=-1;
 int i=0;
 
 
