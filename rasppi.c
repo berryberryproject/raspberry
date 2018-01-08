@@ -32,7 +32,39 @@ void destroy_win(WINDOW *local_win);
 int System_Command(char* Command_in , char Data_out[]);
 void Color_Setting(void);
 void Init_Program(void);
-//-------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+int BG_HEIGHT= LINES ;
+int BG_WIDTH = COLS ;
+int BG_POS_X = 0;
+int BG_POS_Y = 1;
+int TITLE_HEIGHT= 2;
+int TITLE_WIDTH = COLS;
+int TITLE_POS_X = 0; 
+int TITLE_POS_Y = 1; 
+int AREA_1_HEIGHT= 30;
+int AREA_1_WIDTH =(COLS*1)/4;
+int AREA_1_POS_X = 1; 
+int AREA_1_POS_Y = 7*(LINES/30);
+int AREA_2_HEIGHT= 30;
+int AREA_2_WIDTH =(COLS*1)/4;
+int AREA_2_POS_X = (COLS - AREA_2_WIDTH - 1); //제 목은 중간 에 출력
+int AREA_2_POS_Y = 7*(LINES/30); // 출력할 높이는 화면을 30으로 나눈 첫번째 영역에 출력
+int AREA_3_HEIGHT= 30;
+int AREA_3_WIDTH =(COLS - AREA_2_WIDTH - AREA_1_WIDTH )-4;
+int AREA_3_POS_X = (COLS - AREA_3_WIDTH)/2; //제 목은 중간 에 출력
+int AREA_3_POS_Y = 7*(LINES/30); // 출력할 높이는 화면을 30으로 나눈 첫번째 영역에 출력
+int AREA_4_HEIGHT= 10;
+int AREA_4_WIDTH =(COLS*3)/4-3;
+int AREA_4_POS_X = (COLS -AREA_3_WIDTH)/2; 
+int AREA_4_POS_Y = LINES - AREA_4_HEIGHT -1; // 출력할 높이는 화면을 30으로 나눈 첫번째 영역에 출력
+
+------------------------------------------------------------------------------------------------
+char Data_1[MAX_ARR_SIZE];
+char Data_2[MAX_ARR_SIZE];
+char Data_3[MAX_ARR_SIZE];
+char Data_4[MAX_ARR_SIZE];
+-----------------------------------------------------------------------------------------------------
 
 
 int main(int argc, char* argv[])
@@ -48,15 +80,8 @@ printw("Press F1 to Quit");
 bkgd(COLOR_PAIR(PAIR_RED_YELLOW));
 refresh();
 //attroff(COLOR_PAIR(PAIR_RED_BLUE));
-	
-	
-	
+		
 //-------------------------------배경 설정----------------------------------------------------
-
-int BG_HEIGHT= LINES ;
-int BG_WIDTH = COLS ;
-int BG_POS_X = 0;
-int BG_POS_Y = 1;
 
 WINDOW* BG;
 BG=create_newwin(BG_HEIGHT,BG_WIDTH,BG_POS_Y,BG_POS_X);
@@ -64,10 +89,7 @@ wbkgd(BG,COLOR_PAIR(PAIR_WHITE_BLUE));  //배경색갈 지정 PAIR_(**)를 위�
 wrefresh(BG);
 
 //--------------------------------------제목 표시줄 영역------------------------------------------
-int TITLE_HEIGHT= 2;
-int TITLE_WIDTH = COLS;
-int TITLE_POS_X = 0; 
-int TITLE_POS_Y = 1; 
+
 char TITLE_STRING[100]="PUT TITLE HERE"; //출력문자열
 WINDOW* Title_Win;
 
@@ -82,10 +104,7 @@ wrefresh(Title_Win);
 
 //------------------------------------영역 1---------------------------------------------------------
 
-int AREA_1_HEIGHT= 30;
-int AREA_1_WIDTH =(COLS*1)/4;
-int AREA_1_POS_X = 1; //
-int AREA_1_POS_Y = 7*(LINES/30); // 출력할 높이는 화면을 30으로 나눈 첫번째 영역에 출력
+
 
 WINDOW* AREA_1;
 AREA_1=create_newwin(AREA_1_HEIGHT,AREA_1_WIDTH,AREA_1_POS_Y,AREA_1_POS_X);
@@ -96,11 +115,7 @@ wrefresh(AREA_1);
 
 //------------------------------------영역 2-------------------------------------------------------
 
-int AREA_2_HEIGHT= 30;
-int AREA_2_WIDTH =(COLS*1)/4;
-int AREA_2_POS_X = (COLS - AREA_2_WIDTH - 1); //제 목은 중간 에 출력
-int AREA_2_POS_Y = 7*(LINES/30); // 출력할 높이는 화면을 30으로 나눈 첫번째 영역에 출력
-char Data_2[MAX_ARR_SIZE];
+
 
 WINDOW* AREA_2;
 AREA_2=create_newwin(AREA_2_HEIGHT,AREA_2_WIDTH,AREA_2_POS_Y,AREA_2_POS_X);
@@ -111,13 +126,7 @@ wrefresh(AREA_2);
 
 //------------------------------------영역 3-------------------------------------------------------
 
-int AREA_3_HEIGHT= 30;
-int AREA_3_WIDTH =(COLS - AREA_2_WIDTH - AREA_1_WIDTH )-4;
-int AREA_3_POS_X = (COLS - AREA_3_WIDTH)/2; //제 목은 중간 에 출력
-int AREA_3_POS_Y = 7*(LINES/30); // 출력할 높이는 화면을 30으로 나눈 첫번째 영역에 출력
 
-	
-char Data_3[MAX_ARR_SIZE];
 memset(Data_3,0,sizeof(Data_3));
 WINDOW* AREA_3;
 AREA_3=create_newwin(AREA_3_HEIGHT,AREA_3_WIDTH,AREA_3_POS_Y,AREA_3_POS_X);
@@ -128,12 +137,6 @@ wrefresh(AREA_3);
 
 
 //------------------------------------영역 4-------------------------------------------------------
-
-int AREA_4_HEIGHT= 10;
-int AREA_4_WIDTH =(COLS*3)/4-3;
-int AREA_4_POS_X = (COLS -AREA_3_WIDTH)/2; 
-int AREA_4_POS_Y = LINES - AREA_4_HEIGHT -1; // 출력할 높이는 화면을 30으로 나눈 첫번째 영역에 출력
-char Data_4[MAX_ARR_SIZE];
 
 WINDOW* AREA_4;
 AREA_4=create_newwin(AREA_4_HEIGHT,AREA_4_WIDTH,AREA_4_POS_Y,AREA_4_POS_X);
