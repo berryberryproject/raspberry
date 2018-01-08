@@ -154,7 +154,7 @@ int main(int argc, char* argv[])
 	if(Key_IN=linux_kbhit())
 	{	
 		fputc(KEY_DOWN, DEBUG);
-		fputs("now the result",DEBUG);
+		fputs=c(",",DEBUG);
 		fputc(Key_IN, DEBUG);
 		switch (Key_IN)
 		{
