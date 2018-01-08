@@ -161,7 +161,7 @@ sleep(1);
 //---------------------------------------------------------------------------------------------------------------
 	System_Command("uname", AREA_3_DATA);
 	System_Command("uname", AREA_2_DATA);
-	System_Command("uname",AREA_1_DATA);
+	System_Command("date",AREA_1_DATA);
 	System_Command("uname",AREA_4_DATA);
 //--------------------print data-----------------------------------------------------------------------------------------		
 	
