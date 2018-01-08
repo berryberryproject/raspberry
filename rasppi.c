@@ -389,39 +389,34 @@ Color_Setting();
 
 void create_newslectwin(WINDOW* SLECT_W,char choices[],int SLECT_WIDTH, int SLECT_HEIGHT, int x, int y, char SLECT_DATA[])
 {
-
+	
 ITEM **TABLE;
 MENU *Menu;
-ITEM *;
+int n_choices, i;
+ITEM *Current_Slected;
+//아이템 생성----------
 
-TABLE_=malloc(sizeof(ITEM**));	
-ITEM_=malloc(sizeof(ITEM*));
-MENU_=malloc(sizeof(MENU*));
-int n_choices;
-int i;
 n_choices = ARRAY_SIZE(choices);
-
-*TABLE_ = (ITEM **)calloc(n_choices + 1, sizeof(ITEM *));
+TABLE = (ITEM **)calloc(n_choices + 1, sizeof(ITEM *));
 	for(i = 0; i < n_choices; ++i)
-	        *TABLE_[i] = new_item(choices[i], choices[i]);
-	*TABLE_[n_choices] = ((*ITEM_) *)NULL;
-	
-*MENU_ = new_menu(((*ITEM_) **)(*TABLE_));
+	        TABLE[i] = new_item(choices[i], choices[i]);
+	TABLE[n_choices] = (ITEM *)NULL;
+//메뉴 생성-----------
+	Menu = new_menu((ITEM **)TABLE);
 
-set_menu_win(*MENU_,SLECT_W);
-set_menu_sub(*MENU_, derwin(SLECT_W, n_choices,SLECT_WIDTH,SLECT_HEIGHT - n_choices,0)); //(상자크기(y,x 위치 y,x)
-set_menu_mark(*MENU_, ">");
-//wattron(SLECT_W,COLOR_PAIR(PAIR_RED_BLUE));
+set_menu_win(Menu,SLECT_W);
+set_menu_sub(Menu, derwin(SLECT_W, n_choices,SLECT_WIDTH,SLECT_HEIGHT - n_choices,0)); //(상자크기(y,x 위치 y,x)
+set_menu_mark(Menu, ">");
+wattron(SLECT_W,COLOR_PAIR(PAIR_RED_BLUE));
 //box(SLECT_W, 0, 0);
 mvwprintw(SLECT_W,1,(SLECT_WIDTH - strlen(SLECT_DATA))/2, SLECT_DATA);
 //mvwaddch(SLECT_W, 2, 0, ACS_LTEE);
 //mvwhline(SLECT_W, 2, 1, ACS_HLINE, 38);
 //mvwaddch(SLECT_W, 2, 39, ACS_RTEE);
-//refresh();
-//wattroff(SLECT_W,COLOR_PAIR(PAIR_RED_BLUE));
-post_menu(*MENU_);
-//refresh();
-//wrefresh(SLECT_W);
-
+refresh();
+wattroff(SLECT_W,COLOR_PAIR(PAIR_RED_BLUE));
+post_menu(Menu);
+refresh();
+wrefresh(SLECT_W);
 	
 }
