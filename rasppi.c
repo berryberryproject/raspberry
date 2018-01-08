@@ -132,8 +132,8 @@ int main(int argc, char* argv[])
 	//---------------------------------------------------------------------------------------------------
 	
 
-
-	
+	System_Command("df -h", AREA_3_DATA);
+	System_Command("ls /etc", AREA_2_DATA);
 	
 	
 //-----------------------------------------------process starts here--------------------------------------------------	
@@ -159,30 +159,21 @@ int main(int argc, char* argv[])
 //--------------------print data-----------------------------------------------------------------------------------------		
 	printw(AREA_UPTOP_DATA);
 	mvwprintw(TITLE, 1, (TITLE_WIDTH - strlen(AREA_TITLE_DATA)) / 2, "%s", AREA_TITLE_DATA);
-	//------------------------------------영역 1---------------------------------------------------------
 	mvwprintw(AREA_1, 0, 0, AREA_1_DATA);
-	//------------------------------------영역 2-------------------------------------------------------
-	System_Command("ls /etc", AREA_2_DATA);
 	mvwprintw(AREA_2, 0, 0, AREA_2_DATA);
-	//------------------------------------영역 3-------------------------------------------------------
-	System_Command("df -h", AREA_3_DATA);
 	mvwprintw(AREA_3, 0, 0, AREA_3_DATA);
-
-	//------------------------------------영역 4-------------------------------------------------------
-	System_Command("du -h", AREA_4_DATA);
 	mvwprintw(AREA_4, 0, 0, AREA_4_DATA);
 			
-//---------------screen update----------------------			
-			
+//---------------screen update----------------------				
 	refresh();
-	wrefresh(BACKGROUND);
+//	wrefresh(BACKGROUND);
 	wrefresh(TITLE);
 	wrefresh(AREA_1);
 	wrefresh(AREA_2);
 	wrefresh(AREA_3);
 	wrefresh(AREA_4);
 	wrefresh(SLECT_W);	
-	sleep(100);	
+//	sleep(100);	
 	}
 
 
