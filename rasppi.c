@@ -69,14 +69,25 @@ int SLECT_HEIGHT = 10;
 int SLECT_WIDTH = (COLS)/4;
 int SLECT_POS_X = 1; 
 int SLECT_POS_Y = LINES - SLECT_HEIGHT - 1; 
-//------------------------------------------------------------------------------------------------
-
+//-----------------------------------------------------------------------------------------------
+char UPTOP_MESSEAGE[MAX_ARR_SIZE]="Press Q to Quit";
 char TITLE_STRING[MAX_ARR_SIZE]="PUT TITLE HERE";	
 char AREA_1_DATA[MAX_ARR_SIZE]="example";
 char Data_1[MAX_ARR_SIZE];
 char Data_2[MAX_ARR_SIZE];
 char Data_3[MAX_ARR_SIZE];
 char Data_4[MAX_ARR_SIZE];
+//--------------------------------Slection Menu----------선택메뉴만--------------------------------------
+char *choices[] = {
+                        "Sytem Status           ",
+                        "Choise 2               ",
+                        "Choice 3               ",
+                        "Choice 4               ",
+                        "Choise 5               ",
+			"Choise 6               ",
+			"Choise 7               "
+                 };
+	
 //-----------------------------------------------------------------------------------------------------	
 WINDOW* BG;	
 WINDOW* Title_Win;
@@ -87,88 +98,61 @@ WINDOW* AREA_4;
 WINDOW* SLECT_W;
 	
 //-----------------------------------------------------------------------------------------------------	
+BG=create_newwin(BG_HEIGHT,BG_WIDTH,BG_POS_Y,BG_POS_X);
+Title_Win=create_newwin(TITLE_HEIGHT,TITLE_WIDTH,TITLE_POS_Y,TITLE_POS_X);
 AREA_1=create_newwin(AREA_1_HEIGHT,AREA_1_WIDTH,AREA_1_POS_Y,AREA_1_POS_X);
 AREA_2=create_newwin(AREA_2_HEIGHT,AREA_2_WIDTH,AREA_2_POS_Y,AREA_2_POS_X);	
 AREA_3=create_newwin(AREA_3_HEIGHT,AREA_3_WIDTH,AREA_3_POS_Y,AREA_3_POS_X);
 AREA_4=create_newwin(AREA_4_HEIGHT,AREA_4_WIDTH,AREA_4_POS_Y,AREA_4_POS_X);
 SLECT_W = create_newwin(SLECT_HEIGHT,SLECT_WIDTH,SLECT_POS_Y,SLECT_POS_X);
 	
-//-------------------------------가장상단-영역-------------------------------------------
-	
-//attron(COLOR_PAIR(PAIR_RED_BLUE));
-printw("Press Q to Quit");
-bkgd(COLOR_PAIR(PAIR_RED_YELLOW));
-refresh();
-//attroff(COLOR_PAIR(PAIR_RED_BLUE));
-		
-//-------------------------------배경 설정----------------------------------------------------
-
-
-BG=create_newwin(BG_HEIGHT,BG_WIDTH,BG_POS_Y,BG_POS_X);
-wbkgd(BG,COLOR_PAIR(PAIR_WHITE_BLUE));  //배경색갈 지정 PAIR_(**)를 위에 #define 보면서 변경가능
-wrefresh(BG);
-
-//--------------------------------------제목 표시줄 영역------------------------------------------
-
-
-
-
-Title_Win=create_newwin(TITLE_HEIGHT,TITLE_WIDTH,TITLE_POS_Y,TITLE_POS_X);
+//-------------------------------------배경--------------색-----------------------------------------------
+bkgd(COLOR_PAIR(PAIR_RED_YELLOW));	
+wbkgd(BG,COLOR_PAIR(PAIR_WHITE_BLUE));  //배경색갈 지정 PAIR_(**)를 위에 #define 보면서 변경가능	
 wbkgd(Title_Win,COLOR_PAIR(PAIR_WHITE_BLACK));
-
-//wattron(Title_Win,COLOR_PAIR(PAIR_WHITE_BLACK)); //PAIR_WHITE_BLACK를 원하는 색상으로 선택가능
-mvwprintw(Title_Win,1,(TITLE_WIDTH - strlen(TITLE_STRING))/2,"%s",TITLE_STRING);
-//wattroff(Title_Win,COLOR_PAIR(PAIR_WHITE_BLACK));
-
-wrefresh(Title_Win);
-
-//------------------------------------영역 1---------------------------------------------------------
-
-
 wbkgd(AREA_1,COLOR_PAIR(PAIR_WHITE_BLACK));
-mvwprintw(AREA_1,0,0,AREA_1_DATA);
+wbkgd(AREA_2,COLOR_PAIR(PAIR_WHITE_BLACK));	
+wbkgd(AREA_3,COLOR_PAIR(PAIR_WHITE_BLACK));
+wbkgd(AREA_4,COLOR_PAIR(PAIR_WHITE_BLACK));
+wbkgd(SLECT_W,COLOR_PAIR(PAIR_BLACK_WHITE));
+	
+//--------------------------------------------------------------------------
+keypad(SLECT_W, TRUE);
+keypad(Title_Win, TRUE);
+keypad(AREA_1, TRUE);
+keypad(AREA_2, TRUE);
+keypad(AREA_3, TRUE);
+keypad(AREA_4, TRUE);
+	
+//-----------------------------------------------------------------------------------------	
+	
+refresh();	
+wrefresh(BG);	
+wrefresh(Title_Win);
 wrefresh(AREA_1);
+wrefresh(AREA_2);
+wrefresh(AREA_3);
+wrefresh(AREA_4);	
+	
 
-
+printw(UPTOP_MESSEAGE);
+mvwprintw(Title_Win,1,(TITLE_WIDTH - strlen(TITLE_STRING))/2,"%s",TITLE_STRING);
+//------------------------------------영역 1---------------------------------------------------------
+mvwprintw(AREA_1,0,0,AREA_1_DATA);
 //------------------------------------영역 2-------------------------------------------------------
-
-
-
-
-
-wbkgd(AREA_2,COLOR_PAIR(PAIR_WHITE_BLACK));
 System_Command("ls /etc",Data_2);
 mvwprintw(AREA_2,0,0,Data_2);
-wrefresh(AREA_2);
-
 //------------------------------------영역 3-------------------------------------------------------
-
-wbkgd(AREA_3,COLOR_PAIR(PAIR_WHITE_BLACK));
 System_Command("df -h",Data_3);
 mvwprintw(AREA_3,0,0,Data_3);
-wrefresh(AREA_3);
-
 
 //------------------------------------영역 4-------------------------------------------------------
-
-wbkgd(AREA_4,COLOR_PAIR(PAIR_WHITE_BLACK));
 System_Command("du -h",Data_4);
 mvwprintw(AREA_4,0,0,Data_4);
-wrefresh(AREA_4);
-
-
 
 //----------------------------------선택 메뉴 -영역4---------------------------------------------------------
 
-char *choices[] = {
-                        "Sytem Status           ",
-                        "Choise 2               ",
-                        "Choice 3               ",
-                        "Choice 4               ",
-                        "Choise 5               ",
-			"Choise 6               ",
-			"Choise 7               "
-                 };
+
 ITEM **TABLE;
 int Key_IN;
 MENU *Menu;
@@ -186,8 +170,8 @@ TABLE = (ITEM **)calloc(n_choices + 1, sizeof(ITEM *));
 
 
 //-------------------------------------------------------------------------------
-keypad(SLECT_W, TRUE);
-wbkgd(SLECT_W,COLOR_PAIR(PAIR_BLACK_WHITE));
+
+
 
 //메뉴 붙이기-------------------------
 set_menu_win(Menu,SLECT_W);
@@ -222,12 +206,6 @@ while((Key_IN = getch()) != 'q')
             }
 	wrefresh(SLECT_W);
     }
-
-
-
-
-
-
 
 
 //----------------종료시-------------------------------------------------------
