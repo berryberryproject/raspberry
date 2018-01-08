@@ -151,7 +151,7 @@ int main(int argc, char* argv[])
 	mvwprintw(AREA_4, 0, 0, AREA_4_DATA);
 
 	//----------------------------------선택 메뉴 -영역4---------------------------------------------------------
-	MENU* Menu = create_newslectwin(SLECT_W, choices, SLECT_WIDTH, SLECT_HEIGHT, 0, SLECT_HEIGHT-6, SLECT_DATA);
+	MENU* Menu = create_newslectwin(SLECT_W, choices, SLECT_WIDTH, SLECT_HEIGHT, 0, 0, SLECT_DATA);
 
 	//---------------------------------------------------------------------------------------------------
 	while ((Key_IN = getch()) != 'q')
@@ -352,7 +352,7 @@ void Init_Program(void)
 	Color_Setting();
 }
 
-MENU* create_newslectwin(WINDOW* SLECT_W, char** choices, int SLECT_WIDTH, int SLECT_HEIGHT, int x, int y, char SLECT_DATA[])
+MENU* create_newslectwin(WINDOW* SLECT_W, char** choices, int SLECT_WIDTH, int SLECT_HEIGHT, int y, int x, char SLECT_DATA[])
 {
 
 	ITEM **TABLE;
