@@ -144,17 +144,12 @@ int main(int argc, char* argv[])
 	//---------------------------------------------------------------------------------------------------
 	
 
-	System_Command("df -h", AREA_3_DATA);
+	System_Command("date", AREA_3_DATA);
 	System_Command("ls /etc", AREA_2_DATA);
 	System_Command("ls",AREA_1_DATA);
 	System_Command("ls",AREA_4_DATA);
 	
-	printw(AREA_UPTOP_DATA);
-	mvwprintw(TITLE, 1, (TITLE_WIDTH - strlen(AREA_TITLE_DATA)) / 2, "%s", AREA_TITLE_DATA);
-	mvwprintw(AREA_1, 0, 0, AREA_1_DATA);
-	mvwprintw(AREA_2, 0, 0, AREA_2_DATA);
-	mvwprintw(AREA_3, 0, 0, AREA_3_DATA);
-	mvwprintw(AREA_4, 0, 0, AREA_4_DATA);	
+
 	
 //-----------------------------------------------process starts here--------------------------------------------------	
 // while((Key_IN = getch()) != KEY_F(1)) 
@@ -192,7 +187,12 @@ while (Key_IN != 'q')
 	}	
 		
 //--------------------print data-----------------------------------------------------------------------------------------		
-
+	printw(AREA_UPTOP_DATA);
+	mvwprintw(TITLE, 1, (TITLE_WIDTH - strlen(AREA_TITLE_DATA)) / 2, "%s", AREA_TITLE_DATA);
+	mvwprintw(AREA_1, 0, 0, AREA_1_DATA);
+	mvwprintw(AREA_2, 0, 0, AREA_2_DATA);
+	mvwprintw(AREA_3, 0, 0, AREA_3_DATA);
+	mvwprintw(AREA_4, 0, 0, AREA_4_DATA);	
 			
 			
 
