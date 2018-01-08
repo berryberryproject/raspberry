@@ -43,6 +43,7 @@ void close_keyboard();
 int _kbhit();
 int _getch();
 int _putch(int c);
+void clean_stdin(void);
 //------------------------------------------------------------------------------
 
 int Key_IN;
@@ -166,6 +167,7 @@ while (Key_IN != 'q')
 	if(   _kbhit() ) 
 	{	
 		Key_IN = getch();
+		clean_stdin();
 		fputc(KEY_DOWN, DEBUG);
 		fputc(',',DEBUG);
 		fputc(Key_IN, DEBUG);
@@ -468,4 +470,12 @@ int _putch(int c) {
     putchar(c);
     fflush(stdout);
     return c;
+}
+
+void clean_stdin(void)
+{
+    int c;
+    do {
+        c = getchar();
+    } while (c != '\n' && c != EOF);
 }
