@@ -162,8 +162,18 @@ while (Key_IN != 'q')
 	wrefresh(AREA_3);
 	wrefresh(AREA_4);
 	wrefresh(SLECT_W);	
-//	sleep(100);		
-		
+//	sleep(100);
+	
+//--------------------print data-----------------------------------------------------------------------------------------		
+	
+	mvwprintw(TITLE, 1, (TITLE_WIDTH - strlen(AREA_TITLE_DATA)) / 2, "%s", AREA_TITLE_DATA);
+	mvwprintw(AREA_1, 0, 0, AREA_1_DATA);
+	mvwprintw(AREA_2, 0, 0, AREA_2_DATA);
+	mvwprintw(AREA_3, 0, 0, AREA_3_DATA);
+	mvwprintw(AREA_4, 0, 0, AREA_4_DATA);
+	sleep(0.01);		
+	
+	
 	if(   _kbhit() ) 
 	{	
 		Key_IN = getch();
@@ -194,14 +204,7 @@ while (Key_IN != 'q')
 
 	}
 		
-//--------------------print data-----------------------------------------------------------------------------------------		
-	
-	mvwprintw(TITLE, 1, (TITLE_WIDTH - strlen(AREA_TITLE_DATA)) / 2, "%s", AREA_TITLE_DATA);
-	mvwprintw(AREA_1, 0, 0, AREA_1_DATA);
-	mvwprintw(AREA_2, 0, 0, AREA_2_DATA);
-	mvwprintw(AREA_3, 0, 0, AREA_3_DATA);
-	mvwprintw(AREA_4, 0, 0, AREA_4_DATA);
-	sleep(0.01);
+
 }
 
 
