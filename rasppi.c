@@ -388,7 +388,7 @@ void Init_Program(void)
 	start_color();// 색갈을 사용함
 	Color_Setting();
 	halfdelay(1);
-	cbreak();
+	//cbreak();
 	
 }
 
