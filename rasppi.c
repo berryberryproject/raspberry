@@ -147,7 +147,7 @@ int main(int argc, char* argv[])
 	System_Command("df -h", AREA_3_DATA);
 	System_Command("ls /etc", AREA_2_DATA);
 	System_Command("ls",AREA_1_DATA);
-	
+	System_Command("ls",AREA_4_DATA);
 	
 	printw(AREA_UPTOP_DATA);
 	mvwprintw(TITLE, 1, (TITLE_WIDTH - strlen(AREA_TITLE_DATA)) / 2, "%s", AREA_TITLE_DATA);
@@ -164,9 +164,7 @@ int main(int argc, char* argv[])
 		
 	if(   _kbhit() ) 
 	{	
-		int Key_IN = _getch();
-		_putch(Key_IN);
-		
+		int Key_IN = getch();
 		fputc(KEY_DOWN, DEBUG);
 		fputc(',',DEBUG);
 		fputc(Key_IN, DEBUG);
@@ -304,7 +302,7 @@ void Color_Setting(void)
 	}
 	if (COLORS >= 16)
 	{
-		init_pair(PAIR_WHITE_BLUE, BRIGHT_WHITE, BRIGHT_BLUE);
+		init_pair(PAIR_WHITE_BLUE, COLOR_WHITE, COLOR_BLUE);
 	}
 	else
 	{
