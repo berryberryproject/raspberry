@@ -7,10 +7,13 @@
 #include <string.h>
 #include <stdlib.h>
 #include <termios.h>
+#include <sys/select.h>
+
 // -----------------NETWORK HEADDER-------------------------------
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <sys/socket.h>
+
 //-----------------------------------------------------------------
 #define MAX_ARR_SIZE 2000
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
@@ -35,10 +38,18 @@ void Color_Setting(void);
 void Init_Program(void);
 int linux_kbhit(void);
 MENU* create_newslectwin(WINDOW* SLECT_W, char** choices, int SLECT_WIDTH, int SLECT_HEIGHT, int x, int y, char SLECT_DATA[]);
+void init_keyboard();
+void close_keyboard();
+int _kbhit();
+int _getch();
+int _putch(int c);
 //------------------------------------------------------------------------------
 
 int Key_IN;
 FILE* DEBUG;
+static struct termios initial_settings, new_settings;
+static int peek_character = -1;
+ 
 
 int main(int argc, char* argv[])
 {	DEBUG=fopen("Debug_Result.txt","w");
@@ -151,8 +162,11 @@ int main(int argc, char* argv[])
 		// while((Key_IN = getch()) != KEY_F(1))
 	{
 		
-	if(Key_IN=linux_kbhit())
+	if(   _kbhit() ) 
 	{	
+		int Key_IN = _getch();
+		_putch(Key_IN);
+		
 		fputc(KEY_DOWN, DEBUG);
 		fputc(',',DEBUG);
 		fputc(Key_IN, DEBUG);
@@ -187,6 +201,7 @@ int main(int argc, char* argv[])
 	//----------------종료시-------------------------------------------------------
 	endwin();
  	fclose(DEBUG);
+ 	close_keyboard();
 	return 0;
 }
 
@@ -358,7 +373,7 @@ void Init_Program(void)
 	refresh(); //반드시 해야함 LINES, COLS을 업데이트 함
 	start_color();// 색갈을 사용함
 	Color_Setting();
-	
+	init_keyboard();
 }
 
 MENU* create_newslectwin(WINDOW* SLECT_W, char** choices, int SLECT_WIDTH, int SLECT_HEIGHT, int y, int x, char SLECT_DATA[])
@@ -392,15 +407,60 @@ MENU* create_newslectwin(WINDOW* SLECT_W, char** choices, int SLECT_WIDTH, int S
 	return Menu;
 
 }
-int linux_kbhit(void)
+
+ 
+
+void init_keyboard()
 {
-    struct termios oldt, newt;
-    int ch;
-    tcgetattr( STDIN_FILENO, &oldt );
-    newt = oldt;
-    newt.c_lflag &= ~( ICANON | ECHO );
-    tcsetattr( STDIN_FILENO, TCSANOW, &newt );
-    ch = getchar();
-    tcsetattr( STDIN_FILENO, TCSANOW, &oldt );
+    tcgetattr(0,&initial_settings);
+    new_settings = initial_settings;
+    new_settings.c_lflag &= ~ICANON;
+    new_settings.c_lflag &= ~ECHO;
+    new_settings.c_cc[VMIN] = 1;
+    new_settings.c_cc[VTIME] = 0;
+    tcsetattr(0, TCSANOW, &new_settings);
+}
+ 
+void close_keyboard()
+{
+    tcsetattr(0, TCSANOW, &initial_settings);
+}
+ 
+int _kbhit()
+{
+    unsigned char ch;
+    int nread;
+ 
+    if (peek_character != -1) return 1;
+    new_settings.c_cc[VMIN]=0;
+    tcsetattr(0, TCSANOW, &new_settings);
+    nread = read(0,&ch,1);
+    new_settings.c_cc[VMIN]=1;
+    tcsetattr(0, TCSANOW, &new_settings);
+    if(nread == 1)
+    {
+        peek_character = ch;
+        return 1;
+    }
+    return 0;
+}
+ 
+int _getch()
+{
+    char ch;
+ 
+    if(peek_character != -1)
+    {
+        ch = peek_character;
+        peek_character = -1;
+        return ch;
+    }
+    read(0,&ch,1);
     return ch;
+}
+ 
+int _putch(int c) {
+    putchar(c);
+    fflush(stdout);
+    return c;
 }
