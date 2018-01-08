@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <termios.h>
 // -----------------NETWORK HEADDER-------------------------------
 #include <arpa/inet.h>
 #include <unistd.h>
@@ -32,6 +33,7 @@ void destroy_win(WINDOW *local_win);
 int System_Command(char* Command_in, char Data_out[]);
 void Color_Setting(void);
 void Init_Program(void);
+int linux_kbhit(void);
 MENU* create_newslectwin(WINDOW* SLECT_W, char** choices, int SLECT_WIDTH, int SLECT_HEIGHT, int x, int y, char SLECT_DATA[]);
 //------------------------------------------------------------------------------
 
@@ -136,9 +138,12 @@ int main(int argc, char* argv[])
 	
 //-----------------------------------------------process starts here--------------------------------------------------	
 	
-	while ((Key_IN = getch()) != 'q')
+	while ((Key_IN != 'q')
 		// while((Key_IN = getch()) != KEY_F(1))
 	{
+		
+	if(Key_IN=linux_kbhit())
+	{	
 		switch (Key_IN)
 		{
 		case KEY_DOWN:
@@ -149,7 +154,7 @@ int main(int argc, char* argv[])
 			break;
 		}
 
-		
+	}	
 		
 //--------------------print data-----------------------------------------------------------------------------------------		
 	printw(AREA_UPTOP_DATA);
@@ -386,4 +391,31 @@ MENU* create_newslectwin(WINDOW* SLECT_W, char** choices, int SLECT_WIDTH, int S
 	wrefresh(SLECT_W);
 	return Menu;
 
+}
+int linux_kbhit(void)
+{
+    struct termios oldt, newt;
+    int ch;
+
+ 
+
+    tcgetattr( STDIN_FILENO, &oldt );
+    newt = oldt;
+
+ 
+
+    newt.c_lflag &= ~( ICANON | ECHO );
+    tcsetattr( STDIN_FILENO, TCSANOW, &newt );
+
+ 
+
+    ch = getchar();
+
+ 
+
+    tcsetattr( STDIN_FILENO, TCSANOW, &oldt );
+
+ 
+
+    return ch;
 }
