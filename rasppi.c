@@ -155,6 +155,7 @@ int main(int argc, char* argv[])
  
  
  mvwprintw(AREA_1, 0, 0, "skfdjfkljfkdjf");
+ wrefresh(AREA_1);
  sleep(1);
  
  
