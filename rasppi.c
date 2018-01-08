@@ -160,6 +160,16 @@ int main(int argc, char* argv[])
 // while((Key_IN = getch()) != KEY_F(1)) 
 while (Key_IN != 'q')
 {
+//---------------screen update----------------------		
+	refresh();
+	wrefresh(BACKGROUND);
+	wrefresh(TITLE);
+	wrefresh(AREA_1);
+	wrefresh(AREA_2);
+	wrefresh(AREA_3);
+	wrefresh(AREA_4);
+	wrefresh(SLECT_W);	
+//	sleep(100);		
 		
 	if(   _kbhit() ) 
 	{	
@@ -167,7 +177,7 @@ while (Key_IN != 'q')
 		fputc(KEY_DOWN, DEBUG);
 		fputc(',',DEBUG);
 		fputc(Key_IN, DEBUG);
-		
+
 		switch (Key_IN)
 		{
 		case KEY_DOWN:
@@ -184,16 +194,8 @@ while (Key_IN != 'q')
 //--------------------print data-----------------------------------------------------------------------------------------		
 
 			
-//---------------screen update----------------------				
-	refresh();
-//	wrefresh(BACKGROUND);
-	wrefresh(TITLE);
-	wrefresh(AREA_1);
-	wrefresh(AREA_2);
-	wrefresh(AREA_3);
-	wrefresh(AREA_4);
-	wrefresh(SLECT_W);	
-//	sleep(100);	
+			
+
 }
 
 
