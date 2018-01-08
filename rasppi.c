@@ -184,7 +184,7 @@ int main(int argc, char* argv[])
 	if(1)
 	//if(   _kbhit() ) 
 	{	
-		Key_IN = getch();
+		//Key_IN = getch();
 		//clean_stdin();
 		fputc(KEY_DOWN, DEBUG);
 		fputc(',',DEBUG);
