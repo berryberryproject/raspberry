@@ -176,7 +176,7 @@ int main(int argc, char* argv[])
 	wrefresh(AREA_2);
 	wrefresh(AREA_3);
 	wrefresh(AREA_4);
-	wrefresh(Menu);	
+	wrefresh(SLECT_W);	
 	sleep(100);	
 	}
 
