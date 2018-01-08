@@ -153,7 +153,7 @@ mvwprintw(AREA_4,0,0,Data_4);
 
 //----------------------------------선택 메뉴 -영역4---------------------------------------------------------
 
-create_newslectwin(SLECT_W,choices,SLECT_WIDTH,SLECT_HEIGHT, x, y,SLECT_DATA);	
+create_newslectwin(SLECT_W,choices,SLECT_WIDTH,SLECT_HEIGHT, 0, 0,SLECT_DATA);	
 	
 	/*
 ITEM **TABLE;
