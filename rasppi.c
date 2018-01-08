@@ -395,9 +395,7 @@ MENU *Menu_o;
 int n_choices, i;
 ITEM *Current_Slected;
 //아이템 생성----------
-n_choices =7;
-//n_choices = ARRAY_SIZE(choices);
-//n_choices = sizeof(choices)/sizeof(choices)[0];
+n_choices = sizeof(choices)/sizeof(choices)[0];
 TABLE = (ITEM **)calloc(n_choices + 1, sizeof(ITEM *));
 	for(i = 0; i < n_choices; ++i)
 	        TABLE[i] = new_item(choices[i], choices[i]);
@@ -418,10 +416,7 @@ refresh();
 wattroff(SLECT_W,COLOR_PAIR(PAIR_RED_BLUE));
 post_menu(Menu);
 refresh();
-wrefresh(SLECT_W);
-Menu_o=malloc(sizeof(Menu));
-Menu_o=Menu;
-	
-return Menu_o;
+wrefresh(SLECT_W);	
+return Menu;
 	
 }
