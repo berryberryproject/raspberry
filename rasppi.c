@@ -124,17 +124,34 @@ int main(int argc, char* argv[])
 	keypad(AREA_3, TRUE);
 	keypad(AREA_4, TRUE);
 
-	//-----------------------------------------------------------------------------------------	
+	//----------------------------------선택 메뉴 -영역4---------------------------------------------------------
+	MENU* Menu = create_newslectwin(SLECT_W, choices, SLECT_WIDTH, SLECT_HEIGHT, 2, 0, SLECT_DATA);
 
-	refresh();
-	wrefresh(BACKGROUND);
-	wrefresh(TITLE);
-	wrefresh(AREA_1);
-	wrefresh(AREA_2);
-	wrefresh(AREA_3);
-	wrefresh(AREA_4);
+	//---------------------------------------------------------------------------------------------------
+	
 
 
+	
+	
+	
+//-----------------------------------------------process starts here--------------------------------------------------	
+	
+	while ((Key_IN = getch()) != 'q')
+		// while((Key_IN = getch()) != KEY_F(1))
+	{
+		switch (Key_IN)
+		{
+		case KEY_DOWN:
+			menu_driver(Menu, REQ_DOWN_ITEM);
+			break;
+		case KEY_UP:
+			menu_driver(Menu, REQ_UP_ITEM);
+			break;
+		}
+
+		
+		
+//--------------------print data-----------------------------------------------------------------------------------------		
 	printw(AREA_UPTOP_DATA);
 	mvwprintw(TITLE, 1, (TITLE_WIDTH - strlen(AREA_TITLE_DATA)) / 2, "%s", AREA_TITLE_DATA);
 	//------------------------------------영역 1---------------------------------------------------------
@@ -149,31 +166,18 @@ int main(int argc, char* argv[])
 	//------------------------------------영역 4-------------------------------------------------------
 	System_Command("du -h", AREA_4_DATA);
 	mvwprintw(AREA_4, 0, 0, AREA_4_DATA);
-
-	//----------------------------------선택 메뉴 -영역4---------------------------------------------------------
-	MENU* Menu = create_newslectwin(SLECT_W, choices, SLECT_WIDTH, SLECT_HEIGHT, 2, 0, SLECT_DATA);
-
-	//---------------------------------------------------------------------------------------------------
-	while ((Key_IN = getch()) != 'q')
-		// while((Key_IN = getch()) != KEY_F(1))
-	{
-		switch (Key_IN)
-		{
-		case KEY_DOWN:
-			menu_driver(Menu, REQ_DOWN_ITEM);
-			break;
-		case KEY_UP:
-			menu_driver(Menu, REQ_UP_ITEM);
-			break;
-		}
-		refresh();
-		wrefresh(BACKGROUND);
-		wrefresh(TITLE);
-		wrefresh(AREA_1);
-		wrefresh(AREA_2);
-		wrefresh(AREA_3);
-		wrefresh(AREA_4);
-		wrefresh(SLECT_W);
+			
+//---------------screen update----------------------			
+			
+	refresh();
+	wrefresh(BACKGROUND);
+	wrefresh(TITLE);
+	wrefresh(AREA_1);
+	wrefresh(AREA_2);
+	wrefresh(AREA_3);
+	wrefresh(AREA_4);
+	wrefresh(Menu);	
+	sleep(100);	
 	}
 
 
