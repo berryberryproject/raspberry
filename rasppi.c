@@ -199,6 +199,9 @@ int main(int argc, char* argv[])
 			menu_driver(Menu, REQ_UP_ITEM);
 			break;
 		case 'q':
+			endwin();
+			fclose(DEBUG);
+			close_keyboard();
 			return 0;
 			break;	
 		}
@@ -212,7 +215,8 @@ int main(int argc, char* argv[])
 }
 
 
-	//----------------종료시-------------------------------------------------------
+//----------------종료시-------------------------------------------------------
+ 
 	endwin();
  	fclose(DEBUG);
  	close_keyboard();
