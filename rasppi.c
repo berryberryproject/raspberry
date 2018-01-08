@@ -33,7 +33,13 @@ int System_Command(char* Command_in , char Data_out[]);
 void Color_Setting(void);
 void Init_Program(void);
 //------------------------------------------------------------------------------
--------------------------------------------------------------------------------------------
+
+
+
+int main(int argc, char* argv[])
+{	
+Init_Program();
+//-------------------------------------------------------------------------------------------
 int BG_HEIGHT= LINES ;
 int BG_WIDTH = COLS ;
 int BG_POS_X = 0;
@@ -59,39 +65,53 @@ int AREA_4_WIDTH =(COLS*3)/4-3;
 int AREA_4_POS_X = (COLS -AREA_3_WIDTH)/2; 
 int AREA_4_POS_Y = LINES - AREA_4_HEIGHT -1; // 출력할 높이는 화면을 30으로 나눈 첫번째 영역에 출력
 
-------------------------------------------------------------------------------------------------
+int SLECT_HEIGHT = 10;
+int SLECT_WIDTH = (COLS)/4;
+int SLECT_POS_X = 1; 
+int SLECT_POS_Y = LINES - SLECT_HEIGHT - 1; 
+//------------------------------------------------------------------------------------------------
+
+char TITLE_STRING[MAX_ARR_SIZE]="PUT TITLE HERE";	
+char AREA_1_DATA[MAX_ARR_SIZE]="example";
 char Data_1[MAX_ARR_SIZE];
 char Data_2[MAX_ARR_SIZE];
 char Data_3[MAX_ARR_SIZE];
 char Data_4[MAX_ARR_SIZE];
------------------------------------------------------------------------------------------------------
-
-
-int main(int argc, char* argv[])
-{
+//-----------------------------------------------------------------------------------------------------	
+WINDOW* BG;	
+WINDOW* Title_Win;
+WINDOW* AREA_1;
+WINDOW* AREA_2;
+WINDOW* AREA_3;
+WINDOW* AREA_4;	
+WINDOW* SLECT_W;
 	
+//-----------------------------------------------------------------------------------------------------	
+AREA_1=create_newwin(AREA_1_HEIGHT,AREA_1_WIDTH,AREA_1_POS_Y,AREA_1_POS_X);
+AREA_2=create_newwin(AREA_2_HEIGHT,AREA_2_WIDTH,AREA_2_POS_Y,AREA_2_POS_X);	
+AREA_3=create_newwin(AREA_3_HEIGHT,AREA_3_WIDTH,AREA_3_POS_Y,AREA_3_POS_X);
+AREA_4=create_newwin(AREA_4_HEIGHT,AREA_4_WIDTH,AREA_4_POS_Y,AREA_4_POS_X);
+SLECT_W = create_newwin(SLECT_HEIGHT,SLECT_WIDTH,SLECT_POS_Y,SLECT_POS_X);
 	
-Init_Program();
-	
-//-------------------------------PRESS F1 TO QUIT--------------------------------------------
+//-------------------------------가장상단-영역-------------------------------------------
 	
 //attron(COLOR_PAIR(PAIR_RED_BLUE));
-printw("Press F1 to Quit");
+printw("Press Q to Quit");
 bkgd(COLOR_PAIR(PAIR_RED_YELLOW));
 refresh();
 //attroff(COLOR_PAIR(PAIR_RED_BLUE));
 		
 //-------------------------------배경 설정----------------------------------------------------
 
-WINDOW* BG;
+
 BG=create_newwin(BG_HEIGHT,BG_WIDTH,BG_POS_Y,BG_POS_X);
 wbkgd(BG,COLOR_PAIR(PAIR_WHITE_BLUE));  //배경색갈 지정 PAIR_(**)를 위에 #define 보면서 변경가능
 wrefresh(BG);
 
 //--------------------------------------제목 표시줄 영역------------------------------------------
 
-char TITLE_STRING[100]="PUT TITLE HERE"; //출력문자열
-WINDOW* Title_Win;
+
+
 
 Title_Win=create_newwin(TITLE_HEIGHT,TITLE_WIDTH,TITLE_POS_Y,TITLE_POS_X);
 wbkgd(Title_Win,COLOR_PAIR(PAIR_WHITE_BLACK));
@@ -105,11 +125,8 @@ wrefresh(Title_Win);
 //------------------------------------영역 1---------------------------------------------------------
 
 
-
-WINDOW* AREA_1;
-AREA_1=create_newwin(AREA_1_HEIGHT,AREA_1_WIDTH,AREA_1_POS_Y,AREA_1_POS_X);
 wbkgd(AREA_1,COLOR_PAIR(PAIR_WHITE_BLACK));
-mvwprintw(AREA_1,0,0,"RASPBERRY PI PROJECT AREA1 HERE");
+mvwprintw(AREA_1,0,0,AREA_1_DATA);
 wrefresh(AREA_1);
 
 
@@ -117,8 +134,8 @@ wrefresh(AREA_1);
 
 
 
-WINDOW* AREA_2;
-AREA_2=create_newwin(AREA_2_HEIGHT,AREA_2_WIDTH,AREA_2_POS_Y,AREA_2_POS_X);
+
+
 wbkgd(AREA_2,COLOR_PAIR(PAIR_WHITE_BLACK));
 System_Command("ls /etc",Data_2);
 mvwprintw(AREA_2,0,0,Data_2);
@@ -126,10 +143,6 @@ wrefresh(AREA_2);
 
 //------------------------------------영역 3-------------------------------------------------------
 
-
-memset(Data_3,0,sizeof(Data_3));
-WINDOW* AREA_3;
-AREA_3=create_newwin(AREA_3_HEIGHT,AREA_3_WIDTH,AREA_3_POS_Y,AREA_3_POS_X);
 wbkgd(AREA_3,COLOR_PAIR(PAIR_WHITE_BLACK));
 System_Command("df -h",Data_3);
 mvwprintw(AREA_3,0,0,Data_3);
@@ -138,13 +151,9 @@ wrefresh(AREA_3);
 
 //------------------------------------영역 4-------------------------------------------------------
 
-WINDOW* AREA_4;
-AREA_4=create_newwin(AREA_4_HEIGHT,AREA_4_WIDTH,AREA_4_POS_Y,AREA_4_POS_X);
 wbkgd(AREA_4,COLOR_PAIR(PAIR_WHITE_BLACK));
 System_Command("du -h",Data_4);
 mvwprintw(AREA_4,0,0,Data_4);
-
-
 wrefresh(AREA_4);
 
 
@@ -177,16 +186,6 @@ TABLE = (ITEM **)calloc(n_choices + 1, sizeof(ITEM *));
 
 
 //-------------------------------------------------------------------------------
-
-
-int SLECT_HEIGHT = 10;
-int SLECT_WIDTH = (COLS)/4;
-int SLECT_POS_X = 1; 
-int SLECT_POS_Y = LINES - SLECT_HEIGHT - 1; 
-
-WINDOW* SLECT_W;
-
-SLECT_W = create_newwin(SLECT_HEIGHT,SLECT_WIDTH,SLECT_POS_Y,SLECT_POS_X);
 keypad(SLECT_W, TRUE);
 wbkgd(SLECT_W,COLOR_PAIR(PAIR_BLACK_WHITE));
 
