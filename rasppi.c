@@ -395,7 +395,7 @@ MENU *Menu_o;
 int n_choices, i;
 ITEM *Current_Slected;
 //아이템 생성----------
-n_choices = sizeof(choices)/sizeof(choices)[0];
+n_choices = sizeof(choices)/sizeof(choices[0]);
 TABLE = (ITEM **)calloc(n_choices + 1, sizeof(ITEM *));
 	for(i = 0; i < n_choices; ++i)
 	        TABLE[i] = new_item(choices[i], choices[i]);
