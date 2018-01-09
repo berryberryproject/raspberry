@@ -49,7 +49,8 @@ int Key_IN;
 FILE* DEBUG;
 static struct termios initial_settings, new_settings;
 static int peek_character = -1;
- 
+struct timespec ts;
+int time_before=0;
 
 int main(int argc, char* argv[])
 {	DEBUG=fopen("Debug_Result.txt","w");
@@ -154,12 +155,17 @@ int main(int argc, char* argv[])
  
  while(1)
 {
+	 
+	 timespec_get(&ts, TIME_UTC);
 	//usleep(1000); //100000us
 //---------------------------------------------------------------------------------------------------------------
+if(time_before != (int)ts.tv_sec)
+{	time_before=(int)ts.tv_sec;
 	System_Command("netstat -an", AREA_3_DATA);
 	System_Command("ps -ef", AREA_2_DATA);
 	System_Command("date",AREA_1_DATA);
 	System_Command("df -h",AREA_4_DATA);
+}	
 //--------------------print data-----------------------------------------------------------------------------------------		
 	
 	mvwprintw(TITLE, 1, (TITLE_WIDTH - strlen(AREA_TITLE_DATA)) / 2, "%s", AREA_TITLE_DATA);
@@ -389,7 +395,7 @@ void Init_Program(void)
 	Color_Setting();
 	halfdelay(1);
 	//cbreak();
-	
+	memset(&ts,0,sizeof(ts));	
 }
 
 MENU* create_newslectwin(WINDOW* SLECT_W, char** choices, int SLECT_WIDTH, int SLECT_HEIGHT, int y, int x, char SLECT_DATA[])
@@ -415,7 +421,7 @@ MENU* create_newslectwin(WINDOW* SLECT_W, char** choices, int SLECT_WIDTH, int S
 	//mvwaddch(SLECT_W, 2, 0, ACS_LTEE);
 	//mvwhline(SLECT_W, 2, 1, ACS_HLINE, 38);
 	//mvwaddch(SLECT_W, 2, 39, ACS_RTEE);
-	refresh();
+	//refresh();
 	//wattroff(SLECT_W, COLOR_PAIR(PAIR_RED_BLUE));
 	post_menu(Menu);
 	//refresh();
