@@ -165,7 +165,7 @@ if(time_before != (int)ts.tv_sec)
 	System_Command("ps -ef", AREA_2_DATA);
 	System_Command("date",AREA_1_DATA);
 	System_Command("df -h",AREA_4_DATA);
-}	
+	
 //--------------------print data-----------------------------------------------------------------------------------------		
 	
 	mvwprintw(TITLE, 1, (TITLE_WIDTH - strlen(AREA_TITLE_DATA)) / 2, "%s", AREA_TITLE_DATA);
@@ -184,7 +184,7 @@ if(time_before != (int)ts.tv_sec)
 	wrefresh(AREA_3);
 	wrefresh(AREA_4);
 	wrefresh(SLECT_W);
-	
+}	
 	
 //--------------------input ---------------------------------------------------------------------------	
 
