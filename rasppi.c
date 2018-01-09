@@ -158,9 +158,12 @@ int main(int argc, char* argv[])
 	 
 	 timespec_get(&ts, TIME_UTC);
 	//usleep(1000); //100000us
-//---------------------------------------------------------------------------------------------------------------
+
 if(time_before != (int)ts.tv_sec)
 {	time_before=(int)ts.tv_sec;
+ 	fputc('t', DEBUG);
+//--------------------------------------------------------------------------------------------------------------- 
+ 
 	System_Command("netstat -an", AREA_3_DATA);
 	System_Command("ps -ef", AREA_2_DATA);
 	System_Command("date",AREA_1_DATA);
