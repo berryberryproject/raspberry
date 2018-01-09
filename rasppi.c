@@ -194,9 +194,9 @@ if(time_before != (int)ts.tv_sec)
 	if( kbhit() ) 
 	{	
 		Key_IN = getch();
-		fputc(KEY_DOWN, DEBUG);
-		fputc(',',DEBUG);
-		fputc(Key_IN, DEBUG);
+		//fputc(KEY_DOWN, DEBUG);
+		//fputc(',',DEBUG);
+		//fputc(Key_IN, DEBUG);
 
 		switch (Key_IN)
 		{
