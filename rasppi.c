@@ -156,10 +156,10 @@ int main(int argc, char* argv[])
 {
 	//usleep(1000); //100000us
 //---------------------------------------------------------------------------------------------------------------
-	System_Command("uname", AREA_3_DATA);
-	System_Command("uname", AREA_2_DATA);
+	System_Command("netstat -an", AREA_3_DATA);
+	System_Command("ps -ef", AREA_2_DATA);
 	System_Command("date",AREA_1_DATA);
-	System_Command("uname",AREA_4_DATA);
+	System_Command("df -h",AREA_4_DATA);
 //--------------------print data-----------------------------------------------------------------------------------------		
 	
 	mvwprintw(TITLE, 1, (TITLE_WIDTH - strlen(AREA_TITLE_DATA)) / 2, "%s", AREA_TITLE_DATA);
