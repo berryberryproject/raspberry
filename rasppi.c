@@ -139,14 +139,22 @@ int main(int argc, char* argv[])
 	keypad(AREA_3, TRUE);
 	keypad(AREA_4, TRUE);
 
+	//------------------------------------------------------------------------------------------------
+	nodelay(SLECT_W,1);
+	nodelay(stdscr,1);
+	nodelay(AREA_1,1);
+	nodelay(AREA_2,1);
+	nodelay(AREA_3,1);
+	nodelay(AREA_4,1);
+	nodelay(BACKGROUND,1);
+	nodelay(TITLE,1);
+	
 	//----------------------------------선택 메뉴 -영역4---------------------------------------------------------
 	MENU* Menu = create_newslectwin(SLECT_W, MENU1, SLECT_WIDTH, SLECT_HEIGHT, 2, 0, SLECT_DATA);
 	printw(AREA_UPTOP_DATA);
 	//---------------------------------------------------------------------------------------------------
 	
 
-	
-	
 
 	
 //-----------------------------------------------process starts here--------------------------------------------------	
@@ -396,8 +404,9 @@ void Init_Program(void)
 	refresh(); //반드시 해야함 LINES, COLS을 업데이트 함
 	start_color();// 색갈을 사용함
 	Color_Setting();
-	halfdelay(1);
+	//halfdelay(1);
 	//cbreak();
+	//nobreak();
 	memset(&ts,0,sizeof(ts));
 	DEBUG=fopen("Debug_Result.txt","w");
 }
