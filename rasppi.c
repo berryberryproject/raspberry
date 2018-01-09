@@ -168,7 +168,14 @@ if(time_before != (int)ts.tv_sec)
 	System_Command("ps -ef", AREA_2_DATA);
 	System_Command("date",AREA_1_DATA);
 	System_Command("df -h",AREA_4_DATA);
-	
+//---------------------delete screen--------------------------------------------------------------------	
+ 
+ 	werase(TITLE);
+ 	werase(AREA_1);
+ 	werase(AREA_2);
+ 	werase(AREA_3);
+ 	werase(AREA_4);
+ 
 //--------------------print data-----------------------------------------------------------------------------------------		
 	
 	mvwprintw(TITLE, 1, (TITLE_WIDTH - strlen(AREA_TITLE_DATA)) / 2, "%s", AREA_TITLE_DATA);
