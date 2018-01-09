@@ -409,17 +409,17 @@ MENU* create_newslectwin(WINDOW* SLECT_W, char** choices, int SLECT_WIDTH, int S
 	set_menu_win(Menu, SLECT_W);
 	set_menu_sub(Menu, derwin(SLECT_W, n_choices, SLECT_WIDTH, y, x)); //(상자크기(y,x 위치 y,x)
 	set_menu_mark(Menu, ">");
-	wattron(SLECT_W, COLOR_PAIR(PAIR_RED_BLUE));
+	//wattron(SLECT_W, COLOR_PAIR(PAIR_RED_BLUE));
 	//box(SLECT_W, 0, 0);
 	mvwprintw(SLECT_W, 1, (SLECT_WIDTH - strlen(SLECT_DATA)) / 2, SLECT_DATA);
 	//mvwaddch(SLECT_W, 2, 0, ACS_LTEE);
 	//mvwhline(SLECT_W, 2, 1, ACS_HLINE, 38);
 	//mvwaddch(SLECT_W, 2, 39, ACS_RTEE);
 	refresh();
-	wattroff(SLECT_W, COLOR_PAIR(PAIR_RED_BLUE));
+	//wattroff(SLECT_W, COLOR_PAIR(PAIR_RED_BLUE));
 	post_menu(Menu);
-	refresh();
-	wrefresh(SLECT_W);
+	//refresh();
+	//wrefresh(SLECT_W);
 	return Menu;
 
 }
