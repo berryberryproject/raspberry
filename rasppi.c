@@ -206,9 +206,10 @@ if(time_before != (int)ts.tv_sec)
 	
 //--------------------input ---------------------------------------------------------------------------	
 
-	if( kbhit() ) 
-	{	
-		Key_IN = getch();
+	//if( kbhit() ) 
+	//{	
+		Key_IN = wgetch(SLECT_W);
+		//Key_IN = getch();
 		//fputc(KEY_DOWN, DEBUG);
 		//fputc(',',DEBUG);
 		//fputc(Key_IN, DEBUG);
@@ -227,7 +228,7 @@ if(time_before != (int)ts.tv_sec)
 			return 0;
 			break;	
 		}
-	}	
+	//}	
 	
 	
 	
