@@ -53,7 +53,7 @@ struct timespec ts;
 int time_before=0;
 
 int main(int argc, char* argv[])
-{	DEBUG=fopen("Debug_Result.txt","w");
+{	
 	Init_Program();
 	//-------------------------------------------------------------------------------------------
 	int BACKGROUND_HEIGHT = LINES;
@@ -93,7 +93,7 @@ int main(int argc, char* argv[])
 	char AREA_4_DATA[MAX_ARR_SIZE];
 	char SLECT_DATA[MAX_ARR_SIZE] = "SELECT OPTION";
 	//--------------------------------Slection Menu----------선택메뉴만--------------------------------------
-	char *choices[] = {
+	char *MENU1[] = {
 		"Sytem Status           ",
 		"Choise 2               ",
 		"Choice 3               ",
@@ -140,7 +140,7 @@ int main(int argc, char* argv[])
 	keypad(AREA_4, TRUE);
 
 	//----------------------------------선택 메뉴 -영역4---------------------------------------------------------
-	MENU* Menu = create_newslectwin(SLECT_W, choices, SLECT_WIDTH, SLECT_HEIGHT, 2, 0, SLECT_DATA);
+	MENU* Menu = create_newslectwin(SLECT_W, MENU1, SLECT_WIDTH, SLECT_HEIGHT, 2, 0, SLECT_DATA);
 	printw(AREA_UPTOP_DATA);
 	//---------------------------------------------------------------------------------------------------
 	
@@ -156,8 +156,8 @@ int main(int argc, char* argv[])
  while(1)
 {
 	 
-	 timespec_get(&ts, TIME_UTC);
-	//usleep(1000); //100000us
+timespec_get(&ts, TIME_UTC);
+//usleep(1000); //100000us
 
 if(time_before != (int)ts.tv_sec)
 {	time_before=(int)ts.tv_sec;
@@ -398,7 +398,8 @@ void Init_Program(void)
 	Color_Setting();
 	halfdelay(1);
 	//cbreak();
-	memset(&ts,0,sizeof(ts));	
+	memset(&ts,0,sizeof(ts));
+	DEBUG=fopen("Debug_Result.txt","w");
 }
 
 MENU* create_newslectwin(WINDOW* SLECT_W, char** choices, int SLECT_WIDTH, int SLECT_HEIGHT, int y, int x, char SLECT_DATA[])
