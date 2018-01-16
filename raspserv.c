@@ -81,7 +81,7 @@ while(1)
 {       
         data_fd=open("serv_out",O_RDONLY);
         clnt_fd=accept(serv_fd,(struct sockaddr*)&clnt_addr,&len);
-
+        int readn=0;
         if(clnt_fd <0)
         {
         printf("RASPBERRY ACCEPT() FAILED \n");
@@ -94,9 +94,9 @@ while(1)
 
         inet_ntop(AF_INET,&clnt_addr.sin_addr.s_addr,clnt_ip_addr,sizeof(clnt_ip_addr));
         printf("SERVER: %s client connected \n",clnt_ip_addr);
-        while(read(data_fd,data,MAX_BUFFER_SIZE-1))
+        while(readn=read(data_fd,data,MAX_BUFFER_SIZE-1))
         {
-        write(clnt_fd,data,sizeof(data));
+        write(clnt_fd,data,readn);
         }
         close(clnt_fd);
         printf("SERVER: Connection Sucessfully Closed\n");
