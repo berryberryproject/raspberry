@@ -79,7 +79,7 @@ int len=sizeof(clnt_addr);
 
 while(1)
 {       
-        data_fd=open("rasp.html",O_RDONLY);
+        data_fd=open("serv_out",O_RDONLY);
         clnt_fd=accept(serv_fd,(struct sockaddr*)&clnt_addr,&len);
 
         if(clnt_fd <0)
@@ -96,7 +96,7 @@ while(1)
         printf("SERVER: %s client connected \n",clnt_ip_addr);
         while(read(data_fd,data,MAX_BUFFER_SIZE-1))
         {
-        write(clnt_fd,data,strlen(data));
+        write(clnt_fd,data,sizeof(data));
         }
         close(clnt_fd);
         printf("SERVER: Connection Sucessfully Closed\n");
