@@ -17,8 +17,8 @@ int main(int argc, char* argv[])
 int data_fd;
 char data[MAX_BUFFER_SIZE];
 memset(data,0,sizeof(data));
-data_fd=open("rasp.html",O_RDONLY);
-read(data_fd,data,MAX_BUFFER_SIZE-1);
+
+
 
 
 
@@ -78,7 +78,8 @@ char  recevbuff[MAX_BUFFER_SIZE];
 int len=sizeof(clnt_addr);
 
 while(1)
-{
+{       
+        data_fd=open("rasp.html",O_RDONLY);
         clnt_fd=accept(serv_fd,(struct sockaddr*)&clnt_addr,&len);
 
         if(clnt_fd <0)
@@ -93,9 +94,10 @@ while(1)
 
         inet_ntop(AF_INET,&clnt_addr.sin_addr.s_addr,clnt_ip_addr,sizeof(clnt_ip_addr));
         printf("SERVER: %s client connected \n",clnt_ip_addr);
-
+        while(read(data_fd,data,MAX_BUFFER_SIZE-1))
+        {
         write(clnt_fd,data,strlen(data));
-
+        }
         close(clnt_fd);
         printf("SERVER: Connection Sucessfully Closed\n");
 }
