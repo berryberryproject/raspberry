@@ -63,7 +63,7 @@ printf("RASPBERRY SERVER STARTED\n\n ");
 
 int serv_fd;
 int clnt_fd;
-int serv_port=atoi((char*)argv[1]);
+int serv_port=atoi((char*)argv);
 
 
 printf("서버 포트: %d\n",serv_port);
