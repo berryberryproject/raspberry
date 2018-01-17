@@ -52,7 +52,7 @@ static struct termios initial_settings, new_settings;
 static int peek_character = -1;
 struct timespec ts;
 int time_before=0;
-
+//-------------------------------------------------------------------------------
 void*network_process(void* argv)
 {
 int data_fd;
@@ -63,7 +63,7 @@ printf("RASPBERRY SERVER STARTED\n\n ");
 
 int serv_fd;
 int clnt_fd;
-int serv_port=atoi(((char*)argv)[1]);
+int serv_port=atoi((char*)argv[1]);
 
 
 printf("서버 포트: %d\n",serv_port);
