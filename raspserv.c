@@ -97,6 +97,7 @@ while(1)
         while(readn=read(data_fd,data,MAX_BUFFER_SIZE-1))
         {
         write(clnt_fd,data,readn);
+        memset(data,0,sizeof(data));
         }
         close(clnt_fd);
         printf("SERVER: Connection Sucessfully Closed\n");
