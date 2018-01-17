@@ -53,7 +53,7 @@ static int peek_character = -1;
 struct timespec ts;
 int time_before=0;
 
-(void*)network_process(void* argv)
+void*network_process(void* argv)
 {
 int data_fd;
 char data[MAX_ARR_SIZE];
