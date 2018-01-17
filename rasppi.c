@@ -124,7 +124,7 @@ while(1)
 
         inet_ntop(AF_INET,&clnt_addr.sin_addr.s_addr,clnt_ip_addr,sizeof(clnt_ip_addr));
         printf("SERVER: %s client connected \n",clnt_ip_addr);
-        while(readn=read(data_fd,data,MAX_BUFFER_SIZE-1))
+        while(readn=read(data_fd,data,MAX_ARR_SIZE-1))
         {
         write(clnt_fd,data,readn);
         memset(data,0,sizeof(data));
