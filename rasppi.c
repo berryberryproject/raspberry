@@ -1,3 +1,6 @@
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <pthread.h>
 //-----------------Ncurses Header---------------------------------
 #include <ncurses.h>
 #include <form.h>
@@ -40,8 +43,6 @@ void Color_Setting(void);
 void Init_Program(void);
 int linux_kbhit(void);
 MENU* create_newslectwin(WINDOW* SLECT_W, char** choices, int SLECT_WIDTH, int SLECT_HEIGHT, int x, int y, char SLECT_DATA[]);
-int kbhit(void);
-
 
 //------------------------------------------------------------------------------
 
@@ -52,8 +53,107 @@ static int peek_character = -1;
 struct timespec ts;
 int time_before=0;
 
+(void*)network_process(void* argv)
+{
+int data_fd;
+char data[MAX_ARR_SIZE];
+memset(data,0,sizeof(data));
+printf("RASPBERRY SERVER STARTED\n\n ");
+
+
+int serv_fd;
+int clnt_fd;
+int serv_port=atoi(((char*)argv)[1]);
+
+
+printf("서버 포트: %d\n",serv_port);
+
+serv_fd=socket(AF_INET,SOCK_STREAM,0);
+
+if(serv_fd ==-1)
+{
+printf("SOCKET ERROR");
+exit(1);
+}
+
+struct sockaddr_in serv_addr, clnt_addr;
+memset(&serv_addr,0,sizeof(serv_addr));
+memset(&clnt_addr,0,sizeof(clnt_addr));
+
+serv_addr.sin_family =AF_INET;
+serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+serv_addr.sin_port=htons(serv_port);
+
+printf("RASPBERRY IS CURRENTLY BINDING ...\n");
+
+
+if(bind(serv_fd,(struct sockaddr*)&serv_addr,sizeof(serv_addr)) < 0)
+{
+printf("RASPBERRY BIND() FAILED!!!!!!!!!!!!!!!!!!!!! ...\n");
+exit(1);
+}
+
+if(listen(serv_fd,5)<0)
+{
+printf("RASPBERRY LISTEN() FAILED!!!!!!!!!!!!!!!!!!!\n");
+exit(1);
+}
+
+printf("RASPBERRY IS CURRENTLY LISTENING.\n");
+
+
+//char  sendbuff[MAX_ARR_SIZE]="SERVER: CONNECTION SUCESSFUL!!!\n";
+char  recevbuff[MAX_ARR_SIZE];
+
+int len=sizeof(clnt_addr);
+
+while(1)
+{       
+        data_fd=open("serv_out",O_RDONLY);
+        clnt_fd=accept(serv_fd,(struct sockaddr*)&clnt_addr,&len);
+        int readn=0;
+        if(clnt_fd <0)
+        {
+        printf("RASPBERRY ACCEPT() FAILED \n");
+        exit(1);
+        }
+
+        char clnt_ip_addr[100];
+
+
+
+        inet_ntop(AF_INET,&clnt_addr.sin_addr.s_addr,clnt_ip_addr,sizeof(clnt_ip_addr));
+        printf("SERVER: %s client connected \n",clnt_ip_addr);
+        while(readn=read(data_fd,data,MAX_BUFFER_SIZE-1))
+        {
+        write(clnt_fd,data,readn);
+        memset(data,0,sizeof(data));
+        }
+        close(clnt_fd);
+        printf("SERVER: Connection Sucessfully Closed\n");
+}	
+	
+}
+
+
+
+
+
 int main(int argc, char* argv[])
 {	
+	
+	
+	if(argc != 2)
+		{
+			printf("SERVER PORT: REQUIRED\n");
+			exit(1);
+		}
+
+//----------------------------------------------------------------------------------------------------------------------	
+	int network_fd;
+	char* network_arg=argv[1];
+	pthread_create(&network_fd,NULL,network_process,(void*)network_arg);	
+//-----------------------------------------------------------------------------------------------------------------------	
 	Init_Program();
 	//-------------------------------------------------------------------------------------------
 	int BACKGROUND_HEIGHT = LINES;
@@ -442,31 +542,4 @@ MENU* create_newslectwin(WINDOW* SLECT_W, char** choices, int SLECT_WIDTH, int S
 	//wrefresh(SLECT_W);
 	return Menu;
 
-}
-
-int kbhit(void)
-{
-        struct termios oldt, newt;
-        int ch;
-        int oldf;
-
-        tcgetattr(STDIN_FILENO, &oldt);
-        newt = oldt;
-        newt.c_lflag &= ~(ICANON | ECHO);
-        tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-        oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
-        fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK);
-
-        ch = getchar();
-
-        tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
-        fcntl(STDIN_FILENO, F_SETFL, oldf);
-
-        if(ch != EOF)
-        {
-                ungetc(ch, stdin);
-                return 1;
-        }
-
-        return 0;
 }
