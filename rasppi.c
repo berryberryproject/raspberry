@@ -13,6 +13,7 @@
 #include <sys/select.h>
 #include <fcntl.h>
 #include <time.h>
+#incldue <msg.h>
 
 // -----------------NETWORK HEADDER-------------------------------
 #include <arpa/inet.h>
@@ -22,7 +23,7 @@
 
 
 pthread_mutex_t  mutex = PTHREAD_MUTEX_INITIALIZER;
-#define SHARED_KEY 9988
+#define SHARED_KEY_VAL 9988
 #define SHARED_DATA_NUM	6
 //-----------------------------------------------------------------
 #define MAX_ARR_SIZE 2000
@@ -64,7 +65,7 @@ char DATA6[MAX_ARR_SIZE_S];
 }SHARED_DATA;
 
 //------------------------------------------------------------------------------
-int SHARED_KEY;
+int SHARED_KEY=SHARED_KEY_VAL;
 SHARED_DATA shared_data;
 int Key_IN;
 FILE* DEBUG;
@@ -214,7 +215,7 @@ int main(int argc, char* argv[])
 
 	
 //----------------------------------------------------------------------------------------------------------------------	
-	memset(shared_data,0x00,sizeof(shared_data));
+	memset(&shared_data,0x00,sizeof(shared_data));
 	pthread_t network_fd;
 	char* network_arg=argv[1];
 	pthread_create(&network_fd,NULL,network_process,(void*)network_arg);	
