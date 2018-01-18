@@ -19,7 +19,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <sys/socket.h>
-
+#include <sys/ipc.h>
 
 
 pthread_mutex_t  mutex = PTHREAD_MUTEX_INITIALIZER;
