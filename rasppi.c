@@ -259,32 +259,37 @@ int main(int argc, char* argv[])
 	int BACKGROUND_WIDTH = COLS;
 	int BACKGROUND_POS_X = 0;
 	int BACKGROUND_POS_Y = 1;
+	int CLOCK_HEIGHT = 1;
+	int CLOCK_WIDTH = (COLS*1)/4;
+	int CLOCK_POS_X = 0;
+	int CLOCK_POS_Y = (TITLE_POS_Y)+TITLE_HEIGHT;
 	int TITLE_HEIGHT = 2;
 	int TITLE_WIDTH = COLS;
 	int TITLE_POS_X = 0;
 	int TITLE_POS_Y = 1;
-	int AREA_1_HEIGHT = 30;
+	int AREA_1_HEIGHT = LINES/4;
 	int AREA_1_WIDTH = (COLS * 1) / 4;
 	int AREA_1_POS_X = 1;
 	int AREA_1_POS_Y = 7 * (LINES / 30);
-	int AREA_2_HEIGHT = 30;
+	int AREA_2_HEIGHT = LINES/4;
 	int AREA_2_WIDTH = (COLS * 1) / 4;
 	int AREA_2_POS_X = (COLS - AREA_2_WIDTH - 1); //제 목은 중간 에 출력
 	int AREA_2_POS_Y = 7 * (LINES / 30); // 출력할 높이는 화면을 30으로 나눈 첫번째 영역에 출력
-	int AREA_3_HEIGHT = 30;
+	int AREA_3_HEIGHT = LINES/4;
 	int AREA_3_WIDTH = (COLS - AREA_2_WIDTH - AREA_1_WIDTH) - 4;
 	int AREA_3_POS_X = (COLS - AREA_3_WIDTH) / 2; //제 목은 중간 에 출력
 	int AREA_3_POS_Y = 7 * (LINES / 30); // 출력할 높이는 화면을 30으로 나눈 첫번째 영역에 출력
-	int AREA_4_HEIGHT = 10;
+	int AREA_4_HEIGHT = LINES/5;
 	int AREA_4_WIDTH = (COLS * 3) / 4 - 3;
 	int AREA_4_POS_X = (COLS - AREA_3_WIDTH) / 2;
 	int AREA_4_POS_Y = LINES - AREA_4_HEIGHT - 1; // 출력할 높이는 화면을 30으로 나눈 첫번째 영역에 출력
-	int SLECT_HEIGHT = 10;
+	int SLECT_HEIGHT = LINES/5;
 	int SLECT_WIDTH = (COLS) / 4;
 	int SLECT_POS_X = 1;
 	int SLECT_POS_Y = LINES - SLECT_HEIGHT - 1;
 	//-----------------------------------------------------------------------------------------------
 	char AREA_UPTOP_DATA[MAX_ARR_SIZE] = "Press Q to Quit";
+	char AREA_CLOCK_DATA[MAX_ARR_SIZE];
 	char AREA_TITLE_DATA[MAX_ARR_SIZE] = "->>>  Raspberry Pi Surveillance Camera ->>>>  Administrator Page";
 	char AREA_1_DATA[MAX_ARR_SIZE] = "example";
 	char AREA_2_DATA[MAX_ARR_SIZE];
@@ -310,10 +315,12 @@ int main(int argc, char* argv[])
 	WINDOW* AREA_3;
 	WINDOW* AREA_4;
 	WINDOW* SLECT_W;
+	WINDOW* CLOCK;
 
 	//-----------------------------------------------------------------------------------------------------	
 	BACKGROUND = create_newwin(BACKGROUND_HEIGHT, BACKGROUND_WIDTH, BACKGROUND_POS_Y, BACKGROUND_POS_X);
 	TITLE = create_newwin(TITLE_HEIGHT, TITLE_WIDTH, TITLE_POS_Y, TITLE_POS_X);
+	CLOCK = create_newwin(CLOCK_HEIGHT, CLOCK_WIDTH, CLOCK_POS_Y, CLOCK_POS_X);
 	AREA_1 = create_newwin(AREA_1_HEIGHT, AREA_1_WIDTH, AREA_1_POS_Y, AREA_1_POS_X);
 	AREA_2 = create_newwin(AREA_2_HEIGHT, AREA_2_WIDTH, AREA_2_POS_Y, AREA_2_POS_X);
 	AREA_3 = create_newwin(AREA_3_HEIGHT, AREA_3_WIDTH, AREA_3_POS_Y, AREA_3_POS_X);
@@ -324,15 +331,18 @@ int main(int argc, char* argv[])
 	bkgd(COLOR_PAIR(PAIR_RED_YELLOW));
 	wbkgd(BACKGROUND, COLOR_PAIR(PAIR_WHITE_BLUE));  //배경색갈 지정 PAIR_(**)를 위에 #define 보면서 변경가능	
 	wbkgd(TITLE, COLOR_PAIR(PAIR_WHITE_BLACK));
+	wbkgd(CLOCK, COLOR_PAIR(PAIR_WHITE_BLACK));
 	wbkgd(AREA_1, COLOR_PAIR(PAIR_WHITE_BLACK));
 	wbkgd(AREA_2, COLOR_PAIR(PAIR_WHITE_BLACK));
 	wbkgd(AREA_3, COLOR_PAIR(PAIR_WHITE_BLACK));
 	wbkgd(AREA_4, COLOR_PAIR(PAIR_WHITE_BLACK));
 	wbkgd(SLECT_W, COLOR_PAIR(PAIR_BLACK_WHITE));
+	
 
 	//--------------------------------------------------------------------------
 	keypad(SLECT_W, TRUE);
 	keypad(TITLE, TRUE);
+	keypad(CLOCK,TRUE);
 	keypad(AREA_1, TRUE);
 	keypad(AREA_2, TRUE);
 	keypad(AREA_3, TRUE);
@@ -347,7 +357,7 @@ int main(int argc, char* argv[])
 	nodelay(AREA_4,1);
 	nodelay(BACKGROUND,1);
 	nodelay(TITLE,1);
-	
+	nodelay(CLOCK,1);
 	//----------------------------------선택 메뉴 -영역4---------------------------------------------------------
 	MENU* Menu = create_newslectwin(SLECT_W, MENU1, SLECT_WIDTH, SLECT_HEIGHT, 2, 0, SLECT_DATA);
 	printw(AREA_UPTOP_DATA);
@@ -374,6 +384,7 @@ if(time_before != (int)ts.tv_sec)
 	System_Command("netstat -an", AREA_3_DATA);
 	//System_Command("ps -ef", AREA_2_DATA);
 	System_Command("date",AREA_1_DATA);
+ 	Ststem_Coomand("data",AREA_CLOCK_DATA);
 	//System_Command("df -h",AREA_4_DATA);
 //---------------------delete screen--------------------------------------------------------------------	
  
@@ -387,6 +398,7 @@ if(time_before != (int)ts.tv_sec)
 	
 	mvwprintw(TITLE, 1, (TITLE_WIDTH - strlen(AREA_TITLE_DATA)) / 2, "%s", AREA_TITLE_DATA);
 	mvwprintw(AREA_1, 0, 0, AREA_1_DATA);
+ 	mvwprintw(CLOCK,0,0,AREA_CLOCK_DATA);
 	//mvwprintw(AREA_2, 0, 0, AREA_2_DATA);
  	msgrcv(SHARED_KEY,&network_data,sizeof(network_data)-sizeof(long),1,IPC_NOWAIT);
 	mvwprintw(AREA_2,0,0,network_data.DATA1);
@@ -404,6 +416,7 @@ if(time_before != (int)ts.tv_sec)
 	refresh();
 	wrefresh(BACKGROUND);
 	wrefresh(TITLE);
+ 	wrefresh(CLOCK);
 	wrefresh(AREA_1);
 	wrefresh(AREA_2);
 	wrefresh(AREA_3);
