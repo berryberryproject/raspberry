@@ -196,7 +196,9 @@ while(1)
 	pthread_mutex_lock(&mutex);
 	if((data_pt % SHARED_DATA_NUM)==0)
 	{
-	memset(&shared_data,0,sizeof(shared_data));	
+	long temp = shared_data.SHARED_DATA_TYPE;	
+	memset(&shared_data,0,sizeof(shared_data));
+	shared_data.SHARED_DATA_TYPE=temp;	
 	}
 	sprintf(data_temp,"SERVER: %s client connected \n",clnt_ip_addr);
         //printf("SERVER: %s client connected \n",clnt_ip_addr);
@@ -214,7 +216,9 @@ while(1)
 	pthread_mutex_lock(&mutex);
 	if((data_pt % SHARED_DATA_NUM)==0)
 	{
-	memset(&shared_data,0,sizeof(shared_data));	
+	long temp = shared_data.SHARED_DATA_TYPE;	
+	memset(&shared_data,0,sizeof(shared_data));
+	shared_data.SHARED_DATA_TYPE=temp;
 	}
         //printf("SERVER: Connection Sucessfully Closed\n");
 	strcpy(locate_shared_data(&shared_data,( (data_pt++) %SHARED_DATA_NUM)+1),"SERVER: Connection Sucessfully Closed\n");
