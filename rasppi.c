@@ -180,7 +180,12 @@ int len=sizeof(clnt_addr);
 
 while(1)
 {       
-        data_fd=open("serv_out",O_RDONLY);
+        data_fd=open("serv_in",O_RDONLY);
+	if(data_fd ==-1)
+	{
+	printf("Please ADD serv_in file in our directory\n");
+	exit(1);
+	}
         clnt_fd=accept(serv_fd,(struct sockaddr*)&clnt_addr,&len);
         int readn=0;
         if(clnt_fd <0)
