@@ -24,7 +24,7 @@
 
 pthread_mutex_t  mutex = PTHREAD_MUTEX_INITIALIZER;
 #define SHARED_KEY_VAL 9988
-#define SHARED_DATA_NUM	6
+#define SHARED_DATA_NUM	9
 //-----------------------------------------------------------------
 #define MAX_ARR_SIZE 2000
 #define MAX_ARR_SIZE_S	200
@@ -56,6 +56,9 @@ char DATA3[MAX_ARR_SIZE_S];
 char DATA4[MAX_ARR_SIZE_S];
 char DATA5[MAX_ARR_SIZE_S];
 char DATA6[MAX_ARR_SIZE_S];
+char DATA7[MAX_ARR_SIZE_S];
+char DATA8[MAX_ARR_SIZE_S];
+char DATA9[MAX_ARR_SIZE_S];	
 }SHARED_DATA;
 
 //필요한 함수선언-------------------------------------------------------------
@@ -191,6 +194,10 @@ while(1)
 
         inet_ntop(AF_INET,&clnt_addr.sin_addr.s_addr,clnt_ip_addr,sizeof(clnt_ip_addr));
 	pthread_mutex_lock(&mutex);
+	if((data_pt % SHARED_DATA_NUM)==0)
+	{
+	memset(&shared_data,0,sizeof(shared_data));	
+	}
 	sprintf(data_temp,"SERVER: %s client connected \n",clnt_ip_addr);
         //printf("SERVER: %s client connected \n",clnt_ip_addr);
         strcpy(locate_shared_data(&shared_data,( (data_pt++) %SHARED_DATA_NUM)+1),data_temp);
@@ -205,6 +212,10 @@ while(1)
         }
         close(clnt_fd);
 	pthread_mutex_lock(&mutex);
+	if((data_pt % SHARED_DATA_NUM)==0)
+	{
+	memset(&shared_data,0,sizeof(shared_data));	
+	}
         //printf("SERVER: Connection Sucessfully Closed\n");
 	strcpy(locate_shared_data(&shared_data,( (data_pt++) %SHARED_DATA_NUM)+1),"SERVER: Connection Sucessfully Closed\n");
 	msgsnd(SHARED_KEY,&shared_data,sizeof(shared_data)-sizeof(long),0);
@@ -451,7 +462,10 @@ if(time_before != (int)ts.tv_sec)
  	mvwprintw(AREA_2,2,0,network_data.DATA3);
  	mvwprintw(AREA_2,3,0,network_data.DATA4);
  	mvwprintw(AREA_2,4,0,network_data.DATA5);
- 	mvwprintw(AREA_2,3,0,network_data.DATA6);
+ 	mvwprintw(AREA_2,5,0,network_data.DATA6);
+ 	mvwprintw(AREA_2,6,0,network_data.DATA7);
+ 	mvwprintw(AREA_2,7,0,network_data.DATA8);
+ 	mvwprintw(AREA_2,8,0,network_data.DATA9);
  //--------------------------------------------------------------------------------------------------
  	mvwprintw(AREA_3, 0, 0, AREA_3_DATA);
 	mvwprintw(AREA_4, 0, 0, AREA_4_DATA);
@@ -740,6 +754,17 @@ else if(i==6)
 {
 return (char*)((*shared_data).DATA6);	
 }
-	
+else if(i==7)
+{
+return (char*)((*shared_data).DATA6);	
+}
+else if(i==8)
+{
+return (char*)((*shared_data).DATA6);	
+}
+else if(i==9)
+{
+return (char*)((*shared_data).DATA6);	
+}
 	
 }
