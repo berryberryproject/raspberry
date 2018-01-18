@@ -366,7 +366,7 @@ if(time_before != (int)ts.tv_sec)
 	mvwprintw(TITLE, 1, (TITLE_WIDTH - strlen(AREA_TITLE_DATA)) / 2, "%s", AREA_TITLE_DATA);
 	mvwprintw(AREA_1, 0, 0, AREA_1_DATA);
 	//mvwprintw(AREA_2, 0, 0, AREA_2_DATA);
- 	msgrcv(SHARED_DATA,&network_data,sizeof(network_data)-sizeof(long),1,0);
+ 	msgrcv(SHARED_KEY,&network_data,sizeof(network_data)-sizeof(long),1,0);
 	mvwprintw(AREA_2,0,0,network_data.DATA1);
  	mvwprintw(AREA_2,1,0,network_data.DATA2);
  	mvwprintw(AREA_2,2,0,network_data.DATA3);
