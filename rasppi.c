@@ -80,6 +80,17 @@ static int peek_character = -1;
 struct timespec ts;
 int time_before=0;
 //-------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
 void*network_process(void* argv)
 {
 key_t SHARED_KEY;
