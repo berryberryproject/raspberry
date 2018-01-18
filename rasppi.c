@@ -82,7 +82,7 @@ int time_before=0;
 //-------------------------------------------------------------------------------
 void*network_process(void* argv)
 {
-int SHARED_KEY;
+key_t SHARED_KEY;
 int data_fd;
 int data_pt=0;
 char data_temp[MAX_ARR_SIZE];
@@ -213,7 +213,7 @@ while(1)
 
 int main(int argc, char* argv[])
 {	
-	int SHARED_KEY=msgget((key_t)SHARED_KEY_VAL, O_CREAT|0666);
+	key_t SHARED_KEY=msgget((key_t)SHARED_KEY_VAL, O_CREAT|0666);
 	if(SHARED_KEY ==-1)
 	{
 	printf("failed to create SHARED_KEY\n");
