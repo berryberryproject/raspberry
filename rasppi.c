@@ -19,8 +19,14 @@
 #include <unistd.h>
 #include <sys/socket.h>
 
+
+
+pthread_mutex_t  mutex = PTHREAD_MUTEX_INITIALIZER;
+#define SHARED_KEY 9988
+#define SHARED_DATA_NUM	6
 //-----------------------------------------------------------------
 #define MAX_ARR_SIZE 2000
+#define MAX_ARR_SIZE_S	200
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 //----------------------색갈표------------------------------------
 //RAGNE 0~15까지만!!!!
@@ -42,10 +48,24 @@ int System_Command(char* Command_in, char Data_out[]);
 void Color_Setting(void);
 void Init_Program(void);
 int linux_kbhit(void);
+(char*)locate_shared_data(int i);
 MENU* create_newslectwin(WINDOW* SLECT_W, char** choices, int SLECT_WIDTH, int SLECT_HEIGHT, int x, int y, char SLECT_DATA[]);
 
-//------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------
+//DATA_TYPE=1 NETWORK 2=RASPPI/CAM
+typedef struct{
+long SHARED_DATA_TYPE;
+char DATA1[MAX_ARR_SIZE_S];
+char DATA2[MAX_ARR_SIZE_S];
+char DATA3[MAX_ARR_SIZE_S];
+char DATA4[MAX_ARR_SIZE_S];
+char DATA5[MAX_ARR_SIZE_S];
+char DATA6[MAX_ARR_SIZE_S];
+}SHARED_DATA;
 
+//------------------------------------------------------------------------------
+int SHARED_KEY;
+SHARED_DATA shared_data;
 int Key_IN;
 FILE* DEBUG;
 static struct termios initial_settings, new_settings;
@@ -56,18 +76,40 @@ int time_before=0;
 void*network_process(void* argv)
 {
 int data_fd;
+int data_pt=0;
+char data_temp[MAX_ARR_SIZE];
 char data[MAX_ARR_SIZE];
 memset(data,0,sizeof(data));
-printf("RASPBERRY SERVER STARTED\n\n ");
 
+	
+//shared msgget()------------------------------------------------------------
+SHARED_KEY=msgget( (key_t)SHARED_KEY, O_CREAT|0666);
+if(SHARED_KEY ==-1)
+{
+printf("failed to create SHARED_KEY\n");
+exit(1);
+}
+//printf("RASPBERRY SERVER STARTED\n\n ");
 
+pthread_mutex_lock(&mutex);
+	
+shared_data.SHARED_DATA_TYPE=1;
+strcpy(locate_shared_data(( (data_pt++) %SHARED_DATA_NUM)+1),"SERVER: RASPBERRY SERVER STARTED\n\n");
+msgsnd(SHARED_KEY,&shared_data,sizeof(shared_data)-sizeof(long),0);
+pthread_mutex_unlock(&mutex);
+	
+//----------------------------------------------------------------------------------------------------------------
 int serv_fd;
 int clnt_fd;
 int serv_port=atoi((char*)argv);
 
-
-printf("서버 포트: %d\n",serv_port);
-
+pthread_mutex_lock(&mutex);
+//printf("SERVER: 서버 포트: %d\n",serv_port);
+sprintf(data_temp,"SERVER: 서버 포트: %d\n",serv_port);
+strcpy(locate_shared_data(( (data_pt++) %SHARED_DATA_NUM)+1),data_temp);
+msgsnd(SHARED_KEY,&shared_data,sizeof(shared_data)-sizeof(long),0);
+pthread_mutex_unlock(&mutex);
+	
 serv_fd=socket(AF_INET,SOCK_STREAM,0);
 
 if(serv_fd ==-1)
@@ -84,9 +126,14 @@ serv_addr.sin_family =AF_INET;
 serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
 serv_addr.sin_port=htons(serv_port);
 
-printf("RASPBERRY IS CURRENTLY BINDING ...\n");
-
-
+	
+pthread_mutex_lock(&mutex);
+//printf("RASPBERRY IS CURRENTLY BINDING ...\n");
+strcpy(locate_shared_data(( (data_pt++) %SHARED_DATA_NUM)+1),"RASPBERRY IS CURRENTLY BINDING ...\n");
+msgsnd(SHARED_KEY,&shared_data,sizeof(shared_data)-sizeof(long),0);
+pthread_mutex_unlock(&mutex);
+	
+	
 if(bind(serv_fd,(struct sockaddr*)&serv_addr,sizeof(serv_addr)) < 0)
 {
 printf("RASPBERRY BIND() FAILED!!!!!!!!!!!!!!!!!!!!! ...\n");
@@ -99,8 +146,12 @@ printf("RASPBERRY LISTEN() FAILED!!!!!!!!!!!!!!!!!!!\n");
 exit(1);
 }
 
-printf("RASPBERRY IS CURRENTLY LISTENING.\n");
-
+	
+pthread_mutex_lock(&mutex);
+//printf("RASPBERRY IS CURRENTLY LISTENING.\n");
+strcpy(locate_shared_data(( (data_pt++) %SHARED_DATA_NUM)+1),"RASPBERRY IS CURRENTLY LISTENING.\n");
+msgsnd(SHARED_KEY,&shared_data,sizeof(shared_data)-sizeof(long),0);
+pthread_mutex_unlock(&mutex);
 
 //char  sendbuff[MAX_ARR_SIZE]="SERVER: CONNECTION SUCESSFUL!!!\n";
 char  recevbuff[MAX_ARR_SIZE];
@@ -123,14 +174,26 @@ while(1)
 
 
         inet_ntop(AF_INET,&clnt_addr.sin_addr.s_addr,clnt_ip_addr,sizeof(clnt_ip_addr));
-        printf("SERVER: %s client connected \n",clnt_ip_addr);
-        while(readn=read(data_fd,data,MAX_ARR_SIZE-1))
+	pthread_mutex_lock(&mutex);
+	sprintf(data_temp,"SERVER: %s client connected \n",clnt_ip_addr);
+        //printf("SERVER: %s client connected \n",clnt_ip_addr);
+        strcpy(locate_shared_data(( (data_pt++) %SHARED_DATA_NUM)+1),data_temp);
+	msgsnd(SHARED_KEY,&shared_data,sizeof(shared_data)-sizeof(long),0);
+	pthread_mutex_unlock(&mutex);
+
+	
+	while(readn=read(data_fd,data,MAX_ARR_SIZE-1))
         {
         write(clnt_fd,data,readn);
         memset(data,0,sizeof(data));
         }
         close(clnt_fd);
-        printf("SERVER: Connection Sucessfully Closed\n");
+	pthread_mutex_lock(&mutex);
+        //printf("SERVER: Connection Sucessfully Closed\n");
+	strcpy(locate_shared_data(( (data_pt++) %SHARED_DATA_NUM)+1),"SERVER: Connection Sucessfully Closed\n");
+	msgsnd(SHARED_KEY,&shared_data,sizeof(shared_data)-sizeof(long),0);
+	pthread_mutex_unlock(&mutex);
+	
 }	
 	
 }
@@ -149,7 +212,9 @@ int main(int argc, char* argv[])
 			exit(1);
 		}
 
+	
 //----------------------------------------------------------------------------------------------------------------------	
+	memset(shared_data,0x00,sizeof(shared_data));
 	pthread_t network_fd;
 	char* network_arg=argv[1];
 	pthread_create(&network_fd,NULL,network_process,(void*)network_arg);	
@@ -273,9 +338,9 @@ if(time_before != (int)ts.tv_sec)
 //--------------------------------------------------------------------------------------------------------------- 
  
 	System_Command("netstat -an", AREA_3_DATA);
-	System_Command("ps -ef", AREA_2_DATA);
+	//System_Command("ps -ef", AREA_2_DATA);
 	System_Command("date",AREA_1_DATA);
-	System_Command("df -h",AREA_4_DATA);
+	//System_Command("df -h",AREA_4_DATA);
 //---------------------delete screen--------------------------------------------------------------------	
  
  	werase(TITLE);
@@ -288,8 +353,16 @@ if(time_before != (int)ts.tv_sec)
 	
 	mvwprintw(TITLE, 1, (TITLE_WIDTH - strlen(AREA_TITLE_DATA)) / 2, "%s", AREA_TITLE_DATA);
 	mvwprintw(AREA_1, 0, 0, AREA_1_DATA);
-	mvwprintw(AREA_2, 0, 0, AREA_2_DATA);
-	mvwprintw(AREA_3, 0, 0, AREA_3_DATA);
+	//mvwprintw(AREA_2, 0, 0, AREA_2_DATA);
+ 
+	mvwprintw(AREA_2,0,0,shared_data.DATA1);
+ 	mvwprintw(AREA_2,1,0,shared_data.DATA2);
+ 	mvwprintw(AREA_2,2,0,shared_data.DATA3);
+ 	mvwprintw(AREA_2,3,0,shared_data.DATA4);
+ 	mvwprintw(AREA_2,4,0,shared_data.DATA5);
+ 	mvwprintw(AREA_2,3,0,shared_data.DATA6);
+ 
+ 	mvwprintw(AREA_3, 0, 0, AREA_3_DATA);
 	mvwprintw(AREA_4, 0, 0, AREA_4_DATA);
 			
 	
@@ -542,4 +615,35 @@ MENU* create_newslectwin(WINDOW* SLECT_W, char** choices, int SLECT_WIDTH, int S
 	//wrefresh(SLECT_W);
 	return Menu;
 
+}
+
+
+(char*)locate_shared_data(int i)
+{
+if(i ==1)
+{
+return (shared_data.DATA1);	
+}
+else if(i==2)
+{
+return (shared_data.DATA2);	
+}
+else if(i==3)
+{
+return (shared_data.DATA3);	
+}
+else if(i==4)
+{
+return (shared_data.DATA4);	
+}
+else if(i==5)
+{
+return (shared_data.DATA5);	
+}
+else if(i==6)
+{
+return (shared_data.DATA6);	
+}
+	
+	
 }
