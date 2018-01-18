@@ -365,9 +365,10 @@ int main(int argc, char* argv[])
 	nodelay(AREA_3,1);
 	nodelay(AREA_4,1);
 	nodelay(BACKGROUND,1);
+	nodelay(STATUSBAR,1);
 	nodelay(TITLE,1);
 	nodelay(CLOCK,1);
-	nodelay(STATUSBAR,1);
+	
 	//----------------------------------선택 메뉴 -영역4---------------------------------------------------------
 	MENU* Menu = create_newslectwin(SLECT_W, MENU1, SLECT_WIDTH, SLECT_HEIGHT, 2, 0, SLECT_DATA);
 	printw(AREA_UPTOP_DATA);
@@ -393,7 +394,7 @@ if(time_before != (int)ts.tv_sec)
  
 	System_Command("netstat -an", AREA_3_DATA);
 	//System_Command("ps -ef", AREA_2_DATA);
-	System_Command("date -R",AREA_1_DATA);
+	//System_Command("date -R",AREA_1_DATA);
  	
 	//System_Command("df -h",AREA_4_DATA);
 //---------------------delete screen--------------------------------------------------------------------	
@@ -414,7 +415,7 @@ if(time_before != (int)ts.tv_sec)
  	sprintf(AREA_STATUSBAR_DATA,"Network status: %d, CAM STATUS: %d, Data_Trasmission: %d",1,1,1);
  	mvwprintw(STATUSBAR,0,0,AREA_STATUSBAR_DATA);
  //------------------------------------------------------------------------------------------------
- 	System_Command("date",AREA_CLOCK_DATA);
+ 	System_Command("date -R",AREA_CLOCK_DATA);
  	mvwprintw(CLOCK,0,0,AREA_CLOCK_DATA);
  //-------------------------------------------------------------------------------------------------
 	//mvwprintw(AREA_2, 0, 0, AREA_2_DATA);
