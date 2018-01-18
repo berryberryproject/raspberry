@@ -13,7 +13,7 @@
 #include <sys/select.h>
 #include <fcntl.h>
 #include <time.h>
-#incldue <sys/msg.h>
+#include <sys/msg.h>
 
 // -----------------NETWORK HEADDER-------------------------------
 #include <arpa/inet.h>
