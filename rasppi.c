@@ -125,7 +125,7 @@ int serv_port=atoi((char*)argv);
 
 pthread_mutex_lock(&mutex);
 //printf("SERVER: 서버 포트: %d\n",serv_port);
-sprintf(data_temp,"SERVER: 서버 포트: %d\n",serv_port);
+sprintf(data_temp,"SERVER: SERVER PORT: %d\n",serv_port);
 strcpy(locate_shared_data(&shared_data,( (data_pt++) %SHARED_DATA_NUM)+1),data_temp);
 msgsnd(SHARED_KEY,&shared_data,sizeof(shared_data)-sizeof(long),0);
 pthread_mutex_unlock(&mutex);
@@ -383,7 +383,7 @@ if(time_before != (int)ts.tv_sec)
 	mvwprintw(TITLE, 1, (TITLE_WIDTH - strlen(AREA_TITLE_DATA)) / 2, "%s", AREA_TITLE_DATA);
 	mvwprintw(AREA_1, 0, 0, AREA_1_DATA);
 	//mvwprintw(AREA_2, 0, 0, AREA_2_DATA);
- 	msgrcv(SHARED_KEY,&network_data,sizeof(network_data)-sizeof(long),1,0);
+ 	msgrcv(SHARED_KEY,&network_data,sizeof(network_data)-sizeof(long),1,IPC_NOWAIT);
 	mvwprintw(AREA_2,0,0,network_data.DATA1);
  	mvwprintw(AREA_2,1,0,network_data.DATA2);
  	mvwprintw(AREA_2,2,0,network_data.DATA3);
