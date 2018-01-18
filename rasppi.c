@@ -267,6 +267,10 @@ int main(int argc, char* argv[])
 	int CLOCK_WIDTH = (COLS*1)/4;
 	int CLOCK_POS_X = 1;
 	int CLOCK_POS_Y = (TITLE_POS_Y)+TITLE_HEIGHT+1;
+	int STATUSBAR_HEIGHT = 2;
+	int STATUSBAR_WIDTH = (COLS * 3) / 4 - 3;
+	int STATUSBAR_POS_X =  CLOCK_POS_X + CLOCK_WIDTH;
+	int STATUSBAR_POS_Y =  (TITLE_POS_Y)+TITLE_HEIGHT+1;
 	int AREA_1_HEIGHT = LINES/4;
 	int AREA_1_WIDTH = (COLS * 1) / 4;
 	int AREA_1_POS_X = 1;
@@ -290,6 +294,7 @@ int main(int argc, char* argv[])
 	//-----------------------------------------------------------------------------------------------
 	char AREA_UPTOP_DATA[MAX_ARR_SIZE] = "Press Q to Quit";
 	char AREA_CLOCK_DATA[MAX_ARR_SIZE];
+	char AREA_STATUSBAR_DATA[MAX_ARR_SIZE];
 	char AREA_TITLE_DATA[MAX_ARR_SIZE] = "->>>  Raspberry Pi Surveillance Camera ->>>>  Administrator Page";
 	char AREA_1_DATA[MAX_ARR_SIZE] = "example";
 	char AREA_2_DATA[MAX_ARR_SIZE];
@@ -316,11 +321,13 @@ int main(int argc, char* argv[])
 	WINDOW* AREA_4;
 	WINDOW* SLECT_W;
 	WINDOW* CLOCK;
+	WINDOW* STATUSBAR;
 
 	//-----------------------------------------------------------------------------------------------------	
 	BACKGROUND = create_newwin(BACKGROUND_HEIGHT, BACKGROUND_WIDTH, BACKGROUND_POS_Y, BACKGROUND_POS_X);
 	TITLE = create_newwin(TITLE_HEIGHT, TITLE_WIDTH, TITLE_POS_Y, TITLE_POS_X);
 	CLOCK = create_newwin(CLOCK_HEIGHT, CLOCK_WIDTH, CLOCK_POS_Y, CLOCK_POS_X);
+	STATUSBAR = create_newwin(STATUSBAR_HEIGHT, STATUSBAR_WIDTH, STATUSBAR_POS_Y, STATUSBAR_POS_X);
 	AREA_1 = create_newwin(AREA_1_HEIGHT, AREA_1_WIDTH, AREA_1_POS_Y, AREA_1_POS_X);
 	AREA_2 = create_newwin(AREA_2_HEIGHT, AREA_2_WIDTH, AREA_2_POS_Y, AREA_2_POS_X);
 	AREA_3 = create_newwin(AREA_3_HEIGHT, AREA_3_WIDTH, AREA_3_POS_Y, AREA_3_POS_X);
@@ -332,6 +339,7 @@ int main(int argc, char* argv[])
 	wbkgd(BACKGROUND, COLOR_PAIR(PAIR_WHITE_BLUE));  //배경색갈 지정 PAIR_(**)를 위에 #define 보면서 변경가능	
 	wbkgd(TITLE, COLOR_PAIR(PAIR_WHITE_BLACK));
 	wbkgd(CLOCK, COLOR_PAIR(PAIR_WHITE_BLACK));
+	wbkgd(STATUSBAR, COLOR_PAIR(PAIR_WHITE_BLACK));
 	wbkgd(AREA_1, COLOR_PAIR(PAIR_WHITE_BLACK));
 	wbkgd(AREA_2, COLOR_PAIR(PAIR_WHITE_BLACK));
 	wbkgd(AREA_3, COLOR_PAIR(PAIR_WHITE_BLACK));
@@ -343,6 +351,7 @@ int main(int argc, char* argv[])
 	keypad(SLECT_W, TRUE);
 	keypad(TITLE, TRUE);
 	keypad(CLOCK,TRUE);
+	keypad(STATUSBAR,TRUE);
 	keypad(AREA_1, TRUE);
 	keypad(AREA_2, TRUE);
 	keypad(AREA_3, TRUE);
@@ -358,6 +367,7 @@ int main(int argc, char* argv[])
 	nodelay(BACKGROUND,1);
 	nodelay(TITLE,1);
 	nodelay(CLOCK,1);
+	nodelay(STATUSBAR,1);
 	//----------------------------------선택 메뉴 -영역4---------------------------------------------------------
 	MENU* Menu = create_newslectwin(SLECT_W, MENU1, SLECT_WIDTH, SLECT_HEIGHT, 2, 0, SLECT_DATA);
 	printw(AREA_UPTOP_DATA);
@@ -384,7 +394,7 @@ if(time_before != (int)ts.tv_sec)
 	System_Command("netstat -an", AREA_3_DATA);
 	//System_Command("ps -ef", AREA_2_DATA);
 	System_Command("date",AREA_1_DATA);
- 	System_Command("date",AREA_CLOCK_DATA);
+ 	
 	//System_Command("df -h",AREA_4_DATA);
 //---------------------delete screen--------------------------------------------------------------------	
  
@@ -398,7 +408,15 @@ if(time_before != (int)ts.tv_sec)
 	
 	mvwprintw(TITLE, 1, (TITLE_WIDTH - strlen(AREA_TITLE_DATA)) / 2, "%s", AREA_TITLE_DATA);
 	mvwprintw(AREA_1, 0, 0, AREA_1_DATA);
+ 	
+ //-------------------------------------------------------------------------------------------------------------------
+ 	
+ 	sprintf(AREA_STATUSBAR_DATA,"Network status: %d, CAM STATUS: %d, Data_Trasmission: %d",1,1,1);
+ 	mvwprintw(STATUSBAR,0,0,AREA_STATUSBAR_DATA);
+ //------------------------------------------------------------------------------------------------
+ 	System_Command("date",AREA_CLOCK_DATA);
  	mvwprintw(CLOCK,0,0,AREA_CLOCK_DATA);
+ //-------------------------------------------------------------------------------------------------
 	//mvwprintw(AREA_2, 0, 0, AREA_2_DATA);
  	msgrcv(SHARED_KEY,&network_data,sizeof(network_data)-sizeof(long),1,IPC_NOWAIT);
 	mvwprintw(AREA_2,0,0,network_data.DATA1);
@@ -407,6 +425,8 @@ if(time_before != (int)ts.tv_sec)
  	mvwprintw(AREA_2,3,0,network_data.DATA4);
  	mvwprintw(AREA_2,4,0,network_data.DATA5);
  	mvwprintw(AREA_2,3,0,network_data.DATA6);
+ //--------------------------------------------------------------------------------------------------
+ 
  
  	mvwprintw(AREA_3, 0, 0, AREA_3_DATA);
 	mvwprintw(AREA_4, 0, 0, AREA_4_DATA);
@@ -422,6 +442,7 @@ if(time_before != (int)ts.tv_sec)
 	wrefresh(AREA_3);
 	wrefresh(AREA_4);
 	wrefresh(SLECT_W);
+ 	wrefresh(STATUSBAR);
 }	
 	
 //--------------------input ---------------------------------------------------------------------------	
