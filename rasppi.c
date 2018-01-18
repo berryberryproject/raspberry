@@ -13,7 +13,7 @@
 #include <sys/select.h>
 #include <fcntl.h>
 #include <time.h>
-#incldue <msg.h>
+#incldue <sys/msg.h>
 
 // -----------------NETWORK HEADDER-------------------------------
 #include <arpa/inet.h>
@@ -49,7 +49,7 @@ int System_Command(char* Command_in, char Data_out[]);
 void Color_Setting(void);
 void Init_Program(void);
 int linux_kbhit(void);
-(char*)locate_shared_data(int i);
+char*locate_shared_data(int i);
 MENU* create_newslectwin(WINDOW* SLECT_W, char** choices, int SLECT_WIDTH, int SLECT_HEIGHT, int x, int y, char SLECT_DATA[]);
 
 //-------------------------------------------------------------------------------
@@ -65,8 +65,8 @@ char DATA6[MAX_ARR_SIZE_S];
 }SHARED_DATA;
 
 //------------------------------------------------------------------------------
-int SHARED_KEY=SHARED_KEY_VAL;
-SHARED_DATA shared_data;
+
+
 int Key_IN;
 FILE* DEBUG;
 static struct termios initial_settings, new_settings;
@@ -76,15 +76,17 @@ int time_before=0;
 //-------------------------------------------------------------------------------
 void*network_process(void* argv)
 {
+int SHARED_KEY;
 int data_fd;
 int data_pt=0;
 char data_temp[MAX_ARR_SIZE];
 char data[MAX_ARR_SIZE];
+SHARED_DATA shared_data;
 memset(data,0,sizeof(data));
 
 	
 //shared msgget()------------------------------------------------------------
-SHARED_KEY=msgget( (key_t)SHARED_KEY, O_CREAT|0666);
+SHARED_KEY=msgget((key_t)SHARED_KEY_VAL, O_CREAT|0666);
 if(SHARED_KEY ==-1)
 {
 printf("failed to create SHARED_KEY\n");
@@ -205,7 +207,14 @@ while(1)
 
 int main(int argc, char* argv[])
 {	
+	int SHARED_KEY=msgget((key_t)SHARED_KEY_VAL, O_CREAT|0666);
+	if(SHARED_KEY ==-1)
+	{
+	printf("failed to create SHARED_KEY\n");
+	exit(1);
+	}	
 	
+	SHARED_DATA network_data;
 	
 	if(argc != 2)
 		{
@@ -213,6 +222,8 @@ int main(int argc, char* argv[])
 			exit(1);
 		}
 
+//---------------------------------------------------------------------------------------------------------------------
+	
 	
 //----------------------------------------------------------------------------------------------------------------------	
 	memset(&shared_data,0x00,sizeof(shared_data));
@@ -355,13 +366,14 @@ if(time_before != (int)ts.tv_sec)
 	mvwprintw(TITLE, 1, (TITLE_WIDTH - strlen(AREA_TITLE_DATA)) / 2, "%s", AREA_TITLE_DATA);
 	mvwprintw(AREA_1, 0, 0, AREA_1_DATA);
 	//mvwprintw(AREA_2, 0, 0, AREA_2_DATA);
- 
-	mvwprintw(AREA_2,0,0,shared_data.DATA1);
- 	mvwprintw(AREA_2,1,0,shared_data.DATA2);
- 	mvwprintw(AREA_2,2,0,shared_data.DATA3);
- 	mvwprintw(AREA_2,3,0,shared_data.DATA4);
- 	mvwprintw(AREA_2,4,0,shared_data.DATA5);
- 	mvwprintw(AREA_2,3,0,shared_data.DATA6);
+ 	msgrcv(SHARED_DATA,&network_data,sizeof(network_data)-sizeof(long),1,0);
+ 	 
+	mvwprintw(AREA_2,0,0,network_data.DATA1);
+ 	mvwprintw(AREA_2,1,0,network_data.DATA2);
+ 	mvwprintw(AREA_2,2,0,network_data.DATA3);
+ 	mvwprintw(AREA_2,3,0,network_data.DATA4);
+ 	mvwprintw(AREA_2,4,0,network_data.DATA5);
+ 	mvwprintw(AREA_2,3,0,network_data.DATA6);
  
  	mvwprintw(AREA_3, 0, 0, AREA_3_DATA);
 	mvwprintw(AREA_4, 0, 0, AREA_4_DATA);
@@ -619,7 +631,7 @@ MENU* create_newslectwin(WINDOW* SLECT_W, char** choices, int SLECT_WIDTH, int S
 }
 
 
-(char*)locate_shared_data(int i)
+char*locate_shared_data(int i)
 {
 if(i ==1)
 {
