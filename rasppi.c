@@ -42,17 +42,11 @@ pthread_mutex_t  mutex = PTHREAD_MUTEX_INITIALIZER;
 #define PAIR_RED_BLUE		3
 #define PAIR_WHITE_BLUE		4
 #define PAIR_RED_YELLOW		5
-//필요한 함수선언-------------------------------------------------------------
-WINDOW *create_newwin(int TITLE_HEIGHT, int TITLE_WIDTH, int starty, int startx);
-void destroy_win(WINDOW *local_win);
-int System_Command(char* Command_in, char Data_out[]);
-void Color_Setting(void);
-void Init_Program(void);
-int linux_kbhit(void);
-char*locate_shared_data(SHARED_DATA *shared_data,int i);
-MENU* create_newslectwin(WINDOW* SLECT_W, char** choices, int SLECT_WIDTH, int SLECT_HEIGHT, int x, int y, char SLECT_DATA[]);
 
-//-------------------------------------------------------------------------------
+
+
+
+//----------------------------------------------------------------------------
 //DATA_TYPE=1 NETWORK 2=RASPPI/CAM
 typedef struct{
 long SHARED_DATA_TYPE;
@@ -63,6 +57,18 @@ char DATA4[MAX_ARR_SIZE_S];
 char DATA5[MAX_ARR_SIZE_S];
 char DATA6[MAX_ARR_SIZE_S];
 }SHARED_DATA;
+
+//필요한 함수선언-------------------------------------------------------------
+WINDOW *create_newwin(int TITLE_HEIGHT, int TITLE_WIDTH, int starty, int startx);
+void destroy_win(WINDOW *local_win);
+int System_Command(char* Command_in, char Data_out[]);
+void Color_Setting(void);
+void Init_Program(void);
+int linux_kbhit(void);
+char* locate_shared_data(SHARED_DATA *shared_data,int i);
+MENU* create_newslectwin(WINDOW* SLECT_W, char** choices, int SLECT_WIDTH, int SLECT_HEIGHT, int x, int y, char SLECT_DATA[]);
+
+//-------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
 
@@ -630,7 +636,7 @@ MENU* create_newslectwin(WINDOW* SLECT_W, char** choices, int SLECT_WIDTH, int S
 }
 
 
-char*locate_shared_data(SHARED_DATA *shared_data,int i)
+char* locate_shared_data(SHARED_DATA *shared_data,int i)
 {
 if(i ==1)
 {
