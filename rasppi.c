@@ -285,7 +285,7 @@ int main(int argc, char* argv[])
 	int SLECT_POS_Y = LINES - SLECT_HEIGHT - 1;
 	//-----------------------------------------------------------------------------------------------
 	char AREA_UPTOP_DATA[MAX_ARR_SIZE] = "Press Q to Quit";
-	char AREA_TITLE_DATA[MAX_ARR_SIZE] = "PUT TITLE HERE";
+	char AREA_TITLE_DATA[MAX_ARR_SIZE] = "->>>  Raspberry Pi Surveillance Camera ->>>>  Administrator Page";
 	char AREA_1_DATA[MAX_ARR_SIZE] = "example";
 	char AREA_2_DATA[MAX_ARR_SIZE];
 	char AREA_3_DATA[MAX_ARR_SIZE];
