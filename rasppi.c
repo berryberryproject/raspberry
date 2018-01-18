@@ -92,7 +92,7 @@ memset(data,0,sizeof(data));
 memset(&shared_data,0,sizeof(shared_data));
 	
 //shared msgget()------------------------------------------------------------
-SHARED_KEY=msgget((key_t)SHARED_KEY_VAL, O_CREAT|0666);
+SHARED_KEY=msgget((key_t)SHARED_KEY_VAL, IPC_CREAT|0666);
 if(SHARED_KEY ==-1)
 {
 printf("failed to create SHARED_KEY\n");
@@ -213,7 +213,7 @@ while(1)
 
 int main(int argc, char* argv[])
 {	
-	key_t SHARED_KEY=msgget((key_t)SHARED_KEY_VAL, O_CREAT|0666);
+	key_t SHARED_KEY=msgget((key_t)SHARED_KEY_VAL, IPC_CREAT|0666);
 	if(SHARED_KEY ==-1)
 	{
 	printf("failed to create SHARED_KEY\n");
