@@ -83,7 +83,7 @@ char data_temp[MAX_ARR_SIZE];
 char data[MAX_ARR_SIZE];
 SHARED_DATA shared_data;
 memset(data,0,sizeof(data));
-
+memset(&shared_data,0,sizeof(shared_data));
 	
 //shared msgget()------------------------------------------------------------
 SHARED_KEY=msgget((key_t)SHARED_KEY_VAL, O_CREAT|0666);
@@ -226,7 +226,7 @@ int main(int argc, char* argv[])
 	
 	
 //----------------------------------------------------------------------------------------------------------------------	
-	memset(&shared_data,0x00,sizeof(shared_data));
+	memset(&network_data,0x00,sizeof(network_data));
 	pthread_t network_fd;
 	char* network_arg=argv[1];
 	pthread_create(&network_fd,NULL,network_process,(void*)network_arg);	
@@ -367,7 +367,6 @@ if(time_before != (int)ts.tv_sec)
 	mvwprintw(AREA_1, 0, 0, AREA_1_DATA);
 	//mvwprintw(AREA_2, 0, 0, AREA_2_DATA);
  	msgrcv(SHARED_DATA,&network_data,sizeof(network_data)-sizeof(long),1,0);
- 	 
 	mvwprintw(AREA_2,0,0,network_data.DATA1);
  	mvwprintw(AREA_2,1,0,network_data.DATA2);
  	mvwprintw(AREA_2,2,0,network_data.DATA3);
