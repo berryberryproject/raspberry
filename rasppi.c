@@ -265,8 +265,8 @@ int main(int argc, char* argv[])
 	int TITLE_POS_Y = 1;
 	int CLOCK_HEIGHT = 1;
 	int CLOCK_WIDTH = (COLS*1)/4;
-	int CLOCK_POS_X = 0;
-	int CLOCK_POS_Y = (TITLE_POS_Y)+TITLE_HEIGHT;
+	int CLOCK_POS_X = 1;
+	int CLOCK_POS_Y = (TITLE_POS_Y)+TITLE_HEIGHT+1;
 	int AREA_1_HEIGHT = LINES/4;
 	int AREA_1_WIDTH = (COLS * 1) / 4;
 	int AREA_1_POS_X = 1;
