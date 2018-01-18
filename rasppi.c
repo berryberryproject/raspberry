@@ -384,7 +384,7 @@ if(time_before != (int)ts.tv_sec)
 	System_Command("netstat -an", AREA_3_DATA);
 	//System_Command("ps -ef", AREA_2_DATA);
 	System_Command("date",AREA_1_DATA);
- 	System_Coomand("date",AREA_CLOCK_DATA);
+ 	System_Command("date",AREA_CLOCK_DATA);
 	//System_Command("df -h",AREA_4_DATA);
 //---------------------delete screen--------------------------------------------------------------------	
  
