@@ -200,7 +200,7 @@ while(1)
 	}
 	sprintf(data_temp,"SERVER: %s client connected \n",clnt_ip_addr);
         //printf("SERVER: %s client connected \n",clnt_ip_addr);
-        strcpy(locate_shared_data(&shared_data,( (data_pt++) %SHARED_DATA_NUM)+1),data_temp);
+        strcpy(locate_shared_data(&shared_data,( (data_pt++) % SHARED_DATA_NUM)+1),data_temp);
 	msgsnd(SHARED_KEY,&shared_data,sizeof(shared_data)-sizeof(long),0);
 	pthread_mutex_unlock(&mutex);
 
@@ -456,16 +456,17 @@ if(time_before != (int)ts.tv_sec)
  	mvwprintw(CLOCK,0,0,AREA_CLOCK_DATA);
  //-------------------------------------------------------------------------------------------------
 	//mvwprintw(AREA_2, 0, 0, AREA_2_DATA);
+ 	memset(&network_data,0,sizeof(network_data));
  	msgrcv(SHARED_KEY,&network_data,sizeof(network_data)-sizeof(long),1,IPC_NOWAIT);
-	mvwprintw(AREA_2,0,0,network_data.DATA1);
- 	mvwprintw(AREA_2,1,0,network_data.DATA2);
- 	mvwprintw(AREA_2,2,0,network_data.DATA3);
- 	mvwprintw(AREA_2,3,0,network_data.DATA4);
- 	mvwprintw(AREA_2,4,0,network_data.DATA5);
- 	mvwprintw(AREA_2,5,0,network_data.DATA6);
- 	mvwprintw(AREA_2,6,0,network_data.DATA7);
- 	mvwprintw(AREA_2,7,0,network_data.DATA8);
- 	mvwprintw(AREA_2,8,0,network_data.DATA9);
+	mvwprintw(AREA_2,1,1,network_data.DATA1);
+ 	mvwprintw(AREA_2,2,1,network_data.DATA2);
+ 	mvwprintw(AREA_2,3,1,network_data.DATA3);
+ 	mvwprintw(AREA_2,4,1,network_data.DATA4);
+ 	mvwprintw(AREA_2,5,1,network_data.DATA5);
+ 	mvwprintw(AREA_2,6,1,network_data.DATA6);
+ 	mvwprintw(AREA_2,7,1,network_data.DATA7);
+ 	mvwprintw(AREA_2,8,1,network_data.DATA8);
+ 	mvwprintw(AREA_2,9,1,network_data.DATA9);
  //--------------------------------------------------------------------------------------------------
  	mvwprintw(AREA_3, 0, 0, AREA_3_DATA);
 	mvwprintw(AREA_4, 0, 0, AREA_4_DATA);
