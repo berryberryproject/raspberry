@@ -756,15 +756,15 @@ return (char*)((*shared_data).DATA6);
 }
 else if(i==7)
 {
-return (char*)((*shared_data).DATA6);	
+return (char*)((*shared_data).DATA7);	
 }
 else if(i==8)
 {
-return (char*)((*shared_data).DATA6);	
+return (char*)((*shared_data).DATA8);	
 }
 else if(i==9)
 {
-return (char*)((*shared_data).DATA6);	
+return (char*)((*shared_data).DATA9);	
 }
 	
 }
