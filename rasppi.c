@@ -457,6 +457,7 @@ if(time_before != (int)ts.tv_sec)
  //-------------------------------------------------------------------------------------------------
 	//mvwprintw(AREA_2, 0, 0, AREA_2_DATA);
  	//memset(&network_data,0,sizeof(network_data));
+ 	
  	msgrcv(SHARED_KEY,&network_data,sizeof(network_data)-sizeof(long),1,IPC_NOWAIT);
 	mvwprintw(AREA_2,1,1,network_data.DATA1);
  	mvwprintw(AREA_2,2,1,network_data.DATA2);
