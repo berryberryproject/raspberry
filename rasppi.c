@@ -49,7 +49,7 @@ int System_Command(char* Command_in, char Data_out[]);
 void Color_Setting(void);
 void Init_Program(void);
 int linux_kbhit(void);
-char*locate_shared_data(int i);
+char*locate_shared_data(SHARED_DATA *shared_data,int i);
 MENU* create_newslectwin(WINDOW* SLECT_W, char** choices, int SLECT_WIDTH, int SLECT_HEIGHT, int x, int y, char SLECT_DATA[]);
 
 //-------------------------------------------------------------------------------
@@ -97,7 +97,7 @@ exit(1);
 pthread_mutex_lock(&mutex);
 	
 shared_data.SHARED_DATA_TYPE=1;
-strcpy(locate_shared_data(( (data_pt++) %SHARED_DATA_NUM)+1),"SERVER: RASPBERRY SERVER STARTED\n\n");
+strcpy(locate_shared_data(&shared_data,( (data_pt++) %SHARED_DATA_NUM)+1),"SERVER: RASPBERRY SERVER STARTED\n\n");
 msgsnd(SHARED_KEY,&shared_data,sizeof(shared_data)-sizeof(long),0);
 pthread_mutex_unlock(&mutex);
 	
@@ -109,7 +109,7 @@ int serv_port=atoi((char*)argv);
 pthread_mutex_lock(&mutex);
 //printf("SERVER: 서버 포트: %d\n",serv_port);
 sprintf(data_temp,"SERVER: 서버 포트: %d\n",serv_port);
-strcpy(locate_shared_data(( (data_pt++) %SHARED_DATA_NUM)+1),data_temp);
+strcpy(locate_shared_data(&shared_data,( (data_pt++) %SHARED_DATA_NUM)+1),data_temp);
 msgsnd(SHARED_KEY,&shared_data,sizeof(shared_data)-sizeof(long),0);
 pthread_mutex_unlock(&mutex);
 	
@@ -132,7 +132,7 @@ serv_addr.sin_port=htons(serv_port);
 	
 pthread_mutex_lock(&mutex);
 //printf("RASPBERRY IS CURRENTLY BINDING ...\n");
-strcpy(locate_shared_data(( (data_pt++) %SHARED_DATA_NUM)+1),"RASPBERRY IS CURRENTLY BINDING ...\n");
+strcpy(locate_shared_data(&shared_data,( (data_pt++) %SHARED_DATA_NUM)+1),"RASPBERRY IS CURRENTLY BINDING ...\n");
 msgsnd(SHARED_KEY,&shared_data,sizeof(shared_data)-sizeof(long),0);
 pthread_mutex_unlock(&mutex);
 	
@@ -152,7 +152,7 @@ exit(1);
 	
 pthread_mutex_lock(&mutex);
 //printf("RASPBERRY IS CURRENTLY LISTENING.\n");
-strcpy(locate_shared_data(( (data_pt++) %SHARED_DATA_NUM)+1),"RASPBERRY IS CURRENTLY LISTENING.\n");
+strcpy(locate_shared_data(&shared_data,( (data_pt++) %SHARED_DATA_NUM)+1),"RASPBERRY IS CURRENTLY LISTENING.\n");
 msgsnd(SHARED_KEY,&shared_data,sizeof(shared_data)-sizeof(long),0);
 pthread_mutex_unlock(&mutex);
 
@@ -180,7 +180,7 @@ while(1)
 	pthread_mutex_lock(&mutex);
 	sprintf(data_temp,"SERVER: %s client connected \n",clnt_ip_addr);
         //printf("SERVER: %s client connected \n",clnt_ip_addr);
-        strcpy(locate_shared_data(( (data_pt++) %SHARED_DATA_NUM)+1),data_temp);
+        strcpy(locate_shared_data(&shared_data,( (data_pt++) %SHARED_DATA_NUM)+1),data_temp);
 	msgsnd(SHARED_KEY,&shared_data,sizeof(shared_data)-sizeof(long),0);
 	pthread_mutex_unlock(&mutex);
 
@@ -193,7 +193,7 @@ while(1)
         close(clnt_fd);
 	pthread_mutex_lock(&mutex);
         //printf("SERVER: Connection Sucessfully Closed\n");
-	strcpy(locate_shared_data(( (data_pt++) %SHARED_DATA_NUM)+1),"SERVER: Connection Sucessfully Closed\n");
+	strcpy(locate_shared_data(&shared_data,( (data_pt++) %SHARED_DATA_NUM)+1),"SERVER: Connection Sucessfully Closed\n");
 	msgsnd(SHARED_KEY,&shared_data,sizeof(shared_data)-sizeof(long),0);
 	pthread_mutex_unlock(&mutex);
 	
@@ -630,7 +630,7 @@ MENU* create_newslectwin(WINDOW* SLECT_W, char** choices, int SLECT_WIDTH, int S
 }
 
 
-char*locate_shared_data(int i)
+char*locate_shared_data(SHARED_DATA *shared_data,int i)
 {
 if(i ==1)
 {
