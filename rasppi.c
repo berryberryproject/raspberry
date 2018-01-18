@@ -393,7 +393,7 @@ if(time_before != (int)ts.tv_sec)
  
 	System_Command("netstat -an", AREA_3_DATA);
 	//System_Command("ps -ef", AREA_2_DATA);
-	System_Command("date",AREA_1_DATA);
+	System_Command("date -R",AREA_1_DATA);
  	
 	//System_Command("df -h",AREA_4_DATA);
 //---------------------delete screen--------------------------------------------------------------------	
@@ -437,12 +437,13 @@ if(time_before != (int)ts.tv_sec)
 	wrefresh(BACKGROUND);
 	wrefresh(TITLE);
  	wrefresh(CLOCK);
-	wrefresh(AREA_1);
+	wrefresh(STATUSBAR);
+ 	wrefresh(AREA_1);
 	wrefresh(AREA_2);
 	wrefresh(AREA_3);
 	wrefresh(AREA_4);
 	wrefresh(SLECT_W);
- 	wrefresh(STATUSBAR);
+ 	
 }	
 	
 //--------------------input ---------------------------------------------------------------------------	
