@@ -82,15 +82,6 @@ int time_before=0;
 //-------------------------------------------------------------------------------
 
 
-
-
-
-
-
-
-
-
-
 void*network_process(void* argv)
 {
 key_t SHARED_KEY;
@@ -269,7 +260,7 @@ int main(int argc, char* argv[])
 	int CLOCK_POS_Y = (TITLE_POS_Y)+TITLE_HEIGHT+1;
 	int STATUSBAR_HEIGHT = 2;
 	int STATUSBAR_WIDTH = (COLS * 3) / 4 - 3;
-	int STATUSBAR_POS_X =  CLOCK_POS_X + CLOCK_WIDTH;
+	int STATUSBAR_POS_X =  CLOCK_POS_X + CLOCK_WIDTH+1;
 	int STATUSBAR_POS_Y =  (TITLE_POS_Y)+TITLE_HEIGHT+1;
 	int AREA_1_HEIGHT = LINES/4;
 	int AREA_1_WIDTH = (COLS * 1) / 4;
@@ -277,16 +268,28 @@ int main(int argc, char* argv[])
 	int AREA_1_POS_Y = 7 * (LINES / 30);
 	int AREA_2_HEIGHT = LINES/4;
 	int AREA_2_WIDTH = (COLS * 1) / 4;
-	int AREA_2_POS_X = (COLS - AREA_2_WIDTH - 1); //제 목은 중간 에 출력
-	int AREA_2_POS_Y = 7 * (LINES / 30); // 출력할 높이는 화면을 30으로 나눈 첫번째 영역에 출력
+	int AREA_2_POS_X = (COLS - AREA_2_WIDTH - 1);
+	int AREA_2_POS_Y = 7 * (LINES / 30);
 	int AREA_3_HEIGHT = LINES/4;
 	int AREA_3_WIDTH = (COLS - AREA_2_WIDTH - AREA_1_WIDTH) - 4;
-	int AREA_3_POS_X = (COLS - AREA_3_WIDTH) / 2; //제 목은 중간 에 출력
-	int AREA_3_POS_Y = 7 * (LINES / 30); // 출력할 높이는 화면을 30으로 나눈 첫번째 영역에 출력
+	int AREA_3_POS_X = (COLS - AREA_3_WIDTH) / 2; 
+	int AREA_3_POS_Y = 7 * (LINES / 30);
 	int AREA_4_HEIGHT = LINES/5;
 	int AREA_4_WIDTH = (COLS * 3) / 4 - 3;
 	int AREA_4_POS_X = (COLS - AREA_3_WIDTH) / 2;
-	int AREA_4_POS_Y = LINES - AREA_4_HEIGHT - 1; // 출력할 높이는 화면을 30으로 나눈 첫번째 영역에 출력
+	int AREA_4_POS_Y = LINES - AREA_4_HEIGHT - 1;
+	int AREA_5_HEIGHT = LINES/4;
+	int AREA_5_WIDTH = (COLS * 1) / 4;
+	int AREA_5_POS_X = 1;
+	int AREA_5_POS_Y = 7 * (LINES / 30) + AREA_1_HEIGHT+1;
+	int AREA_6_HEIGHT = LINES/4;
+	int AREA_6_WIDTH = (COLS * 1) / 4;
+	int AREA_6_POS_X = (COLS - AREA_2_WIDTH - 1);
+	int AREA_6_POS_Y = 7 * (LINES / 30) + AREA_1_HEIGHT+1;
+	int AREA_7_HEIGHT = LINES/4;
+	int AREA_7_WIDTH = (COLS - AREA_2_WIDTH - AREA_1_WIDTH) - 4;
+	int AREA_7_POS_X = (COLS - AREA_3_WIDTH) / 2;
+	int AREA_7_POS_Y = 7 * (LINES / 30) + AREA_1_HEIGHT+1;
 	int SLECT_HEIGHT = LINES/5;
 	int SLECT_WIDTH = (COLS) / 4;
 	int SLECT_POS_X = 1;
@@ -300,6 +303,9 @@ int main(int argc, char* argv[])
 	char AREA_2_DATA[MAX_ARR_SIZE];
 	char AREA_3_DATA[MAX_ARR_SIZE];
 	char AREA_4_DATA[MAX_ARR_SIZE];
+	char AREA_5_DATA[MAX_ARR_SIZE];
+	char AREA_6_DATA[MAX_ARR_SIZE];
+	char AREA_7_DATA[MAX_ARR_SIZE];
 	char SLECT_DATA[MAX_ARR_SIZE] = "SELECT OPTION";
 	//--------------------------------Slection Menu----------선택메뉴만--------------------------------------
 	char *MENU1[] = {
@@ -319,10 +325,13 @@ int main(int argc, char* argv[])
 	WINDOW* AREA_2;
 	WINDOW* AREA_3;
 	WINDOW* AREA_4;
+	WINDOW* AREA_5;
+	WINDOW* AREA_6;
+	WINDOW* AREA_7;
 	WINDOW* SLECT_W;
 	WINDOW* CLOCK;
 	WINDOW* STATUSBAR;
-
+	
 	//-----------------------------------------------------------------------------------------------------	
 	BACKGROUND = create_newwin(BACKGROUND_HEIGHT, BACKGROUND_WIDTH, BACKGROUND_POS_Y, BACKGROUND_POS_X);
 	TITLE = create_newwin(TITLE_HEIGHT, TITLE_WIDTH, TITLE_POS_Y, TITLE_POS_X);
@@ -332,6 +341,9 @@ int main(int argc, char* argv[])
 	AREA_2 = create_newwin(AREA_2_HEIGHT, AREA_2_WIDTH, AREA_2_POS_Y, AREA_2_POS_X);
 	AREA_3 = create_newwin(AREA_3_HEIGHT, AREA_3_WIDTH, AREA_3_POS_Y, AREA_3_POS_X);
 	AREA_4 = create_newwin(AREA_4_HEIGHT, AREA_4_WIDTH, AREA_4_POS_Y, AREA_4_POS_X);
+	AREA_5 = create_newwin(AREA_5_HEIGHT, AREA_5_WIDTH, AREA_5_POS_Y, AREA_5_POS_X);
+	AREA_6 = create_newwin(AREA_6_HEIGHT, AREA_6_WIDTH, AREA_6_POS_Y, AREA_6_POS_X);
+	AREA_7 = create_newwin(AREA_7_HEIGHT, AREA_7_WIDTH, AREA_7_POS_Y, AREA_7_POS_X);
 	SLECT_W = create_newwin(SLECT_HEIGHT, SLECT_WIDTH, SLECT_POS_Y, SLECT_POS_X);
 
 	//-------------------------------------배경--------------색-----------------------------------------------
@@ -344,6 +356,9 @@ int main(int argc, char* argv[])
 	wbkgd(AREA_2, COLOR_PAIR(PAIR_WHITE_BLACK));
 	wbkgd(AREA_3, COLOR_PAIR(PAIR_WHITE_BLACK));
 	wbkgd(AREA_4, COLOR_PAIR(PAIR_WHITE_BLACK));
+	wbkgd(AREA_5, COLOR_PAIR(PAIR_WHITE_BLACK));
+	wbkgd(AREA_6, COLOR_PAIR(PAIR_WHITE_BLACK));
+	wbkgd(AREA_7, COLOR_PAIR(PAIR_WHITE_BLACK));
 	wbkgd(SLECT_W, COLOR_PAIR(PAIR_BLACK_WHITE));
 	
 
@@ -356,6 +371,9 @@ int main(int argc, char* argv[])
 	keypad(AREA_2, TRUE);
 	keypad(AREA_3, TRUE);
 	keypad(AREA_4, TRUE);
+	keypad(AREA_5, TRUE);
+	keypad(AREA_6, TRUE);
+	keypad(AREA_7, TRUE);
 
 	//------------------------------------------------------------------------------------------------
 	nodelay(SLECT_W,1);
@@ -364,6 +382,9 @@ int main(int argc, char* argv[])
 	nodelay(AREA_2,1);
 	nodelay(AREA_3,1);
 	nodelay(AREA_4,1);
+	nodelay(AREA_5,1);
+	nodelay(AREA_6,1);
+	nodelay(AREA_7,1);
 	nodelay(BACKGROUND,1);
 	nodelay(STATUSBAR,1);
 	nodelay(TITLE,1);
@@ -400,10 +421,15 @@ if(time_before != (int)ts.tv_sec)
 //---------------------delete screen--------------------------------------------------------------------	
  
  	werase(TITLE);
+ 	werase(CLOCK);
+ 	werase(STATUSBAR);
  	werase(AREA_1);
  	werase(AREA_2);
  	werase(AREA_3);
  	werase(AREA_4);
+ 	werase(AREA_5);
+ 	werase(AREA_6);
+ 	werase(AREA_7);
  
 //--------------------print data-----------------------------------------------------------------------------------------		
 	
@@ -427,12 +453,9 @@ if(time_before != (int)ts.tv_sec)
  	mvwprintw(AREA_2,4,0,network_data.DATA5);
  	mvwprintw(AREA_2,3,0,network_data.DATA6);
  //--------------------------------------------------------------------------------------------------
- 
- 
  	mvwprintw(AREA_3, 0, 0, AREA_3_DATA);
 	mvwprintw(AREA_4, 0, 0, AREA_4_DATA);
 			
-	
 //---------------screen update----------------------------------------------------------------------------------		
 	refresh();
 	wrefresh(BACKGROUND);
@@ -443,6 +466,9 @@ if(time_before != (int)ts.tv_sec)
 	wrefresh(AREA_2);
 	wrefresh(AREA_3);
 	wrefresh(AREA_4);
+ 	wrefresh(AREA_5);
+ 	wrefresh(AREA_6);
+ 	wrefresh(AREA_7);
 	wrefresh(SLECT_W);
  	
 }	
