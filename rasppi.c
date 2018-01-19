@@ -83,7 +83,13 @@ static int peek_character = -1;
 struct timespec ts;
 int time_before=0;
 //-------------------------------------------------------------------------------
-
+//void*pipe_process(void* a)
+//{
+	
+	
+	
+	
+//}
 
 void*network_process(void* argv)
 {
@@ -257,7 +263,8 @@ int main(int argc, char* argv[])
 	memset(&network_data,0x00,sizeof(network_data));
 	pthread_t network_fd;
 	char* network_arg=argv[1];
-	pthread_create(&network_fd,NULL,network_process,(void*)network_arg);	
+	pthread_create(&network_fd,NULL,network_process,(void*)network_arg);
+	//pipe_process
 //-----------------------------------------------------------------------------------------------------------------------	
 	Init_Program();
 	//-------------------------------------------------------------------------------------------
