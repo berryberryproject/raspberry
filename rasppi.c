@@ -244,17 +244,18 @@ int main(int argc, char* argv[])
 	int pid;
 	int pipe_fd[2];
 	
-pid=fork();	
+
 if(pipe(pipe_fd)==-1)
 {
 printf("pipe_create failed\n");	
 exit(1);
 }
+pid=fork();		
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 if(pid==0)
 {
 	dup2(pipe_fd[1],1);
-	if(execl("/usr/sbin/tcpdump","/usr/sbin/tcpdump","-al",NULL) ==-1)
+	if(execl("/usr/sbin/tcpdump","/usr/sbin/tcpdump","-U",NULL) ==-1)
 	{
 	printf("NO tcpdump found please INSTALL: TCPDUMP \n apt-get install tcpdump\n");	
 	exit(1);	
@@ -270,8 +271,8 @@ else
 {
 	
 	
-	
-	
+	int flag=fcntl(pipe_fd[0],F_GETFL,0);
+	fcntl(pipe_fd[0],F_SETFL,flag|O_NONBLOCK);
 	key_t SHARED_KEY=msgget((key_t)SHARED_KEY_VAL, IPC_CREAT|0666);
 	if(SHARED_KEY ==-1)
 	{
@@ -470,7 +471,7 @@ if(time_before != (int)ts.tv_sec)
 	//System_Command("ps -ef", AREA_2_DATA);
 	//System_Command("date -R",AREA_1_DATA);
  	
-	//System_Command("df -h",AREA_4_DATA);
+	
 //---------------------delete screen--------------------------------------------------------------------	
  
  	werase(TITLE);
@@ -514,7 +515,8 @@ if(time_before != (int)ts.tv_sec)
  	System_Command("netstat -an", AREA_3_DATA);
  	mvwprintw(AREA_3, 0, 0, AREA_3_DATA);
  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	read(pipe_fd[0],AREA_4_DATA,sizeof(AREA_4_DATA));
+	//System_Command("df -h",AREA_4_DATA);
+ 	read(pipe_fd[0],AREA_4_DATA,sizeof(AREA_4_DATA));
  	mvwprintw(AREA_4, 0, 0, AREA_4_DATA);
  
  
