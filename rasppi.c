@@ -255,7 +255,7 @@ pid=fork();
 if(pid==0)
 {	dup2(pipe_fd[1],2);
 	dup2(pipe_fd[1],1);
-	if(execl("/usr/sbin/tcpdump","/usr/sbin/tcpdump","-U","-n",NULL) ==-1)
+	if(execl("/usr/sbin/tcpdump","/usr/sbin/tcpdump","-t","-nn","host","1.1.1.2",NULL) ==-1)
 	{
 	printf("NO tcpdump found please INSTALL: TCPDUMP \n apt-get install tcpdump\n");	
 	exit(1);	
