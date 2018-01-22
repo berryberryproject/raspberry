@@ -1,0 +1,100 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <string.h>
+#include <math.h>
+
+int main(int argc, char **argv[])
+{
+int wfd;
+int fd;
+int ffd;
+int readn = 1;
+int writen = 0;
+char buf[3];
+char buff[3];
+char gar[51];
+float odd = 0.25;
+int i=0;
+int j=0;
+int dif =0;
+float result[3];
+
+wfd=open("RASPLOG.txt",O_CREAT|O_WRONLY);
+
+while 
+
+if((fd = open("/home/pi/white.bmp",O_RDONLY))== -1)
+
+{
+printf("failled0\n");
+exit(1);
+}
+
+if((ffd = open("/home/pi/jjj1.bmp",O_RDONLY))== -1)
+{
+printf("failled1\n");
+exit(1);
+}
+
+read(fd,gar,sizeof(gar));
+read(ffd,gar,sizeof(gar));
+
+while(readn != 0)
+{
+memset(buf, 0x00,3);
+readn = read (fd,buf,sizeof(buf));
+memset(buff, 0x00,3);
+readn = read (ffd,buff,sizeof(buff));
+
+write(wfd,buf,strlen(buf));
+write(wfd,buff,strlen(buff));
+
+printf("buf0 is %x\nbuf1 is %x\nbuf2 is %x\n", buf[0],buf[1], buf[2]);
+printf("buff0 is %x\nbuff1 is %x\n buff2 is %x\n",buff[0],buff[1],buff[2]);
+
+result[0] = (float)(fabs(((float)buff[0]-(float)buf[0])/256));
+result[1] = (float)(fabs(((float)buff[1]-(float)buf[1])/256));
+result[2] = (float)(fabs(((float)buff[2]-(float)buf[2])/256));
+
+printf(" result[0] is %f\n result[1] is %f\n result[2] is %f\n",result[0],result[1],result[2]);
+
+if ( result [0] > odd)
+{
+i++;
+dif++;
+printf("%d, %d \n",i,dif);
+}
+else if (result[1] > odd)
+{
+i++;
+dif++;
+printf("%d, %d \n",i,dif);
+}
+else if (result[2] > odd)
+{
+i++;
+dif++;
+printf("%d, %d \n",i,dif);
+}
+
+else
+i++;
+printf("%d, %d \n",i,dif);
+}
+
+printf("i : %d \ndif : %d\n", i,dif);
+
+close(wfd);
+close(fd);
+close(ffd);
+}
+
+
+
+
+
+
