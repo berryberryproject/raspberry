@@ -647,14 +647,14 @@ else
         mvwprintw(CLOCK,0,0,AREA_CLOCK_DATA);
 
 
-	System_Command("date -R",AREA_5_DATA);
-	mvwprintw(AREA_5,0,0,AREA_5_DATA);
+	System_Command("ifconfig -a wlan0",AREA_7_DATA);
+	mvwprintw(AREA_7,0,0,AREA_7_DATA);
 
 	System_Command("date -R",AREA_6_DATA);
 	mvwprintw(AREA_6,0,0,AREA_6_DATA);
 
-	sprintf(AREA_7_DATA,"CURRENT IMAGE DIFFERENCE PERCENTAGE %f",final*100);
-	mvwprintw(AREA_7,0,0,AREA_7_DATA);
+	sprintf(AREA_5_DATA,"IMAGE MANAGER:THE DIFF VALUE IS  %f !!",final*100);
+	mvwprintw(AREA_5,0,0,AREA_5_DATA);
 
  //-------------------------------------------------------------------------------------------------
         //mvwprintw(AREA_2, 0, 0, AREA_2_DATA);
@@ -747,22 +747,8 @@ WINDOW *create_newwin(int TITLE_HEIGHT, int TITLE_WIDTH, int starty, int startx)
 
 void destroy_win(WINDOW *local_win)
 {
-        /* box(local_win, ' ', ' '); : This won't produce the desired
-        * result of erasing the window. It will leave it's four corners
-        * and so an ugly remnant of window.
-        */
+
         wborder(local_win, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
-        /* The parameters taken are
-        * 1. win: the window on which to operate
-        * 2. ls: character to be used for the left side of the window
-        * 3. rs: character to be used for the right side of the window
-        * 4. ts: character to be used for the top side of the window
-        * 5. bs: character to be used for the bottom side of the window
-        * 6. tl: character to be used for the top left corner of the window
-        * 7. tr: character to be used for the top right corner of the window
-        * 8. bl: character to be used for the bottom left corner of the window
-        * 9. br: character to be used for the bottom right corner of the window
-        */
         wrefresh(local_win);
         delwin(local_win);
 }
