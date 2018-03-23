@@ -3,6 +3,7 @@
 #include <pthread.h>
 //-----------------Ncurses Header---------------------------------
 #include <ncurses.h>
+#include <curses.h>
 #include <form.h>
 #include <menu.h>
 //---------------------------------------------------------------
@@ -76,6 +77,7 @@ MENU* create_newslectwin(WINDOW* SLECT_W, char** choices, int SLECT_WIDTH, int S
 //------------------------------------------------------------------------------
 int saveimagesuffix=0;
 float final=0;
+int dif =0;
 char saveimage[MAX_ARR_SIZE_S];
 char status_ok[]="status ok";
 char status_not_ok[]="status not ok";
@@ -127,7 +129,6 @@ char gar[51];
 float odd = 0.15;
 int i=0;
 int j=0;
-int dif =0;
 float result[3];
 while(1)
 {
@@ -648,12 +649,13 @@ else
 
 
 	System_Command("ifconfig -a wlan0",AREA_7_DATA);
-	mvwprintw(AREA_7,0,0,AREA_7_DATA);
+	mvwprintw(AREA_7,0,0, "ACTIVE INET INTERFACES WITH NETWORK ADDR");	
+	mvwprintw(AREA_7,1,1,AREA_7_DATA);
 
 	System_Command("date -R",AREA_6_DATA);
 	mvwprintw(AREA_6,0,0,AREA_6_DATA);
 
-	sprintf(AREA_5_DATA,"IMAGE MANAGER:THE DIFF VALUE IS  %f !!",final*100);
+	sprintf(AREA_5_DATA,"IMAGE MANAGER:THE DIFF VALUE IS  %d \nTHE DIF RATE IS %f % percent !!",dif,final*100);
 	mvwprintw(AREA_5,0,0,AREA_5_DATA);
 
  //-------------------------------------------------------------------------------------------------
@@ -699,8 +701,7 @@ else
 
 //--------------------input ---------------------------------------------------------------------------
 
-        //if( kbhit() )
-        //{
+
                 Key_IN = wgetch(SLECT_W);
                 //Key_IN = getch();
                 //fputc(KEY_DOWN, DEBUG);
@@ -715,6 +716,17 @@ else
                 case KEY_UP:
                         menu_driver(Menu, REQ_UP_ITEM);
                         break;
+		case 10:
+		{
+			ITEM *cur;
+			void (*p)(char*);
+			cur = current_item(Menu);
+			p = item_userptr(cur);
+			p((char *)item_name(cur));
+			pos_menu_cursor(Menu);
+			break;
+		}
+		
                 case 'q':
                         endwin();
                         fclose(DEBUG);
@@ -722,7 +734,6 @@ else
                         return 0;
                         break;
                 }
-        //}
 
 
 
