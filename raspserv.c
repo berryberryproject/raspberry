@@ -75,6 +75,7 @@ MENU* create_newslectwin(WINDOW* SLECT_W, char** choices, int SLECT_WIDTH, int S
 
 //------------------------------------------------------------------------------
 int saveimagesuffix=0;
+float final=0;
 char saveimage[MAX_ARR_SIZE_S];
 char status_ok[]="status ok";
 char status_not_ok[]="status not ok";
@@ -127,7 +128,6 @@ float odd = 0.15;
 int i=0;
 int j=0;
 int dif =0;
-float final=0;
 float result[3];
 while(1)
 {
@@ -137,8 +137,8 @@ readn=1;
 memset(gar,0x00,sizeof(gar));
 
 
-system("raspistill -o image1.bmp -e bmp -h 102 -w 102 -n -t 1");
-system("raspistill -o image2.bmp -e bmp -h 102 -w 102 -n -t 1");
+system("raspistill -o image1.bmp -e bmp -h 102 -w 102 -n -t 1 >/dev/null 2>&1");
+system("raspistill -o image2.bmp -e bmp -h 102 -w 102 -n -t 1 >/dev/null 2>&1");
 
 if(    ( (fd = open("image1.bmp",O_RDONLY)   ) != -1 )   &&    (  (ffd = open("image2.bmp",O_RDONLY))   != -1)      )
 {
@@ -188,7 +188,7 @@ final = (float)(dif)/(float)(i);
                         sprintf(saveimage,"cp image2.bmp detection_%d",saveimagesuffix);
                         system(saveimage);
                         Detected =1;
-                        system("php /var/www/html/php/push_notification.php");
+                        system("php /var/www/html/php/push_notification.php >/dev/null 2>&1");
                         Donotpic=1;
                 }
 close(ffd);
@@ -501,23 +501,23 @@ else
         char AREA_CLOCK_DATA[MAX_ARR_SIZE];
         char AREA_STATUSBAR_DATA[MAX_ARR_SIZE];
         char AREA_TITLE_DATA[MAX_ARR_SIZE] = "->>>  Raspberry Pi Surveillance Camera ->>>>  Administrator Page";
-        char AREA_1_DATA[MAX_ARR_SIZE] = "example";
+        char AREA_1_DATA[MAX_ARR_SIZE] = "Developed BY SANGGU SUNGBO JONGYEON 2018 V 1.0.0";
         char AREA_2_DATA[MAX_ARR_SIZE];
         char AREA_3_DATA[MAX_ARR_SIZE];
         char AREA_4_DATA[MAX_ARR_SIZE];
         char AREA_5_DATA[MAX_ARR_SIZE];
         char AREA_6_DATA[MAX_ARR_SIZE];
         char AREA_7_DATA[MAX_ARR_SIZE];
-        char SLECT_DATA[MAX_ARR_SIZE] = "SELECT OPTION";
+        char SLECT_DATA[MAX_ARR_SIZE] = "SELECT RESOLUTION";
         //--------------------------------Slection Menu----------선택메뉴만--------------------------------------
         char *MENU1[] = {
-                "Sytem Status           ",
-                "Choise 2               ",
-                "Choice 3               ",
-                "Choice 4               ",
-                "Choise 5               ",
-                "Choise 6               ",
-                "Choise 7               "
+                "100 X 100                  ",
+                "120 X 120                  ",
+                "140 X 140                  ",
+                "200 X 200                  ",
+                "220 X 220                  ",
+                "240 X 240                  ",
+                "300 X 300                  "
         };
 
         //-----------------------------------------------------------------------------------------------------
@@ -645,6 +645,17 @@ else
  //------------------------------------------------------------------------------------------------
         System_Command("date -R",AREA_CLOCK_DATA);
         mvwprintw(CLOCK,0,0,AREA_CLOCK_DATA);
+
+
+	System_Command("date -R",AREA_5_DATA);
+	mvwprintw(AREA_5,0,0,AREA_5_DATA);
+
+	System_Command("date -R",AREA_6_DATA);
+	mvwprintw(AREA_6,0,0,AREA_6_DATA);
+
+	sprintf(AREA_7_DATA,"CURRENT IMAGE DIFFERENCE PERCENTAGE %f",final*100);
+	mvwprintw(AREA_7,0,0,AREA_7_DATA);
+
  //-------------------------------------------------------------------------------------------------
         //mvwprintw(AREA_2, 0, 0, AREA_2_DATA);
         //memset(&network_data,0,sizeof(network_data));
@@ -969,5 +980,4 @@ return (char*)((*shared_data).DATA9);
 }
 
 }
-
 
