@@ -125,16 +125,15 @@ fi
 if( $(wget "$PATH_TO_DOWNLOAD" -O "download/$NAME/$NAME$FILECNT" --load-cookies=./$COOKIES > /dev/null 2>&1) )
 then
 echo "$NAME 학생의 자료 다운로드완료 [$LOOPCNT/$TOTAL]"
+exten="$(echo "$FILE_NAME" |cut -d. -f2)"
+mv download/$NAME/$NAME$FILECNT download/$NAME/$NAME$FILECNT."$exten"
 
-if file --mime-type "download/$NAME/$NAME$FILECNT" | grep -q zip$; then
-
-
+if file --mime-type "download/$NAME/$NAME$FILECNT."$exten"" | grep -q zip$; then
 if [ -f "/usr/bin/unzip" ];
 then
-unzip -oq download/$NAME/$NAME$FILECNT -d download/$NAME/
-exten="$(echo "$FILE_NAME" |cut -d. -f2)"
-echo "$exten"
-mv download/$NAME/$NAME$FILECNT download/$NAME/$NAME$FILECNT."$exten"
+unzip -oq download/$NAME/$NAME$FILECNT."$exten" -d download/$NAME/
+
+#mv download/$NAME/$NAME$FILECNT download/$NAME/$NAME$FILECNT."$exten"
 
 ######################################################C컴파일 옵션
 
