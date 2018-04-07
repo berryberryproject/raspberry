@@ -57,7 +57,7 @@ wget --post-data="userPw=$PASSWORD&userId=$USER_ID" "https://eclass2.ajou.ac.kr/
 wget --keep-session-cookies --save-cookies=./cookies.txt "https://eclass2.ajou.ac.kr$(cut -d^ -f3 < Token )" -O Token >/dev/null 2>&1
 
 #쿠키확인
-if [ -f "$COOKIES" ]
+if [ -s "$COOKIES" ]
 then
 #체점필요 목록확인
 #echo "$LIST" #체점 목록확인
