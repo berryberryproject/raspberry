@@ -166,7 +166,7 @@ do
 QUESTION_NUM=$(ls download/$NAME/ -F|grep '[*]' |egrep -o '[^0-9][0-9][^0-9]||[^0-9][0-9][0-9][^0-9]'|egrep -o '[0-9]|[0-9][0-9]'|awk -v var=$CNT_L 'FNR==var')
 echo "$QUESTION_NUM"
 echo $CNT_L
-SIMUL="std_$QUESTION_NUM_in"
+SIMUL="std_"$QUESTION_NUM"_in"
 echo "$SIMUL"
 if [ -f "$SIMUL" ] ; then
 #./download/$NAME/a."$(ls download/$NAME |grep '..c'| awk -v var=$LLOOPCNT 'FNR==var'|cut -d. -f1)" < "$SIMUL" >> download/$NAME/SIMUL.txt 2>&1 
