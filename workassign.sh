@@ -3,21 +3,10 @@
 # 아주 비비로부터 데이터를 받아옵니다. 
 ################################################################################################
 
-
 #바꿔주어야 하는 함수들 바꿔야하는함수.바꾸고자하는함수
 
-
-
 CHSTR=("scanf_s" "scanf")
-CHSTR_1=("system("pause")","system("sleep 100")")
-
-
-##########################################COMPILE OPTION########################################
-##########-o사용불가############################################################################
-
-
-#################################################################################################
-
+CHSTR_1=("system("pause")","system("read")")
 
 USER_ID="northbrok04"
 PASSWORD="비밀번호"
@@ -56,17 +45,13 @@ wget --keep-session-cookies --save-cookies=./cookies.txt "https://eclass2.ajou.a
 #쿠키확인
 if [ -f "$COOKIES" ]
 then
-#체점필요 목록확인
-#echo "$LIST" #체점 목록확인
 
 if( $(wget "$LIST"  -O $(date +'%Y%m%d').txt --load-cookies=$COOKIES >/dev/null 2>&1 )  )
 then
-##
+
 grep "$GREP_SEQ" < $(date +'%Y%m%d').txt |grep -o '_[^ ][^ ][^ ][^ ][^ ][^ ]_[^ ]' >ID_LIST.txt
 grep "$GREP_SEQ" < $(date +'%Y%m%d').txt |awk '{print substr($5,14,3)}' >name_list.txt
 
-
-##
 TOTAL=$(wc -l < name_list.txt)
 
 echo "[성공] 총  $TOTAL 명의 과제 제출을 확인하였습니다 / 0명 이면 로그인 오류 "
@@ -124,10 +109,12 @@ do
 echo download/$NAME/\'$(ls download/$NAME |grep ' '|grep '.c'|awk 'FNR==1')\' download/$NAME/$(ls download/$NAME/ |grep ' ' |grep '.c' |awk 'FNR==1'|sed 's/ //g') |xargs mv
 LLOOPCNT=$((LLOOPCNT + 1 ))
 done
+########################################################################################################################
 
+######################바꿀 문자##########################################################################################
 sed -i "s/${CHSTR[0]}/${CHSTR[1]}/g" download/$NAME/*
 sed -i "s/${CHSTR_1[0]}/${CHSTR_1[1]}/g" download/$NAME/*
-
+#########################################################################################################################
 LLOOPCNT=1
 COMPILE=$(ls download/$NAME | grep '..c'|cut -d. -f1|wc -l)
 
@@ -150,9 +137,10 @@ if [ -f "$SIMUL" ] ; then
 cat "download/$NAME/$(ls download/$NAME/ -F|grep '[*]'|awk -v var=$CNT_L 'FNR==var'|cut -d. -f2|cut -d* -f1).c" >> download/$NAME/SIMUL.txt 2>&1
 echo "-----------------------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
 echo "-----------------------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
-echo "-----------------------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
 
 timeout 0.1 ./download/$NAME/"$(ls download/$NAME/ -F|grep '[*]'|awk -v var=$CNT_L 'FNR==var'|cut -d* -f1)" < $SIMUL >> download/$NAME/SIMUL.txt 2>&1
+echo "-----------------------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
+echo "-----------------------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
 fi
 CNT_L=$((CNT_L + 1 ))
 done
@@ -178,7 +166,7 @@ fi
 done
 
 rm "LSG" "sub_file_id.txt" "sub_file_name.txt" "$(date +'%Y%m%d').txt" "name_list.txt" "ID_LIST.txt" "Token" "cookies.txt" "Redirection"
-zip -r "output.zip" download >/dev/null 2>&1
+#zip -r "output.zip" download >/dev/null 2>&1
 echo "[성공] Total $TOTAL >> FAIL $FAIL"
 else
 echo "종료!"
