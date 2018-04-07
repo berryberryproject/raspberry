@@ -38,7 +38,7 @@ if [ ! -f "std_"$LOOPCNT"_in"  ] ; then
 touch "std_"$LOOPCNT"_in"
 RESTART='y'
 fi
-LOOPCNT= $(( LOOPCNT + 1 ))
+LOOPCNT=$(( LOOPCNT + 1 ))
 done
 
 
