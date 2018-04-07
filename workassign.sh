@@ -9,7 +9,7 @@
 
 
 CHSTR=("scanf_s" "scanf")
-CHSTR_1("system("pause")","system("sleep 100")")
+CHSTR_1=("system("pause")","system("sleep 100")")
 
 
 ##########################################COMPILE OPTION########################################
