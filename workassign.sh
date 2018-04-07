@@ -150,7 +150,7 @@ done
 
 sed -i "s/${CHSTR[0]}/${CHSTR[1]}/g" download/$NAME/*
 
-LLOOPCNT=0
+LLOOPCNT=1
 COMPILE=$(ls download/$NAME | grep '..c'|cut -d. -f1|wc -l)
 while [ $LLOOPCNT -le $COMPILE ]
 do
