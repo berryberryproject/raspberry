@@ -133,6 +133,8 @@ if [ -f "/usr/bin/unzip" ];
 then
 unzip -oq download/$NAME/$NAME$FILECNT -d download/$NAME/
 exten="$(echo "$FILE_NAME" |cut -d. -f2)"
+echo "$exten"
+sleep 100
 mv download/$NAME/$NAME$FILECNT download/$NAME/$NAME$FILECNT."$exten"
 
 ######################################################C컴파일 옵션
