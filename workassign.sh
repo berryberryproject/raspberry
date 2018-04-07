@@ -9,7 +9,7 @@
 
 
 CHSTR=("scanf_s" "scanf")
-#CHSTR_1("system("pause")","system("sleep 100")")
+CHSTR_1("system("pause")","system("sleep 100")")
 
 
 ##########################################COMPILE OPTION########################################
@@ -86,38 +86,24 @@ while [ $LOOPCNT -le $TOTAL   ]
 do
 ##정보를 받아오면!
 NAME="$(awk -v var=$LOOPCNT 'FNR==var {print $1 }' < name_list.txt)"
-#ATTEMPT_ID="$(grep '<a class="dwnldBtn" href="/webapps/assignment/download?' <LSG |awk '{print substr($3,70,9)}')"
 ATTEMPT_ID="$(awk -v var=$LOOPCNT 'FNR==var {print $1 }' < ID_LIST.txt)"
 REDIRECTION="$AJOUBB/webapps/gradebook/do/instructor/performGrading?course_id=$COURSE_ID&source=cp_gradebook_needs_grading&cancelGradeUrl=%2Fwebapps%2Fgradebook%2Fdo%2Finstructor%2FviewNeedsGrading%3Fcourse_id%3D$COURSE_ID&mode=invokeFromNeedsGrading&viewInfo=%EC%B1%84%EC%A0%90+%ED%95%84%EC%9A%94&attemptId=$ATTEMPT_ID&groupAttemptId=;"
-################################################
 wget -O Token --load-cookies=./$COOKIES "$REDIRECTION" > Redirection 2>&1
 TEMP="https:$(grep "https://eclass2.ajou.ac.kr/webapps/assignment" < Redirection |sed 's/^.*://' )"
-
 wget -O LSG --load-cookies=./$COOKIES "$TEMP" >/dev/null 2>&1
-
-#FILE_ID="$(grep '<a class="dwnldBtn" href="/webapps/assignment/download?' <LSG |awk '{print substr($3,92,9)}')"
 grep '<a class="dwnldBtn" href="/webapps/assignment/download?' <LSG |awk '{print substr($3,92,9)}' > sub_file_id.txt
 FILE_ID="$(awk -v var=$FILECNT 'FNR==var {print $1 }' < sub_file_id.txt)"
 TOTAL_FILE=$(wc -l < sub_file_id.txt)
-
-
-#FILE_NAME="$(grep '<a class="dwnldBtn" href="/webapps/assignment/download?' <LSG |awk '{print substr($3,115,20000)}')"
 grep '<a class="dwnldBtn" href="/webapps/assignment/download?' <LSG |awk '{print substr($3,115,20000)}'> sub_file_name.txt
 FILE_NAME="$(awk -v var=$FILECNT 'FNR==var {print $1 }' < sub_file_name.txt)"
 FILE_NAME="${FILE_NAME%?}"
-
 PATH_TO_DOWNLOAD="$AJOUBB$ASSIGNMENT$COURSE_ID&attempt_id=$ATTEMPT_ID&file_id=$FILE_ID&fileName=$FILE_NAME"
-#echo "$FILE_ID"
-#echo "$FILE_NAME"
-#echo "[성공] $NAME 학생의 다운로드 주소는 $PATH_TO_DOWNLOAD"
 
 
 if [ ! -d "download/$NAME" ]; then
 echo "$NAME 학생의 디렉토리를 생성중"
 mkdir "download/$NAME"
 fi
-#echo "$FILE_NAME"
-#echo "$PATH_TO_DOWNLOAD"
 
 if( $(wget "$PATH_TO_DOWNLOAD" -O "download/$NAME/$NAME$FILECNT" --load-cookies=./$COOKIES > /dev/null 2>&1) )
 then
@@ -130,13 +116,8 @@ if [ -f "/usr/bin/unzip" ];
 then
 unzip -O cp949 -oq download/$NAME/$NAME$FILECNT."$exten" -d download/$NAME/
 
-#mv download/$NAME/$NAME$FILECNT download/$NAME/$NAME$FILECNT."$exten"
-
-######################################################C컴파일 옵션
-
 LLOOPCNT=0
 MAXC=$(ls download/$NAME/ | grep  ' '|wc -l)
-
 
 while [ $LLOOPCNT -lt $MAXC ]
 do
@@ -144,20 +125,18 @@ echo download/$NAME/\'$(ls download/$NAME |grep ' '|grep '.c'|awk 'FNR==1')\' do
 LLOOPCNT=$((LLOOPCNT + 1 ))
 done
 
-#echo "${CHSTR[0]}"
-
 sed -i "s/${CHSTR[0]}/${CHSTR[1]}/g" download/$NAME/*
+sed -i "s/${CHSTR_1[0]}/${CHSTR_1[1]}/g" download/$NAME/*
 
 LLOOPCNT=1
 COMPILE=$(ls download/$NAME | grep '..c'|cut -d. -f1|wc -l)
+
 while [ $LLOOPCNT -le $COMPILE ]
 do
 gcc -lm -o download/$NAME/a."$(ls download/$NAME |grep '..c'| awk -v var=$LLOOPCNT 'FNR==var'|cut -d. -f1)"  "download/$NAME/$(ls download/$NAME |grep '..c'| awk -v var=$LLOOPCNT 'FNR==var')" >> download/$NAME/Compile_log.txt 2>&1
-#FILE_TO_SIM="download/$NAME/a."$(ls download/$NAME |grep '..c'| awk -v var=$LLOOPCNT 'FNR==var'|cut -d. -f1)""
-#컴파일성공시
 LLOOPCNT=$((LLOOPCNT + 1 ))
 done
-#SIMUL
+
 
 CNT_L=1
 
@@ -168,13 +147,12 @@ QUESTION_NUM=$(ls download/$NAME/ -F|grep '[*]' |egrep -o '[^0-9][0-9][^0-9]||[^
 SIMUL="std_"$QUESTION_NUM"_in"
 
 if [ -f "$SIMUL" ] ; then
-echo "download/$NAME/$(ls download/$NAME/ -F|grep '[*]'|awk -v var=$CNT_L 'FNR==var'|cut -d* -f1).c" >> download/$NAME/SIMUL.txt 2>&1
+cat "download/$NAME/$(ls download/N$AME/ -F|grep '[*]'|awk -v var=$CNT_L 'FNR==var'|cut -d. -f2|cut -d* -f1).c" >> download/$NAME/SIMUL.txt 2>&1
 timeout 0.1 ./download/$NAME/"$(ls download/$NAME/ -F|grep '[*]'|awk -v var=$CNT_L 'FNR==var'|cut -d* -f1)" < $SIMUL >> download/$NAME/SIMUL.txt 2>&1
 fi
 CNT_L=$((CNT_L + 1 ))
 done
 
-######################################################
 fi
 fi
 
