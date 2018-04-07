@@ -11,8 +11,9 @@ CHSTR_1=('system("pause")' 'system("read")')
 
 
 
+##시뮬레이션맥스타임
+TM_OUT="0.01"
 
-TM_OUT="0.001"
 USER_ID="northbrok04"
 PASSWORD="비밀번호"
 
