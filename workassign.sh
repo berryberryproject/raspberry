@@ -178,7 +178,9 @@ echo "--------------------------------------------------------------------------
 fi
 CNT_L=$((CNT_L + 1 ))
 done
+if [ -f "download/$NAME/SIMUL.txt" ] ; then
 cat download/$NAME/SIMUL.txt >>종합.txt
+fi
 fi
 fi
 
