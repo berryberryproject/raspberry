@@ -12,7 +12,6 @@ CHSTR_1=('system("pause")' 'system("read")')
 
 
 ##시뮬레이션맥스타임
-TM_OUT="0.02"
 
 USER_ID="northbrok04"
 PASSWORD="비밀번호"
@@ -171,7 +170,7 @@ echo "" >> download/$NAME/SIMUL.txt 2>&1
 echo "-----------------------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
 echo "-----------------------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
 echo "" >> download/$NAME/SIMUL.txt 2>&1
-timeout $TM_OUT ./download/$NAME/"$(ls download/$NAME/ -F|grep '[*]'|awk -v var=$CNT_L 'FNR==var'|cut -d* -f1)" < $SIMUL >> download/$NAME/SIMUL.txt 2>&1
+timeout 0.01 ./download/$NAME/"$(ls download/$NAME/ -F|grep '[*]'|awk -v var=$CNT_L 'FNR==var'|cut -d* -f1)" < $SIMUL >> download/$NAME/SIMUL.txt 2>&1
 echo "" >> download/$NAME/SIMUL.txt 2>&1
 echo "-----------------------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
 echo "-----------------------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
