@@ -158,13 +158,13 @@ QUESTION_NUM=$(ls download/$NAME/ -F|grep '[*]' |egrep -o '[^0-9][0-9][^0-9]||[^
 SIMUL="std_"$QUESTION_NUM"_in"
 
 echo "-----------------------------------------------------------------------------">> download/$NAME/SIMUL.txt 2>&1
-echo "문제번호 $QUESTION_NUM-------------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
+echo "question num $QUESTION_NUM-------------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
 if [ -f "$SIMUL" ] ; then
 cat "download/$NAME/$(ls download/$NAME/ -F|grep '[*]'|awk -v var=$CNT_L 'FNR==var'|cut -d. -f2|cut -d* -f1).c" >> download/$NAME/SIMUL.txt 2>&1
 echo "" >> download/$NAME/SIMUL.txt 2>&1
 echo "-----------------------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
 echo "-----------------------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
-echo "현재입력은 다음과 같습니다" >> download/$NAME/SIMUL.txt 2>&1
+echo "CURRENT INPUT -----------" >> download/$NAME/SIMUL.txt 2>&1
 echo "" >> download/$NAME/SIMUL.txt 2>&1
 head -n 14 $SIMUL >> download/$NAME/SIMUL.txt 2>&1
 echo "" >> download/$NAME/SIMUL.txt 2>&1
