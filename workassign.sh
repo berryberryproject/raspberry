@@ -133,6 +133,8 @@ do
 QUESTION_NUM=$(ls download/$NAME/ -F|grep '[*]' |egrep -o '[^0-9][0-9][^0-9]||[^0-9][0-9][0-9][^0-9]'|egrep -o '[0-9]|[0-9][0-9]'|awk -v var=$CNT_L 'FNR==var')
 SIMUL="std_"$QUESTION_NUM"_in"
 
+echo "-----------------------------------------------------------------------------">> download/$NAME/SIMUL.txt 2>&1
+echo "문제번호 $QUESTION_NUM-------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
 if [ -f "$SIMUL" ] ; then
 cat "download/$NAME/$(ls download/$NAME/ -F|grep '[*]'|awk -v var=$CNT_L 'FNR==var'|cut -d. -f2|cut -d* -f1).c" >> download/$NAME/SIMUL.txt 2>&1
 echo "-----------------------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
