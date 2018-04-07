@@ -154,7 +154,7 @@ COMPILE=$(ls download/$NAME | grep '..c'|cut -d. -f1|wc -l)
 while [ $LLOOPCNT -le $COMPILE ]
 do
 
-gcc -lm -o download/$NAME/a."$(ls download/$NAME |grep '..c'| awk -v var=$LLOOPCNT 'FNR==var'|cut -d. -f1)"  "download/$NAME/$(ls download/$NAME |grep '..c'| awk -v var=$LLOOPCNT 'FNR==var')" >> download/$NAME/Compile_log.txt 2>&1
+gcc -lm -o download/$NAME/a."$(ls download/$NAME |grep '..c'| awk -v var=$LLOOPCNT 'FNR==var'|cut -d. -f1)"  "download/$NAME$(ls download/$NAME |grep '..c'| awk -v var=$LLOOPCNT 'FNR==var')" >> download/$NAME/Compile_log.txt 2>&1
 LLOOPCNT=$((LLOOPCNT + 1 ))
 done
 
