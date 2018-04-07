@@ -139,7 +139,7 @@ if [ -f "$SIMUL" ] ; then
 cat "download/$NAME/$(ls download/$NAME/ -F|grep '[*]'|awk -v var=$CNT_L 'FNR==var'|cut -d. -f2|cut -d* -f1).c" >> download/$NAME/SIMUL.txt 2>&1
 echo "-----------------------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
 echo "-----------------------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
-echo "현재입력은 다음과 같습니다"
+echo "현재입력은 다음과 같습니다" >> download/$NAME/SIMUL.txt 2>&1
 head -n 14 $SIMUL >> download/$NAME/SIMUL.txt 2>&1
 echo "-----------------------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
 echo "-----------------------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
