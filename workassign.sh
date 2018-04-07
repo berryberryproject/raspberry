@@ -147,7 +147,7 @@ QUESTION_NUM=$(ls download/$NAME/ -F|grep '[*]' |egrep -o '[^0-9][0-9][^0-9]||[^
 SIMUL="std_"$QUESTION_NUM"_in"
 
 if [ -f "$SIMUL" ] ; then
-cat "download/$NAME/$(ls download/N$AME/ -F|grep '[*]'|awk -v var=$CNT_L 'FNR==var'|cut -d. -f2|cut -d* -f1).c" >> download/$NAME/SIMUL.txt 2>&1
+cat "download/$NAME/$(ls download/$NAME/ -F|grep '[*]'|awk -v var=$CNT_L 'FNR==var'|cut -d. -f2|cut -d* -f1).c" >> download/$NAME/SIMUL.txt 2>&1
 timeout 0.1 ./download/$NAME/"$(ls download/$NAME/ -F|grep '[*]'|awk -v var=$CNT_L 'FNR==var'|cut -d* -f1)" < $SIMUL >> download/$NAME/SIMUL.txt 2>&1
 fi
 CNT_L=$((CNT_L + 1 ))
