@@ -165,13 +165,12 @@ while [ $CNT_L -le $LLOOPCNT ]
 do
 QUESTION_NUM=$(ls download/$NAME/ -F|grep '[*]' |egrep -o '[^0-9][0-9][^0-9]||[^0-9][0-9][0-9][^0-9]'|egrep -o '[0-9]|[0-9][0-9]'|awk -v var=$CNT_L 'FNR==var')
 SIMUL="std_"$QUESTION_NUM"_in"
-echo "$SIMUL"
 if [ -f "$SIMUL" ] ; then
 #./download/$NAME/a."$(ls download/$NAME |grep '..c'| awk -v var=$LLOOPCNT 'FNR==var'|cut -d. -f1)" < "$SIMUL" >> download/$NAME/SIMUL.txt 2>&1 
 
-./download/$NAME/"$(ls download/$NAME/ -F|grep '[*]'|awk -v var=$CNT_L 'FNR==var'|cut -d* -f1)" < $SIMUL >> download/$NAME/SIMUL.txt 2>&1
-cat "download/$NAME/"$(ls download/$NAME/ -F|grep '[*]'|awk -v var=$CNT_L 'FNR==var'|cut -d* -f1).c"" >> download/$NAME/SIMUL.txt 2>&1
-timeout 0.001 ./download/$NAME/"$(ls download/$NAME/ -F|grep '[*]'|awk -v var=$CNT_L 'FNR==var'|cut -d* -f1)" < $SIMUL >> download/$NAME/SIMUL.txt 2>&1
+#./download/$NAME/"$(ls download/$NAME/ -F|grep '[*]'|awk -v var=$CNT_L 'FNR==var'|cut -d* -f1)" < $SIMUL >> download/$NAME/SIMUL.txt 2>&1
+#cat "download/$NAME/"$(ls download/$NAME/ -F|grep '[*]'|awk -v var=$CNT_L 'FNR==var'|cut -d* -f1).c"" >> download/$NAME/SIMUL.txt 2>&1
+#timeout 0.001 ./download/$NAME/"$(ls download/$NAME/ -F|grep '[*]'|awk -v var=$CNT_L 'FNR==var'|cut -d* -f1)" < $SIMUL >> download/$NAME/SIMUL.txt 2>&1
 
 fi
 CNT_L=$((CNT_L + 1 ))
