@@ -43,6 +43,7 @@ done
 
 
 if [ $RESTART = 'y' ] ; then
+echo "재시작 std_x_in 을 설정하세요/없으면"
 exit
 fi
 
