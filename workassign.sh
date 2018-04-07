@@ -6,7 +6,7 @@
 #바꿔주어야 하는 함수들 바꿔야하는함수.바꾸고자하는함수
 
 CHSTR=("scanf_s" "scanf")
-CHSTR_1=("system("pause")","system("read")")
+CHSTR_1=('system("pause")','system("read")')
 
 USER_ID="northbrok04"
 PASSWORD="비밀번호"
