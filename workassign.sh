@@ -12,7 +12,7 @@ CHSTR_1=('system("pause")' 'system("read")')
 
 
 ##시뮬레이션맥스타임
-TM_OUT="0.01"
+TM_OUT="0.02"
 
 USER_ID="northbrok04"
 PASSWORD="비밀번호"
@@ -158,7 +158,7 @@ QUESTION_NUM=$(ls download/$NAME/ -F|grep '[*]' |egrep -o '[^0-9][0-9][^0-9]||[^
 SIMUL="std_"$QUESTION_NUM"_in"
 
 echo "-----------------------------------------------------------------------------">> download/$NAME/SIMUL.txt 2>&1
-echo "question num $QUESTION_NUM-------------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
+echo "question num $QUESTION_NUM---------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
 if [ -f "$SIMUL" ] ; then
 cat "download/$NAME/$(ls download/$NAME/ -F|grep '[*]'|awk -v var=$CNT_L 'FNR==var'|cut -d. -f2|cut -d* -f1).c" >> download/$NAME/SIMUL.txt 2>&1
 echo "" >> download/$NAME/SIMUL.txt 2>&1
