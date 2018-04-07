@@ -29,6 +29,23 @@ CONT='n'
 LOOPCNT=1
 FILECNT=1
 NAME="이상구"
+RESTART='n'
+##시뮬레이션파일생성
+
+while [ $LOOPCNT -le 10 ]
+do
+if [ ! -f "std_"$LOOPCNT"_in"  ] ; then
+touch "std_"$LOOPCNT"_in"
+RESTART='y'
+fi
+LOOPCNT = $(( LOOPCNT + 1 ))
+done
+
+
+if [ $RESTART = 'y' ] ; then
+exit
+fi
+
 
 # 과제 서버와 연결시도 인증
 
