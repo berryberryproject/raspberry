@@ -40,7 +40,7 @@ RESTART='y'
 fi
 LOOPCNT=$(( LOOPCNT + 1 ))
 done
-LOOPCNT=0
+LOOPCNT=1
 
 if [ $RESTART = 'y' ] ; then
 echo "재시작 std_x_in 을 설정하세요없으면"
