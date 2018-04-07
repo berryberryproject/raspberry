@@ -151,7 +151,7 @@ sed -i "s/${CHSTR[0]}/${CHSTR[1]}/g" download/$NAME/*
 
 LLOOPCNT=0
 COMPILE=$(ls download/$NAME | grep '..c'|cut -d. -f1|wc -l)
-while [ $LLOOPCNT -lt $COMPILE ]
+while [ $LLOOPCNT -le $COMPILE ]
 do
 
 gcc -lm -o download/$NAME/a."$(ls download/$NAME |grep '..c'| awk -v var=$LLOOPCNT 'FNR==var'|cut -d. -f1)"  "download/$NAME/$(ls download/$NAME |grep '..c'| awk -v var=$LLOOPCNT 'FNR==var')" >> download/$NAME/Compile_log.txt 2>&1
