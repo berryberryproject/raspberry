@@ -164,7 +164,7 @@ echo "" >> download/$NAME/SIMUL.txt 2>&1
 echo "-----------------------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
 echo "-----------------------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
 echo "CURRENT INPUT ----"$(date +'%Y%m%d')"----------" >> download/$NAME/SIMUL.txt 2>&1
-echo "$NAME" >> download/$NAME/SIMUL.txt 2>&1
+
 echo "" >> download/$NAME/SIMUL.txt 2>&1
 echo "" >> download/$NAME/SIMUL.txt 2>&1
 head -n 14 $SIMUL >> download/$NAME/SIMUL.txt 2>&1
@@ -180,8 +180,13 @@ echo "--------------------------------------------------------------------------
 fi
 CNT_L=$((CNT_L + 1 ))
 done
+echo "" >>complete.txt
+echo "------------------------------------------$NAME-아래영역------------------------------------" >>complete.txt
+echo ""  >>complete.txt
 if [ -f "download/$NAME/SIMUL.txt" ] ; then
+echo "$NAME" >>complete.txt
 cat download/$NAME/SIMUL.txt >>complete.txt
+
 fi
 fi
 fi
