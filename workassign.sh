@@ -54,11 +54,10 @@ read -p "아이디 입력! : " USER_ID
 read -p "비밀번호 입력! : " PASSWORD
 
 wget --post-data="userPw=$PASSWORD&userId=$USER_ID" "https://eclass2.ajou.ac.kr/webapps/bbgs-autosignon-BBLEARN/ajouLogin.jsp" -O Token >/dev/null 2>&1
-SUCC="$(wget --keep-session-cookies --save-cookies=./cookies.txt "https://eclass2.ajou.ac.kr$(cut -d^ -f3 < Token )" -O Token >/dev/null 2>&1)"
-echo "$SUCC"
-sleep 10
+wget --keep-session-cookies --save-cookies=./cookies.txt "https://eclass2.ajou.ac.kr$(cut -d^ -f3 < Token )" -O Token >/dev/null 2>&1
+
 #쿠키확인
-if [ -s "$COOKIES" ]
+if [ -f "$COOKIES" ]
 then
 #체점필요 목록확인
 #echo "$LIST" #체점 목록확인
@@ -73,7 +72,7 @@ grep "$GREP_SEQ" < $(date +'%Y%m%d').txt |awk '{print substr($5,14,3)}' >name_li
 ##
 TOTAL=$(wc -l < name_list.txt)
 
-echo "[성공] 총  $TOTAL 명의 과제 제출을 확인하였습니다"
+echo "[성공] 총  $TOTAL 명의 과제 제출을 확인하였습니다 / 0명 이면 로그인 오류 "
 echo "곧 과제함에서 제출자료를 받아옵니다!"
 read -p "실행할까요? [ y / n ]" CONT
 
