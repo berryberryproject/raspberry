@@ -54,8 +54,9 @@ read -p "아이디 입력! : " USER_ID
 read -p "비밀번호 입력! : " PASSWORD
 
 wget --post-data="userPw=$PASSWORD&userId=$USER_ID" "https://eclass2.ajou.ac.kr/webapps/bbgs-autosignon-BBLEARN/ajouLogin.jsp" -O Token >/dev/null 2>&1
-wget --keep-session-cookies --save-cookies=./cookies.txt "https://eclass2.ajou.ac.kr$(cut -d^ -f3 < Token )" -O Token >/dev/null 2>&1
-
+SUCC="$(wget --keep-session-cookies --save-cookies=./cookies.txt "https://eclass2.ajou.ac.kr$(cut -d^ -f3 < Token )" -O Token >/dev/null 2>&1)"
+echo "$SUCC"
+sleep 10
 #쿠키확인
 if [ -s "$COOKIES" ]
 then
