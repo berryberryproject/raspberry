@@ -163,7 +163,7 @@ cat "download/$NAME/$(ls download/$NAME/ -F|grep '[*]'|awk -v var=$CNT_L 'FNR==v
 echo "" >> download/$NAME/SIMUL.txt 2>&1
 echo "-----------------------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
 echo "-----------------------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
-echo "CURRENT INPUT -----------" >> download/$NAME/SIMUL.txt 2>&1
+echo "CURRENT INPUT ----"$(date +'%Y%m%d')"------"$NAME"----" >> download/$NAME/SIMUL.txt 2>&1
 echo "" >> download/$NAME/SIMUL.txt 2>&1
 head -n 14 $SIMUL >> download/$NAME/SIMUL.txt 2>&1
 echo "" >> download/$NAME/SIMUL.txt 2>&1
@@ -174,6 +174,8 @@ timeout 0.01 ./download/$NAME/"$(ls download/$NAME/ -F|grep '[*]'|awk -v var=$CN
 echo "" >> download/$NAME/SIMUL.txt 2>&1
 echo "-----------------------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
 echo "-----------------------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
+
+cat download/$NAME/SIMUL.txt 종합.txt
 fi
 CNT_L=$((CNT_L + 1 ))
 done
