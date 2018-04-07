@@ -49,7 +49,7 @@ echo "[성공] 아주비비에 성공적으로 연결을 했습니다."
 
 read -p "아이디 입력! : " USER_ID
 read -p "비밀번호 입력! : " PASSWORD
-
+clear
 wget --post-data="userPw=$PASSWORD&userId=$USER_ID" "https://eclass2.ajou.ac.kr/webapps/bbgs-autosignon-BBLEARN/ajouLogin.jsp" -O Token >/dev/null 2>&1
 wget --keep-session-cookies --save-cookies=./cookies.txt "https://eclass2.ajou.ac.kr$(cut -d^ -f3 < Token )" -O Token >/dev/null 2>&1
 
