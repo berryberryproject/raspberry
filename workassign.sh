@@ -131,7 +131,7 @@ mv download/$NAME/$NAME$FILECNT download/$NAME/$NAME$FILECNT."$exten"
 if file --mime-type "download/$NAME/$NAME$FILECNT."$exten"" | grep -q zip$; then
 if [ -f "/usr/bin/unzip" ];
 then
-unzip -oq download/$NAME/$NAME$FILECNT."$exten" -d download/$NAME/
+unzip -O cp949 -oq download/$NAME/$NAME$FILECNT."$exten" -d download/$NAME/
 
 #mv download/$NAME/$NAME$FILECNT download/$NAME/$NAME$FILECNT."$exten"
 
