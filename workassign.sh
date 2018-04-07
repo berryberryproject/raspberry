@@ -163,7 +163,9 @@ cat "download/$NAME/$(ls download/$NAME/ -F|grep '[*]'|awk -v var=$CNT_L 'FNR==v
 echo "" >> download/$NAME/SIMUL.txt 2>&1
 echo "-----------------------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
 echo "-----------------------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
-echo "CURRENT INPUT ----"$(date +'%Y%m%d')"------"$NAME"----" >> download/$NAME/SIMUL.txt 2>&1
+echo "CURRENT INPUT ----"$(date +'%Y%m%d')"----------" >> download/$NAME/SIMUL.txt 2>&1
+echo "$NAME" >> download/$NAME/SIMUL.txt 2>&1
+echo "" >> download/$NAME/SIMUL.txt 2>&1
 echo "" >> download/$NAME/SIMUL.txt 2>&1
 head -n 14 $SIMUL >> download/$NAME/SIMUL.txt 2>&1
 echo "" >> download/$NAME/SIMUL.txt 2>&1
