@@ -175,11 +175,10 @@ echo "" >> download/$NAME/SIMUL.txt 2>&1
 echo "-----------------------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
 echo "-----------------------------------------------------------------------------" >> download/$NAME/SIMUL.txt 2>&1
 
-cat download/$NAME/SIMUL.txt >>종합.txt
 fi
 CNT_L=$((CNT_L + 1 ))
 done
-
+cat download/$NAME/SIMUL.txt >>종합.txt
 fi
 fi
 
