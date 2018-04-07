@@ -155,7 +155,8 @@ gcc -lm -o download/$NAME/a."$(ls download/$NAME |grep '..c'| awk -v var=$LLOOPC
 SIMUL="std_$(ls download/$NAME/ -F|grep '[*]' |egrep -o '[^0-9][0-9][^0-9]||[^0-9][0-9][0-9][^0-9]'|egrep -o '[0-9]|[0-9][0-9]'|awk -v var=$LLOOPCNT 'FNR==var')_in"
 if [ -f "$SIMUL" ] ; then
   if[ -f "download/$NAME/a."$(ls download/$NAME |grep '..c'| awk -v var=$LLOOPCNT 'FNR==var'|cut -d. -f1)" ] ; then
-  "./download/$NAME/a."$(ls download/$NAME |grep '..c'| awk -v var=$LLOOPCNT 'FNR==var'|cut -d. -f1)"< "$SIMUL" >  >> download/$NAME/SIMUL.txt 2>&1
+  ./download/$NAME/a."$(ls download/$NAME |grep '..c'| awk -v var=$LLOOPCNT 'FNR==var'|cut -d. -f1)" < "$SIMUL" >> download/$NAME/SIMUL.txt 2>&1
+  
   fi
 fi
 LLOOPCNT=$((LLOOPCNT + 1 ))
