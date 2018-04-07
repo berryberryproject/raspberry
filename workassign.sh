@@ -169,7 +169,7 @@ SIMUL="std_$QUESTION_NUM_in"
 echo $SIMUL
 if [ -f "$SIMUL" ] ; then
 #./download/$NAME/a."$(ls download/$NAME |grep '..c'| awk -v var=$LLOOPCNT 'FNR==var'|cut -d. -f1)" < "$SIMUL" >> download/$NAME/SIMUL.txt 2>&1 
-echo "./download/$NAME/a."$(ls download/$NAME |grep '..c'| awk -v var=$LLOOPCNT 'FNR==var'|cut -d. -f1) '<<<<<' $SIMUL"
+echo "./download/$NAME/a."$(ls download/$NAME |grep '..c'| awk -v var=$LLOOPCNT 'FNR==var'|cut -d. -f1)" '<<<<<' $SIMUL "
 
 fi
 CNT_L=$((CNT_L + 1 ))
