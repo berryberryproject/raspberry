@@ -13,6 +13,7 @@
 #include <sys/select.h>
 #include <fcntl.h>
 #include <time.h>
+#include <math.h>
 #include <sys/msg.h>
 
 // -----------------NETWORK HEADDER-------------------------------
@@ -90,6 +91,123 @@ int time_before=0;
 	
 	
 //}
+
+
+void* picampic_process(void*argv)
+{
+while(1)
+{
+system("raspistill -o white.bmp -e bmp -h 108 -w 108 -n -t 10");
+system("raspistill -o jjj1.bmp -e bmp -h 108 -w 108 -n -t 10");
+}	
+}
+
+
+void* picam_process(void*argv)
+{
+	
+int wfd;
+int fd;
+int ffd;
+int readn = 1;
+int writen = 0;
+char buf[3];
+char buff[3];
+char gar[51];
+float odd = 0.25;
+int i=0;
+int j=0;
+int dif =0;
+float final=0;
+float result[3];
+
+while(1)
+{
+i =0;
+dif = 0;
+readn=1;
+memset(gar,0x00,sizeof(gar));
+wfd=open("RASPLOG.txt",O_CREAT|O_WRONLY);
+
+
+
+if((fd = open("/home/pi/white.bmp",O_RDONLY))== -1)
+
+{
+printf("failled0\n");
+exit(1);
+}
+
+if((ffd = open("/home/pi/jjj1.bmp",O_RDONLY))== -1)
+{
+printf("failled1\n");
+exit(1);
+}
+
+read(fd,gar,sizeof(gar));
+read(ffd,gar,sizeof(gar));
+
+while(readn != 0)
+{
+memset(buf, 0x00,3);
+readn = read (fd,buf,sizeof(buf));
+memset(buff, 0x00,3);
+readn = read (ffd,buff,sizeof(buff));
+
+write(wfd,buf,strlen(buf));
+write(wfd,buff,strlen(buff));
+
+//printf("buf0 is %x\nbuf1 is %x\nbuf2 is %x\n", buf[0],buf[1], buf[2]);
+//printf("buff0 is %x\nbuff1 is %x\n buff2 is %x\n",buff[0],buff[1],buff[2]);
+
+result[0] = (float)(fabs(((float)buff[0]-(float)buf[0])/256));
+result[1] = (float)(fabs(((float)buff[1]-(float)buf[1])/256));
+result[2] = (float)(fabs(((float)buff[2]-(float)buf[2])/256));
+
+//printf(" result[0] is %f\n result[1] is %f\n result[2] is %f\n",result[0],result[1],result[2]);
+
+if ( result [0] > odd)
+{
+i++;
+dif++;
+//printf("%d, %d \n",i,dif);
+}
+else if (result[1] > odd)
+{
+i++;
+dif++;
+//printf("%d, %d \n",i,dif);
+}
+else if (result[2] > odd)
+{
+i++;
+dif++;
+//printf("%d, %d \n",i,dif);
+}
+
+else
+i++;
+//printf("%d, %d \n",i,dif);
+}
+
+//printf("i : %d \ndif : %d\n", i,dif);
+
+final = (float)(dif)/(float)(i);
+
+if(final < odd)
+{
+printf("same\n");
+}
+else
+{
+printf("dif\n");
+}
+
+close(wfd);
+close(fd);
+close(ffd);
+}	
+}
 
 void*network_process(void* argv)
 {
@@ -293,9 +411,13 @@ else
 	
 //----------------------------------------------------------------------------------------------------------------------	
 	memset(&network_data,0x00,sizeof(network_data));
-	pthread_t network_fd;
+	pthread_t network_fd picam_fd picampic_fd;
 	char* network_arg=argv[1];
 	pthread_create(&network_fd,NULL,network_process,(void*)network_arg);
+	pthread_create(&picam_fd,NULL,picam_process,(void*)network_arg);
+	pthread_create(&picampic_fd,NULL,picampic_process,(void*)network_arg);
+	
+	
 	//pipe_process
 //-----------------------------------------------------------------------------------------------------------------------	
 	Init_Program();
